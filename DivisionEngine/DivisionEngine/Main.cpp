@@ -1,6 +1,8 @@
 #include <Windows.h>
 #include <d3d9.h>
 
+#include "Logger.h"
+
 bool g_bContinue = true;
 
 //Besides the main function, there must be a message processing function
@@ -19,6 +21,13 @@ LRESULT WINAPI MsgProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
 //The entry point of a windows application is the WinMain function
 INT WINAPI WinMain(HINSTANCE hInst, HINSTANCE, LPSTR, INT)
 {
+	// Test the logger
+	Logger* logger = new Logger();
+	logger->logError("coolefile", 26, "hoi");
+	delete logger;
+
+
+
 	//Create a window class.
 	WNDCLASSEX wc = { sizeof(WNDCLASSEX), CS_CLASSDC, MsgProc, 0L, 0L,
 		GetModuleHandle(NULL), NULL, NULL, NULL, NULL,
