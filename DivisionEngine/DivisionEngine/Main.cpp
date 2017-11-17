@@ -46,8 +46,8 @@ INT WINAPI WinMain(HINSTANCE hInst, HINSTANCE, LPSTR, INT)
 	d3dpp.SwapEffect = D3DSWAPEFFECT_DISCARD;
 	d3dpp.BackBufferFormat = D3DFMT_UNKNOWN;
 
-	//The final step is to use the IDirect3D9::CreateDevice method to create the Direct3D device, as illustrated in the
-	//following code example.
+											   //The final step is to use the IDirect3D9::CreateDevice method to create the Direct3D device, as illustrated in the
+											   //following code example.
 	LPDIRECT3DDEVICE9 pd3dDevice = NULL;
 	if (FAILED(pD3D->CreateDevice(D3DADAPTER_DEFAULT, D3DDEVTYPE_HAL, hWnd,
 		D3DCREATE_HARDWARE_VERTEXPROCESSING,
