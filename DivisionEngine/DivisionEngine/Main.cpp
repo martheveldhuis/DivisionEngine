@@ -3,6 +3,10 @@
 
 bool g_bContinue = true;
 
+// define the screen resolution
+#define SCREEN_WIDTH  1920
+#define SCREEN_HEIGHT 1080
+
 //Besides the main function, there must be a message processing function
 LRESULT WINAPI MsgProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
 {
@@ -29,7 +33,7 @@ INT WINAPI WinMain(HINSTANCE hInst, HINSTANCE, LPSTR, INT)
 
 	//Create the application's window.
 	HWND hWnd = CreateWindow("Direct3D Window", "DirectXers - D3D9 Tutorial 1",
-		WS_OVERLAPPEDWINDOW, 100, 100, 400, 400,
+		WS_EX_TOPMOST | WS_POPUP, 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT,
 		GetDesktopWindow(), NULL, wc.hInstance, NULL);
 
 	ShowWindow(hWnd, SW_SHOW);
@@ -44,7 +48,9 @@ INT WINAPI WinMain(HINSTANCE hInst, HINSTANCE, LPSTR, INT)
 	ZeroMemory(&d3dpp, sizeof(d3dpp));
 	d3dpp.Windowed = TRUE;
 	d3dpp.SwapEffect = D3DSWAPEFFECT_DISCARD;
-	d3dpp.BackBufferFormat = D3DFMT_UNKNOWN;
+	d3dpp.BackBufferFormat = D3DFMT_X8R8G8B8;    // set the back buffer format to 32-bit
+	d3dpp.BackBufferWidth = SCREEN_WIDTH;    // set the width of the buffer
+	d3dpp.BackBufferHeight = SCREEN_HEIGHT;    // set the height of the buffer
 
 											   //The final step is to use the IDirect3D9::CreateDevice method to create the Direct3D device, as illustrated in the
 											   //following code example.
@@ -61,8 +67,8 @@ INT WINAPI WinMain(HINSTANCE hInst, HINSTANCE, LPSTR, INT)
 	MSG msg;
 	while (g_bContinue)
 	{
-		//Clear render region with blue
-		pd3dDevice->Clear(0, NULL, D3DCLEAR_TARGET, D3DCOLOR_XRGB(0, 0, 255), 1.0f, 0);
+		//Clear render region with black
+		pd3dDevice->Clear(0, NULL, D3DCLEAR_TARGET, D3DCOLOR_XRGB(0, 0, 0), 1.0f, 0);
 
 		//before rendering something, you have to call this
 		pd3dDevice->BeginScene();
