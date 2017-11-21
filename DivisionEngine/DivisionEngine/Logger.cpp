@@ -1,7 +1,7 @@
 #include "Logger.h"
 #include <windows.h>
 
-namespace Division 
+namespace Division
 {
 	Logger::Logger()
 	{
@@ -19,18 +19,8 @@ namespace Division
 		logFile_.close();
 	}
 
-	void Logger::logInfo(const std::string& file, const int& line, const std::string& message)
+	void Logger::log(const std::string& msg, const std::string& time, const std::string& logtype, const char *file, const char *function, const int& line)
 	{
-		logFile_ << "[INFO] In file " << file << " at line " << line << ": " << message << std::endl;
-	}
-
-	void Logger::logWarning(const std::string& file, const int& line, const std::string& message)
-	{
-		logFile_ << "[WARNING] In file " << file << " at line " << line << ": " << message << std::endl;
-	}
-
-	void Logger::logError(const std::string& file, const int& line, const std::string& message)
-	{
-		logFile_ << "[ERROR] In file " << file << " at line " << line << ": " << message << std::endl;
+		logFile_ << time << "[" << logtype << "] In file " << file << " while executing the function: " << function << " at line " << line << ": " << msg << std::endl;
 	}
 }

@@ -28,7 +28,9 @@ INT WINAPI WinMain(HINSTANCE hInst, HINSTANCE, LPSTR, INT)
 {
 	// Test the logger
 	Division::Logger* logger = new Division::Logger();
-	logger->logError(__FILE__, __LINE__, "This is a fake error");
+	logger->logError("I am an error");
+	logger->logWarning("I am a warning");
+	logger->logInfo("I am an info message");
 	delete logger;
 
 
