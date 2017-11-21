@@ -1,6 +1,9 @@
 #include <Windows.h>
 #include <d3d9.h>
 
+#include "Logger.h"
+
+
 bool g_bContinue = true;
 
 // define the screen resolution
@@ -23,6 +26,12 @@ LRESULT WINAPI MsgProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
 //The entry point of a windows application is the WinMain function
 INT WINAPI WinMain(HINSTANCE hInst, HINSTANCE, LPSTR, INT)
 {
+	// Test the logger
+	Division::Logger* logger = new Division::Logger();
+	logger->logError(__FILE__, __LINE__, "This is a fake error");
+	delete logger;
+
+
 	//Create a window class.
 	WNDCLASSEX wc = { sizeof(WNDCLASSEX), CS_CLASSDC, MsgProc, 0L, 0L,
 		GetModuleHandle(NULL), NULL, NULL, NULL, NULL,
