@@ -23,7 +23,9 @@ INT WINAPI WinMain(HINSTANCE hInst, HINSTANCE, LPSTR, INT)
 {
 	// Test the logger
 	Logger* logger = new Logger();
-	logger->logError("coolefile", 26, "hoi");
+	logger->logError("I am an error");
+	logger->logWarning("I am a warning");
+	logger->logInfo("I am an info message");
 	delete logger;
 
 
