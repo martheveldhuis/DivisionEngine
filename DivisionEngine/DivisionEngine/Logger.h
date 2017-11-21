@@ -4,19 +4,20 @@
 #include <fstream>
 #include <string>
 
-class Logger
+namespace Division 
 {
-public:
-	Logger();
-	~Logger();
-	void logInfo(const std::string& file, const int& line, const std::string& message);
-	void logWarning(const std::string& file, const int& line, const std::string& message);
-	void logError(const std::string& file, const int& line, const std::string& message);
-private:
-	std::ofstream logFile_;
-	std::string filePath_;
-	std::string getLog(const std::string& level, const std::string& msg);
-};
-
+	class Logger
+	{
+	public:
+		Logger();
+		~Logger();
+		void logInfo(const std::string& file, const int& line, const std::string& message);
+		void logWarning(const std::string& file, const int& line, const std::string& message);
+		void logError(const std::string& file, const int& line, const std::string& message);
+	private:
+		std::ofstream logFile_;
+		std::string filePath_;
+	};
+}
 
 #endif // !LOGGER_H

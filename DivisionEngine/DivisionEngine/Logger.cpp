@@ -1,35 +1,36 @@
 #include "Logger.h"
 #include <windows.h>
 
-#define MAX_PATH_LEN 200
-
-Logger::Logger()
+namespace Division 
 {
-	CreateDirectory("logs", NULL);
+	Logger::Logger()
+	{
+		CreateDirectory("logs", NULL);
 
-	std::string fileName = "logs/division.log";
+		std::string fileName = "logs/division.log";
 
-	filePath_ = fileName;
-	
-	logFile_.open(filePath_);
-}
+		filePath_ = fileName;
 
-Logger::~Logger()
-{
-	logFile_.close();
-}
+		logFile_.open(filePath_);
+	}
 
-void Logger::logInfo(const std::string& file, const int& line, const std::string& message)
-{
-	logFile_ << "[INFO] In file " << file << " at line " << line << ": " << message << std::endl;
-}
+	Logger::~Logger()
+	{
+		logFile_.close();
+	}
 
-void Logger::logWarning(const std::string& file, const int& line, const std::string& message)
-{
-	logFile_ << "[WARNING] In file " << file << " at line " << line << ": " << message << std::endl;
-}
+	void Logger::logInfo(const std::string& file, const int& line, const std::string& message)
+	{
+		logFile_ << "[INFO] In file " << file << " at line " << line << ": " << message << std::endl;
+	}
 
-void Logger::logError(const std::string& file, const int& line, const std::string& message)
-{
-	logFile_ << "[ERROR] In file " << file << " at line " << line << ": " << message << std::endl;
+	void Logger::logWarning(const std::string& file, const int& line, const std::string& message)
+	{
+		logFile_ << "[WARNING] In file " << file << " at line " << line << ": " << message << std::endl;
+	}
+
+	void Logger::logError(const std::string& file, const int& line, const std::string& message)
+	{
+		logFile_ << "[ERROR] In file " << file << " at line " << line << ": " << message << std::endl;
+	}
 }
