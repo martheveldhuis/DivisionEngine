@@ -3,6 +3,7 @@
 
 #include "Logger.h"
 
+
 bool g_bContinue = true;
 
 //Besides the main function, there must be a message processing function
@@ -22,12 +23,11 @@ LRESULT WINAPI MsgProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
 INT WINAPI WinMain(HINSTANCE hInst, HINSTANCE, LPSTR, INT)
 {
 	// Test the logger
-	Logger* logger = new Logger();
+	Division::Logger* logger = new Division::Logger();
 	logger->logError("I am an error");
 	logger->logWarning("I am a warning");
 	logger->logInfo("I am an info message");
 	delete logger;
-
 
 
 	//Create a window class.
