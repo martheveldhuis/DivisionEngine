@@ -4,7 +4,7 @@ EntityManager::EntityManager()
 {
 }
 
-void EntityManager::createEntity(std::string str )
+void EntityManager::createEntity(std::string str)
 {
 	Entities.push_back(new Entity(str));
 }

@@ -6,15 +6,18 @@
 
 class Entity
 {
-private: 
+private:
 	std::string name;
 	std::list<Resource*> Resources;
 public:
 	Entity();
 	Entity(std::string);
 	~Entity();
-	inline friend bool operator==(Resource l, std::string r) {
-		return getName() == r;
+	friend bool operator==(Entity* l, std::string r) {
+		return l->getName() == r;
+	}
+	friend bool operator==(std::string r, Entity* l) {
+		return l->getName() == r;
 	}
 	std::string getName();
 };

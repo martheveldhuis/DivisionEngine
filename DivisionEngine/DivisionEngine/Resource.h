@@ -11,10 +11,15 @@ public:
 	Resource(std::string);
 	~Resource();
 
-	friend bool operator==(Resource l, std::string r) {
-		return getName() == r;
+	friend bool operator==(Resource* l, std::string r) {
+		return l->getName() == r;
 	}
+	friend bool operator==(std::string r, Resource* l) {
+		return l->getName() == r;
+	}
+	/*friend bool operator==(Resource* r, Resource* l) {
+		return l->getName() == r->getName();
+	}*/
 	std::string getName();
 };
 #endif
-
