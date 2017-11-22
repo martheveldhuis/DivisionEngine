@@ -12,10 +12,12 @@ namespace Division
 		filePath_ = fileName;
 
 		logFile_.open(filePath_);
+		logFile_ << "logger " << name << " created" << std::endl;
 	}
 
 	Logger::~Logger()
 	{
+		logFile_ << "logger destroyed";
 		logFile_.close();
 	}
 

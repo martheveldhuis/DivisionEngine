@@ -26,9 +26,11 @@ INT WINAPI WinMain(HINSTANCE hInst, HINSTANCE, LPSTR, INT)
 	Division::LoggerPool* logPool = Division::LoggerPool::getInstance();
 	Division::Logger* loggera = logPool->getLogger("division");
 	Division::Logger* logger = logPool->getLogger("division2");
+	Division::Logger* loggersame = logPool->getLogger("division2");
+
 	loggera->logError("I am an error");
-	logger->logWarning("I am a warning");
-	logger->logInfo("I am an info message");
+	logger->logWarning("I am a warning"	);
+	loggersame->logInfo("I am an info message");
 	delete logger;
 
 	//Create a window class.
