@@ -1,5 +1,5 @@
-#ifndef LOGGER_H
-#define LOGGER_H
+#ifndef DIVISION_LOGGER_H
+#define DIVISION_LOGGER_H
 #define logError(msg) log(msg, __TIME__, "error", __FILE__, __FUNCTION__, __LINE__)
 #define logWarning(msg) log(msg, __TIME__, "warning", __FILE__, __FUNCTION__, __LINE__)
 #define logInfo(msg) log(msg, __TIME__, "info", __FILE__, __FUNCTION__, __LINE__)
@@ -12,7 +12,7 @@ namespace Division
 	class Logger
 	{
 	public:
-		Logger();
+		Logger(std::string);
 		~Logger();
 		void log(const std::string& msg, const std::string& time, const std::string& logtype, const char *file, const char *function, const int& line);
 	private:
@@ -21,4 +21,4 @@ namespace Division
 	};
 }
 
-#endif // !LOGGER_H
+#endif // !DIVISION_LOGGER_H

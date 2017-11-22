@@ -3,11 +3,11 @@
 
 namespace Division
 {
-	Logger::Logger()
+	Logger::Logger(std::string name)
 	{
 		CreateDirectory("logs", NULL);
 
-		std::string fileName = "logs/division.log";
+		std::string fileName = "logs/" + name + ".log";
 
 		filePath_ = fileName;
 

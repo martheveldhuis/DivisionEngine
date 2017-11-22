@@ -1,7 +1,7 @@
 #include <Windows.h>
 #include <d3d9.h>
 
-#include "Logger.h"
+#include "LoggerPool.h"
 
 
 bool g_bContinue = true;
@@ -22,13 +22,14 @@ LRESULT WINAPI MsgProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
 //The entry point of a windows application is the WinMain function
 INT WINAPI WinMain(HINSTANCE hInst, HINSTANCE, LPSTR, INT)
 {
-	// Test the logger
-	Division::Logger* logger = new Division::Logger();
-	logger->logError("I am an error");
+	// Test the loggerPool
+	Division::LoggerPool* logPool = Division::LoggerPool::getInstance();
+	Division::Logger* loggera = logPool->getLogger("division");
+	Division::Logger* logger = logPool->getLogger("division2");
+	loggera->logError("I am an error");
 	logger->logWarning("I am a warning");
 	logger->logInfo("I am an info message");
 	delete logger;
-
 
 	//Create a window class.
 	WNDCLASSEX wc = { sizeof(WNDCLASSEX), CS_CLASSDC, MsgProc, 0L, 0L,
