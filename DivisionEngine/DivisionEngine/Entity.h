@@ -1,14 +1,17 @@
 #ifndef ENTITY
 #define ENTITY
 #include "Resource.h"
-#include<string>
-#include<list>
+#include "ResourceManager.h"
+#include <string>
+#include <list>
 
 class Entity
 {
 private:
 	std::string name;
-	std::list<Resource*> Resources;
+	std::list<Resource*> resources;
+	ResourceManager* resourcemanager;
+
 public:
 	Entity();
 	Entity(std::string);
@@ -19,7 +22,11 @@ public:
 	friend bool operator==(std::string r, Entity* l) {
 		return l->getName() == r;
 	}
+
 	std::string getName();
+	void addResource(std::string);
+	Resource* getResource(std::string);
+	void removeResource(std::string);
 };
 
 #endif
