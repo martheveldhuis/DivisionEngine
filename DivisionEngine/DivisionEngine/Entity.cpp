@@ -3,6 +3,10 @@
 Entity::Entity()
 {}
 
+Entity::Entity(ResourceManager * rm) : resourcemanager(rm)
+{
+}
+
 Entity::~Entity()
 {}
 

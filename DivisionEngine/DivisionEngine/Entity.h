@@ -13,6 +13,7 @@ private:
 
 public:
 	Entity();
+	Entity(ResourceManager*);
 	~Entity();
 
 	void addResource(std::string);
