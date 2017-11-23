@@ -6,17 +6,19 @@ ResourceManager::ResourceManager()
 
 void ResourceManager::createResource(std::string str)
 {
-	resources.push_back(new Resource(str));
+	resources[str] = new Resource();
 }
 
 Resource * ResourceManager::getResource(std::string str)
 {
-	std::list<Resource*>::iterator it = std::find(resources.begin(), resources.end(), str);
-	return *it;
+	std::map<std::string, Resource*>::iterator it;
+	it = resources.find(str);
+	return it->second;
 }
 
 void ResourceManager::destroyResource(std::string str)
 {
-	std::list<Resource*>::iterator it = std::find(resources.begin(), resources.end(), str);
+	std::map<std::string, Resource*>::iterator it;
+	it = resources.find(str);
 	resources.erase(it);
 }

@@ -1,12 +1,12 @@
 #ifndef RESOURCE_MANAGER
 #define RESOURCE_MANAGER
 #include "Resource.h"
-#include <list>
+#include <map>
 
 class ResourceManager
 {
 private:
-	std::list<Resource*> resources;
+	std::map<std::string, Resource*> resources;
 
 public:
 	ResourceManager();

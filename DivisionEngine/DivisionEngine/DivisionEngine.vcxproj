@@ -115,14 +115,12 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Entity.cpp" />
-    <ClCompile Include="EntityManager.cpp" />
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="Resource.cpp" />
     <ClCompile Include="ResourceManager.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Entity.h" />
-    <ClInclude Include="EntityManager.h" />
     <ClInclude Include="Resource.h" />
     <ClInclude Include="ResourceManager.h" />
   </ItemGroup>

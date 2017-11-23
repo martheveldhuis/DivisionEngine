@@ -3,30 +3,26 @@
 Entity::Entity()
 {}
 
-Entity::Entity(std::string str) : name(str)
-{}
-
 Entity::~Entity()
 {}
 
-std::string Entity::getName()
-{
-	return name;
-}
-
 void Entity::addResource(std::string str)
 {
-	resources.push_back(new Resource(str));
+	resources.push_back(std::pair <std::string, Resource*>(str, new Resource()));
 }
 
 Resource* Entity::getResource(std::string str)
 {
-	std::list<Resource*>::iterator it = std::find(resources.begin(), resources.end(), str);
-	return *it;
+	std::list<std::pair<std::string, Resource*>>::iterator it = std::find_if(resources.begin(), resources.end(), [str](std::pair<std::string, Resource*> const &b) {
+		return b.first == str;
+	});
+	return it->second;
 }
 
 void Entity::removeResource(std::string str)
 {
-	std::list<Resource*>::iterator it = std::find(resources.begin(), resources.end(), str);
+	std::list<std::pair<std::string, Resource*>>::iterator it = std::find_if(resources.begin(), resources.end(), [str](std::pair<std::string, Resource*> const &b) {
+		return b.first == str;
+	});
 	resources.erase(it);
 }
