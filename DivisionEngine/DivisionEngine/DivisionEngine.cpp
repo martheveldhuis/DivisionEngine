@@ -1,11 +1,9 @@
 #include "DivisionEngine.h"
 
-
-
 DivisionEngine::DivisionEngine()
 {
+	rescourcemanger = new ResourceManager();
 }
-
 
 DivisionEngine::~DivisionEngine()
 {
@@ -13,6 +11,5 @@ DivisionEngine::~DivisionEngine()
 
 ResourceManager * DivisionEngine::getRescourceManager()
 {
-
-	return &rescourcemanger;
+	return rescourcemanger;
 }

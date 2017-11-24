@@ -6,13 +6,12 @@
 class DivisionEngine
 {
 private:
-	ResourceManager rescourcemanger;
-		
+	ResourceManager* rescourcemanger;
+
 public:
 	DivisionEngine();
 	~DivisionEngine();
 
 	ResourceManager* getRescourceManager();
-	
 };
 #endif

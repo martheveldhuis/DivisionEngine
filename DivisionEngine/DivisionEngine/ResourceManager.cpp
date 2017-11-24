@@ -4,6 +4,10 @@ ResourceManager::ResourceManager()
 {
 }
 
+void ResourceManager::addResource(Resource)
+{
+}
+
 void ResourceManager::createResource(std::string str)
 {
 	resources[str] = new Resource();

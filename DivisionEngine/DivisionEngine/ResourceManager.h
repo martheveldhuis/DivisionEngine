@@ -10,7 +10,7 @@ private:
 
 public:
 	ResourceManager();
-
+	void addResource(Resource);
 	void createResource(std::string);
 	Resource* getResource(std::string);
 	void destroyResource(std::string);
