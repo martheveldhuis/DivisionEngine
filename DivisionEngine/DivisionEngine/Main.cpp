@@ -1,7 +1,7 @@
 #include <Windows.h>
 #include <d3d9.h>
 
-#include "Logger.h"
+#include "WindowsInputManager.h"
 
 
 bool g_bContinue = true;
@@ -26,12 +26,6 @@ LRESULT WINAPI MsgProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
 //The entry point of a windows application is the WinMain function
 INT WINAPI WinMain(HINSTANCE hInst, HINSTANCE, LPSTR, INT)
 {
-	// Test the logger
-	Division::Logger* logger = new Division::Logger();
-	logger->logError("I am an error");
-	logger->logWarning("I am a warning");
-	logger->logInfo("I am an info message");
-	delete logger;
 
 
 	//Create a window class.
@@ -48,6 +42,14 @@ INT WINAPI WinMain(HINSTANCE hInst, HINSTANCE, LPSTR, INT)
 		GetDesktopWindow(), NULL, wc.hInstance, NULL);
 
 	ShowWindow(hWnd, SW_SHOW);
+
+	
+
+	// Test the input
+	Division::WindowsInputManager* windowsInputManager = new Division::WindowsInputManager(&hWnd);
+
+
+
 
 	//Create the Direct3D Object
 	LPDIRECT3D9 pD3D = NULL;
@@ -87,6 +89,10 @@ INT WINAPI WinMain(HINSTANCE hInst, HINSTANCE, LPSTR, INT)
 		//
 		//rendering of scene objects happens her
 		//
+
+		Division::InputStates inputStates = windowsInputManager->getInput();
+		if (inputStates.moveForward)
+			MessageBox(0, "moving forward", "alert", MB_OK);
 
 		//now end the scene          
 		pd3dDevice->EndScene();
