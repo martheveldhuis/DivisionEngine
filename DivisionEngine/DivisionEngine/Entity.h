@@ -1,5 +1,5 @@
-#ifndef ENTITY
-#define ENTITY
+#ifndef DIVISION_ENTITY_H
+#define DIVISION_ENTITY_H
 #include "Resource.h"
 #include "ResourceManager.h"
 #include <list>
@@ -8,8 +8,8 @@
 class Entity
 {
 private:
-	std::list<std::pair<std::string, Resource*>> resources;
-	ResourceManager* resourcemanager;
+	std::list<std::pair<std::string, Resource*>> resources_;
+	ResourceManager* resourceManager_;
 
 public:
 	Entity();

@@ -2,14 +2,14 @@
 
 DivisionEngine::DivisionEngine()
 {
-	rescourcemanger = new ResourceManager();
+	resourceManager_ = new ResourceManager();
 }
 
 DivisionEngine::~DivisionEngine()
 {
 }
 
-ResourceManager * DivisionEngine::getRescourceManager()
+ResourceManager * DivisionEngine::getResourceManager()
 {
-	return rescourcemanger;
+	return resourceManager_;
 }

@@ -1,17 +1,17 @@
-#ifndef DIVISION_ENGINE
-#define DIVISION_ENGINE
+#ifndef DIVISION_DIVISIONENGINE_H
+#define DIVISION_DIVISIONENGINE_H
 
 #include "ResourceManager.h"
 
 class DivisionEngine
 {
 private:
-	ResourceManager* rescourcemanger;
+	ResourceManager* resourceManager_;
 
 public:
 	DivisionEngine();
 	~DivisionEngine();
 
-	ResourceManager* getRescourceManager();
+	ResourceManager* getResourceManager();
 };
 #endif
