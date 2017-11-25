@@ -46,8 +46,8 @@ INT WINAPI WinMain(HINSTANCE hInst, HINSTANCE, LPSTR, INT)
 	
 
 	// Test the input
-	Division::WindowsInputManager* windowsInputManager = new Division::WindowsInputManager(&hWnd);
-
+	Division::WindowsInputManager* windowsInputManager = &(Division::WindowsInputManager::getInstance(&hWnd));
+	
 
 
 

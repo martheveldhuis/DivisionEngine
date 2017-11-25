@@ -11,8 +11,7 @@ namespace Division
 	class WindowsInputManager
 	{
 	public:
-		WindowsInputManager(HWND* windowHandle); // TODO: maybe change
-		~WindowsInputManager();
+		static WindowsInputManager& getInstance(HWND*);
 		void initializeDirectInput();
 		void releaseDirectInput();
 		static BOOL CALLBACK enumDevicesCallback(LPCDIDEVICEINSTANCE, LPVOID);
@@ -24,6 +23,9 @@ namespace Division
 		// We only use keyboard and mouse, so no container for these
 		InputDevice* keyboard_;
 		InputDevice* mouse_;
+
+		WindowsInputManager(HWND*); // TODO: maybe change
+		~WindowsInputManager();
 		BOOL enumDevices(LPCDIDEVICEINSTANCE);
 	};
 }

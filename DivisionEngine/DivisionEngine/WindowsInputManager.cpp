@@ -3,13 +3,11 @@
 
 namespace Division
 {
-	WindowsInputManager::WindowsInputManager(HWND* windowHandle)
+	WindowsInputManager::WindowsInputManager(HWND* windowHandle) : windowHandle_(windowHandle)
 	{
-		windowHandle_ = windowHandle;
-
 		keyboard_ = NULL;
 		mouse_ = NULL;
-		//TODO: this should only be called once, create singleton?
+
 		initializeDirectInput();
 		initializeInputDevices();
 	}
@@ -20,6 +18,15 @@ namespace Division
 	{
 		releaseDirectInput();
 	}
+
+
+
+	WindowsInputManager& WindowsInputManager::getInstance(HWND *windowHandle)
+	{
+		static WindowsInputManager instance(windowHandle);
+		return instance;
+	}
+
 
 
 
@@ -44,7 +51,6 @@ namespace Division
 			directInput_ = NULL;
 		}
 	}
-
 
 
 
