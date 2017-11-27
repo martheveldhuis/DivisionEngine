@@ -5,11 +5,9 @@
 
 namespace Division
 {
-	Keyboard::Keyboard(HWND* windowHandle, IDirectInput8* directInput)
+	Keyboard::Keyboard(HWND* windowHandle, IDirectInput8* directInput) : 
+		directInput_(directInput), windowHandle_(windowHandle)
 	{
-		directInput_ = directInput;
-		windowHandle_ = windowHandle; // TODO: does this one need to be set to NULL in destructor?
-
 		initialize();
 	}
 
@@ -24,26 +22,34 @@ namespace Division
 
 	void Keyboard::initialize()
 	{
-		if FAILED(directInput_->CreateDevice(GUID_SysKeyboard, &directInputKeyboard_, NULL)) {
+		HRESULT result;
+
+		result = directInput_->CreateDevice(GUID_SysKeyboard, &directInputKeyboard_, NULL);
+		if FAILED(result) {
 			// log that this failed
 			return;
 		}
 
-		if FAILED(directInputKeyboard_->SetDataFormat(&c_dfDIKeyboard))
+		result = directInputKeyboard_->SetDataFormat(&c_dfDIKeyboard);
+		if FAILED(result)
 		{
 			// log that this failed
 			release();
 			return;
 		}
 
-		if FAILED(directInputKeyboard_->SetCooperativeLevel(*windowHandle_, DISCL_EXCLUSIVE | DISCL_FOREGROUND))
+		result = directInputKeyboard_->SetCooperativeLevel(*windowHandle_, 
+															DISCL_EXCLUSIVE | 
+															DISCL_FOREGROUND);
+		if FAILED(result)
 		{
 			// log that this failed
 			release();
 			return;
 		}
 
-		if (FAILED(directInputKeyboard_->Acquire()))
+		result = directInputKeyboard_->Acquire();
+		if (FAILED(result))
 		{
 			// log that this failed
 			return;
@@ -56,6 +62,7 @@ namespace Division
 		directInput_ = NULL;
 
 		if (directInputKeyboard_) {
+			directInputKeyboard_->Unacquire();
 			directInputKeyboard_->Release();
 			directInputKeyboard_ = NULL;
 		}
@@ -66,10 +73,9 @@ namespace Division
 	void Keyboard::getInput()
 	{
 		ZeroMemory(&keys_, sizeof(keys_));
-		HRESULT stateResult = directInputKeyboard_->GetDeviceState(sizeof(keys_), (void*)keys_);
 
-		if (FAILED(stateResult))
-		{
+		HRESULT stateResult = directInputKeyboard_->GetDeviceState(sizeof(keys_), (void*)keys_);
+		if (FAILED(stateResult)) {
 			if (stateResult == DIERR_INPUTLOST || stateResult == DIERR_NOTACQUIRED)
 				directInputKeyboard_->Acquire();
 		}
@@ -85,12 +91,12 @@ namespace Division
 			inputStates->moveForward = 1;
 
 		if (keys_[DIK_A] & 0x80)
-			inputStates->turnLeft = 1;
+			inputStates->moveLeft = 1;
 
 		if (keys_[DIK_S] & 0x80)
 			inputStates->moveBackward = 1;
 
 		if (keys_[DIK_D] & 0x80)
-			inputStates->turnRight = 1;
+			inputStates->moveRight = 1;
 	}
 }

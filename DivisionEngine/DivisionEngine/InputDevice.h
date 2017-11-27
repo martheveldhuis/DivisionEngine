@@ -6,9 +6,11 @@ namespace Division
 	struct InputStates
 	{
 		bool moveForward;	// w
-		bool moveBackward;	// a
-		bool turnLeft;		// s
-		bool turnRight;		// d
+		bool moveBackward;	// s
+		bool moveLeft;		// a
+		bool moveRight;		// d
+		long turnLeft;		// ml
+		long turnRight;		// mr
 		bool action;		// lmb
 	};
 

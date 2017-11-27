@@ -1,5 +1,6 @@
 #include <Windows.h>
 #include <d3d9.h>
+#include <string>
 
 #include "WindowsInputManager.h"
 
@@ -93,6 +94,9 @@ INT WINAPI WinMain(HINSTANCE hInst, HINSTANCE, LPSTR, INT)
 		Division::InputStates inputStates = windowsInputManager->getInput();
 		if (inputStates.moveForward)
 			MessageBox(0, "moving forward", "alert", MB_OK);
+		if (inputStates.action)
+			MessageBox(0, "action", "alert", MB_OK);
+			
 
 		//now end the scene          
 		pd3dDevice->EndScene();

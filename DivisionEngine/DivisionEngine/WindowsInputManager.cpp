@@ -1,5 +1,6 @@
 #include "WindowsInputManager.h"
 #include "Keyboard.h"
+#include "Mouse.h"
 
 namespace Division
 {
@@ -32,12 +33,12 @@ namespace Division
 
 	void WindowsInputManager::initializeDirectInput()
 	{
-		if FAILED(DirectInput8Create(GetModuleHandle(NULL), // TODO:  hisntance?
-									 DIRECTINPUT_VERSION,
-									 IID_IDirectInput8,
-									 (void**)&directInput_,
-									 NULL))
-		{
+		HRESULT result = DirectInput8Create(GetModuleHandle(NULL), // TODO:  hisntance?
+											DIRECTINPUT_VERSION,
+											IID_IDirectInput8,
+											(void**)&directInput_,
+											NULL);
+		if FAILED(result) {
 			// TODO: log that this failed
 		}
 	}
@@ -72,7 +73,7 @@ namespace Division
 					break;
 			case DI8DEVTYPE_MOUSE:
 				if (!mouse_)
-				// TODO: create a mouse
+					mouse_ = new Mouse(windowHandle_, directInput_);
 					break;
 			default:
 				break;
@@ -86,7 +87,9 @@ namespace Division
 
 	void WindowsInputManager::initializeInputDevices()
 	{
-		if FAILED (directInput_->EnumDevices(DI8DEVCLASS_ALL, enumDevicesCallback, this, DIEDFL_ATTACHEDONLY)) {
+		HRESULT result = directInput_->EnumDevices(DI8DEVCLASS_ALL, enumDevicesCallback, 
+												   this, DIEDFL_ATTACHEDONLY);
+		if FAILED (result) {
 			// TODO: log that this failed
 		}
 
