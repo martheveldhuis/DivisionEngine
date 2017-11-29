@@ -31,7 +31,7 @@ namespace Division {
 		}
 		else {
 			retrievedLogger = found->second;
-			retrievedLogger->logInfo("This pool existed, retrieved from pool");
+			retrievedLogger->logInfo("This logger already existed, retrieved from pool");
 		}
 		
 		return retrievedLogger;

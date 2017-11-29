@@ -1,8 +1,8 @@
 #ifndef DIVISION_LOGGER_H
 #define DIVISION_LOGGER_H
-#define logError(msg) log(msg, __TIME__, "error", __FILE__, __FUNCTION__, __LINE__)
-#define logWarning(msg) log(msg, __TIME__, "warning", __FILE__, __FUNCTION__, __LINE__)
-#define logInfo(msg) log(msg, __TIME__, "info", __FILE__, __FUNCTION__, __LINE__)
+#define logError(msg) error(msg, __FILE__, __LINE__)
+#define logWarning(msg) warning(msg, __FILE__, __LINE__)
+#define logInfo(msg) info(msg, __FILE__, __LINE__)
 
 #include <fstream>
 #include <string>
@@ -14,8 +14,14 @@ namespace Division
 	public:
 		Logger(std::string);
 		~Logger();
-		void log(const std::string& msg, const std::string& time, const std::string& logtype, const char *file, const char *function, const int& line);
+		void error(const std::string& msg, const char *file, const int& line);
+		void warning(const std::string& msg, const char *file, const int& line);
+		void info(const std::string& msg, const char *file, const int& line);
 	private:
+		char drive[_MAX_DRIVE];
+		char dir[_MAX_DIR];
+		char fname[_MAX_FNAME];
+		char ext[_MAX_EXT];
 		std::ofstream logFile_;
 		std::string filePath_;
 	};
