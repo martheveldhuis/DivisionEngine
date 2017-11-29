@@ -1,5 +1,8 @@
 #include <Windows.h>
 #include <d3d9.h>
+#include <string>
+
+#include "WindowsInputManager.h"
 #include "LoggerPool.h"
 #include "Kernel.h"
 
@@ -22,6 +25,11 @@ LRESULT WINAPI MsgProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
 //The entry point of a windows application is the WinMain function
 INT WINAPI WinMain(HINSTANCE hInst, HINSTANCE, LPSTR, INT)
 {
+	// Test the input
+	//Division::WindowsInputManager* windowsInputManager = &(Division::WindowsInputManager::getInstance(&hWnd));
+	
+
+
 	Division::Kernel* DivisionKernel = new Division::Kernel();
 	DivisionKernel->initialize();
 	return 0;
