@@ -88,15 +88,15 @@ namespace Division
 		getInput();
 
 		if (keys_[DIK_W] & 0x80)
-			inputStates->moveForward = 1;
+			inputStates->moveForward = true;
 
 		if (keys_[DIK_A] & 0x80)
-			inputStates->moveLeft = 1;
+			inputStates->moveLeft = true;
 
 		if (keys_[DIK_S] & 0x80)
-			inputStates->moveBackward = 1;
+			inputStates->moveBackward = true;
 
 		if (keys_[DIK_D] & 0x80)
-			inputStates->moveRight = 1;
+			inputStates->moveRight = true;
 	}
 }
