@@ -1,7 +1,6 @@
 #ifndef DIVISION_KERNEL_H
 #define DIVISION_KERNEL_H
 
-#include "WindowManager.h"
 
 namespace Division
 {
@@ -12,7 +11,6 @@ namespace Division
 		~Kernel();
 		void initialize();
 	private:
-		WindowManager* windowManager_;
 	};
 }
 

@@ -131,12 +131,9 @@
     <ClInclude Include="Logger.h" />
     <ClInclude Include="Mouse.h" />
     <ClInclude Include="WindowsInputManager.h" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="Kernel.h" />
-    <ClInclude Include="Logger.h" />
     <ClInclude Include="LoggerPool.h" />
     <ClInclude Include="Window.h" />
+    <ClInclude Include="Kernel.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
