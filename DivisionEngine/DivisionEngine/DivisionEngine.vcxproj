@@ -116,14 +116,24 @@
   <ItemGroup>
     <ClCompile Include="DivisionEngine.cpp" />
     <ClCompile Include="Entity.cpp" />
+    <ClCompile Include="Renderer.cpp" />
     <ClCompile Include="Resource.cpp" />
     <ClCompile Include="ResourceManager.cpp" />
+    <ClCompile Include="Scene.cpp" />
+    <ClCompile Include="SceneManager.cpp" />
+    <ClCompile Include="Window.cpp" />
+    <ClCompile Include="WindowsWindow.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="DivisionEngine.h" />
     <ClInclude Include="Entity.h" />
+    <ClInclude Include="Renderer.h" />
     <ClInclude Include="Resource.h" />
     <ClInclude Include="ResourceManager.h" />
+    <ClInclude Include="Scene.h" />
+    <ClInclude Include="SceneManager.h" />
+    <ClInclude Include="Window.h" />
+    <ClInclude Include="WindowsWindow.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
