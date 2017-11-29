@@ -1,24 +1,29 @@
 #include "Scene.h"
+namespace Division {
+	Scene::Scene()
+	{
+	}
 
-void Scene::addWindow(std::string str, Window* window)
-{
-	windows_[str] = window;
-}
+	Scene::Scene(ResourceManager * rm) : resourceManager_(rm)
+	{
+	}
 
-void Scene::getWindow(std::string str, Window* window)
-{
-	window = windows_.find(str)->second;
-}
+	Scene::~Scene()
+	{
+	}
 
-void Scene::removeWindow(std::string str)
-{
-	windows_.erase(windows_.find(str));
-}
+	void Scene::addWindow(std::string str, Window* window)
+	{
+		windows_[str] = window;
+	}
 
-Scene::Scene()
-{
-}
+	void Scene::getWindow(std::string str, Window* window)
+	{
+		window = windows_.find(str)->second;
+	}
 
-Scene::~Scene()
-{
+	void Scene::removeWindow(std::string str)
+	{
+		windows_.erase(windows_.find(str));
+	}
 }

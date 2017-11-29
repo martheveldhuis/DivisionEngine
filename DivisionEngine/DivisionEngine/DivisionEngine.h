@@ -3,18 +3,19 @@
 
 #include "ResourceManager.h"
 #include "SceneManager.h"
+namespace Division {
+	class DivisionEngine
+	{
+	private:
+		ResourceManager* resourceManager_;
+		SceneManager* sceneManager_;
 
-class DivisionEngine
-{
-private:
-	ResourceManager* resourceManager_;
-	SceneManager* sceneManager_;
+	public:
+		DivisionEngine();
+		~DivisionEngine();
 
-public:
-	DivisionEngine();
-	~DivisionEngine();
-
-	ResourceManager* getResourceManager();
-	SceneManager* getSceneManager();
-};
+		void getResourceManager(ResourceManager*);
+		void getSceneManager(SceneManager*);
+	};
+}
 #endif

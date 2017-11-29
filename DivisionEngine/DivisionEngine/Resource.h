@@ -1,16 +1,10 @@
 #ifndef DIVISION_RESOURCE_H
 #define DIVISION_RESOURCE_H
-
-#include <string>
-
-class Resource
-{
-private:
-	std::string name_;
-
-public:
-	Resource();
-	Resource(std::string);
-	~Resource();
-};
+namespace Division {
+	class Resource
+	{
+	public:
+		virtual ~Resource() = 0 {};
+	};
+}
 #endif

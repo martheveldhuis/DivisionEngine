@@ -1,21 +1,22 @@
 #include "DivisionEngine.h"
+namespace Division {
+	DivisionEngine::DivisionEngine()
+	{
+		resourceManager_ = new ResourceManager();
+		sceneManager_ = new SceneManager();
+	}
 
-DivisionEngine::DivisionEngine()
-{
-	resourceManager_ = new ResourceManager();
-	sceneManager_ = new SceneManager();
-}
+	DivisionEngine::~DivisionEngine()
+	{
+	}
 
-DivisionEngine::~DivisionEngine()
-{
-}
+	void DivisionEngine::getResourceManager(ResourceManager* res)
+	{
+		res = resourceManager_;
+	}
 
-ResourceManager * DivisionEngine::getResourceManager()
-{
-	return resourceManager_;
-}
-
-SceneManager * DivisionEngine::getSceneManager()
-{
-	return sceneManager_;
+	void DivisionEngine::getSceneManager(SceneManager* scen)
+	{
+		scen = sceneManager_;
+	}
 }

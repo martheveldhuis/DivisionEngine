@@ -1,11 +1,10 @@
 #ifndef DIVISION_WINDOW_H
 #define DIVISION_WINDOW_H
-
-class Window
-{
-public:
-	Window();
-	~Window();
-};
-
+namespace Division {
+	class Window
+	{
+	public:
+		virtual ~Window() = 0 {};
+	};
+}
 #endif

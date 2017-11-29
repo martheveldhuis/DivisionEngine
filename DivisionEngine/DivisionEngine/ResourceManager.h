@@ -2,18 +2,21 @@
 #define DIVISION_RESOURCEMANAGER_H
 
 #include "Resource.h"
+
 #include <map>
+namespace Division {
+	class ResourceManager
+	{
+	private:
+		std::map<std::string, Resource*> resources_;
 
-class ResourceManager
-{
-private:
-	std::map<std::string, Resource*> resources_;
+	public:
+		ResourceManager();
+		~ResourceManager();
 
-public:
-	ResourceManager();
-	void addResource(Resource);
-	void createResource(std::string);
-	Resource* getResource(std::string);
-	void destroyResource(std::string);
-};
+		void addResource(std::string, Resource*);
+		void getResource(std::string, Resource*);
+		void destroyResource(std::string);
+	};
+}
 #endif

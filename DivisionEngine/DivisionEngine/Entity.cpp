@@ -1,32 +1,31 @@
 #include "Entity.h"
+namespace Division {
+	Entity::Entity()
+	{}
 
-Entity::Entity()
-{}
+	Entity::Entity(ResourceManager * rm) : resourceManager_(rm)
+	{
+	}
 
-Entity::Entity(ResourceManager * rm) : resourceManager_(rm)
-{
-}
+	Entity::~Entity()
+	{}
 
-Entity::~Entity()
-{}
+	void Entity::addResource(std::string str, Resource* res)
+	{
+		resources_[str] = res;
+	}
 
-void Entity::addResource(std::string str)
-{
-	resources_.push_back(std::pair <std::string, Resource*>(str, new Resource()));
-}
+	void Entity::getResource(std::string str, Resource* res)
+	{
+		std::map<std::string, Resource*>::iterator it;
+		it = resources_.find(str);
+		res = it->second;
+	}
 
-Resource* Entity::getResource(std::string str)
-{
-	std::list<std::pair<std::string, Resource*>>::iterator it = std::find_if(resources_.begin(), resources_.end(), [str](std::pair<std::string, Resource*> const &b) {
-		return b.first == str;
-	});
-	return it->second;
-}
-
-void Entity::removeResource(std::string str)
-{
-	std::list<std::pair<std::string, Resource*>>::iterator it = std::find_if(resources_.begin(), resources_.end(), [str](std::pair<std::string, Resource*> const &b) {
-		return b.first == str;
-	});
-	resources_.erase(it);
+	void Entity::removeResource(std::string str)
+	{
+		std::map<std::string, Resource*>::iterator it;
+		it = resources_.find(str);
+		resources_.erase(it);
+	}
 }
