@@ -11,11 +11,11 @@ namespace Division {
 		RegisterClassEx(&wc);
 
 		//Create the application's window.
-		HWND hWnd = CreateWindow("Direct3D Window", "DirectXers - D3D9 Tutorial 1",
+		windowHandle_ = CreateWindow("Direct3D Window", "DirectXers - D3D9 Tutorial 1",
 			WS_OVERLAPPEDWINDOW, 100, 100, 256, 256,
 			NULL, NULL, wc.hInstance, NULL);
 
-		ShowWindow(hWnd, SW_SHOWDEFAULT);
+		ShowWindow(windowHandle_, SW_SHOWDEFAULT);
 	}
 
 	Win32Window::Win32Window(std::string winName, std::string winTitle)
