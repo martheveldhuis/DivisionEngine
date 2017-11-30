@@ -22,7 +22,7 @@ namespace Division {
 		void getRenderer(std::string, Renderer*);
 		void removeRenderer(std::string);
 
-		void createScene(std::string);
+		Scene* createScene(std::string, Renderer*);
 		void getScene(std::string, Scene*);
 		void removeScene(std::string);
 	};

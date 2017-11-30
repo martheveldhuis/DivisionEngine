@@ -2,17 +2,20 @@
 
 #define D3DFVF_CUSTOMVERTEX (D3DFVF_XYZ|D3DFVF_DIFFUSE)
 
-namespace Division {
+namespace Division 
+{
+
 	D3D9Renderer::D3D9Renderer(LPDIRECT3D9 direct3D, LPDIRECT3DDEVICE9 direct3Ddevice, HWND windowHandle) :
 		direct3D_(direct3D), direct3Ddevice_(direct3Ddevice), windowHandle_(windowHandle)
 	{
+		setup();
 	}
 
 	D3D9Renderer::~D3D9Renderer()
 	{
 	}
 
-	void D3D9Renderer::render(int indices)
+	void D3D9Renderer::render(int vertices, int indices)
 	{
 		// Clear the backbuffer to a black color
 		direct3Ddevice_->Clear(0, NULL, D3DCLEAR_TARGET | D3DCLEAR_ZBUFFER, D3DCOLOR_XRGB(0, 0xff, 0xff), 1.0f, 0);
@@ -28,7 +31,7 @@ namespace Division {
 			direct3Ddevice_->SetStreamSource(0, vertexBuffer_, 0, sizeof(CUSTOMVERTEX));
 			direct3Ddevice_->SetFVF(D3DFVF_CUSTOMVERTEX);
 			direct3Ddevice_->SetIndices(indexBuffer_);
-			direct3Ddevice_->DrawIndexedPrimitive(D3DPT_TRIANGLESTRIP, 0, 0, 1156, 0, indices - 2);
+			direct3Ddevice_->DrawIndexedPrimitive(D3DPT_TRIANGLESTRIP, 0, 0, vertices, 0, indices - 2);
 			//direct3Ddevice_->DrawPrimitive(D3DPT_TRIANGLESTRIP, 0, 9997);
 
 			// End the scene
@@ -39,14 +42,10 @@ namespace Division {
 		direct3Ddevice_->Present(NULL, NULL, NULL, NULL);
 	}
 
-	void D3D9Renderer::render()
-	{
-	}
 
 	void D3D9Renderer::setup()
 	{
 		initGraphics();
-		setupMatrices();
 	}
 
 	void D3D9Renderer::initGraphics()
@@ -87,6 +86,7 @@ namespace Division {
 		// Turn off D3D lighting, since we are providing our own vertex colors
 		direct3Ddevice_->SetRenderState(D3DRS_LIGHTING, FALSE);
 		//direct3Ddevice_->SetRenderState(D3DRS_FILLMODE, D3DFILL_WIREFRAME);
+		//direct3Ddevice_->SetRenderState(D3DRS_FILLMODE, D3DFILL_POINT);
 	}
 
 	void D3D9Renderer::cleanup()
@@ -109,7 +109,7 @@ namespace Division {
 		// period before conversion to a radian angle.
 		UINT iTime = GetTickCount64() % 1000; // replace with mouse move
 		FLOAT fAngle = iTime * (2.0f * D3DX_PI) / 1000.0f;
-		D3DXMatrixRotationY(&matWorld, fAngle);
+		D3DXMatrixRotationY(&matWorld, 0);
 		direct3Ddevice_->SetTransform(D3DTS_WORLD, &matWorld);
 
 		// Set up our view matrix. A view matrix can be defined given an eye point,
@@ -152,7 +152,7 @@ namespace Division {
 		vertexBuffer_->Unlock();
 	}
 
-	void D3D9Renderer::setIndexBuffer(void* vertexBuffer, int indexes)
+	void D3D9Renderer::setIndexBuffer(void* indexBuffer, int indexes)
 	{
 		// Create the vertex buffer.
 		if (FAILED(direct3Ddevice_->CreateIndexBuffer(indexes * sizeof(DWORD),
@@ -167,7 +167,7 @@ namespace Division {
 		VOID* pData;
 		if (FAILED(indexBuffer_->Lock(0, sizeof(DWORD) * indexes, (void**)&pData, 0)))
 			;
-		memcpy(pData, vertexBuffer, sizeof(DWORD) * indexes);
+		memcpy(pData, indexBuffer, sizeof(DWORD) * indexes);
 		vertexBuffer_->Unlock();
 	}
 }
