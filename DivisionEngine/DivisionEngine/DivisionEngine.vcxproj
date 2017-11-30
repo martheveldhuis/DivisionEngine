@@ -135,10 +135,12 @@
     <ClCompile Include="Keyboard.cpp" />
     <ClCompile Include="Logger.cpp" />
     <ClCompile Include="LoggerPool.cpp" />
+    <ClCompile Include="MeshLoader.cpp" />
     <ClCompile Include="Mouse.cpp" />
     <ClCompile Include="ResourceManager.cpp" />
     <ClCompile Include="Scene.cpp" />
     <ClCompile Include="SceneManager.cpp" />
+    <ClCompile Include="TextureLoader.cpp" />
     <ClCompile Include="Win32Window.cpp" />
     <ClCompile Include="WindowsInputManager.cpp" />
   </ItemGroup>
@@ -150,12 +152,14 @@
     <ClInclude Include="Keyboard.h" />
     <ClInclude Include="Logger.h" />
     <ClInclude Include="LoggerPool.h" />
+    <ClInclude Include="MeshLoader.h" />
     <ClInclude Include="Mouse.h" />
     <ClInclude Include="Renderer.h" />
     <ClInclude Include="Resource.h" />
     <ClInclude Include="ResourceManager.h" />
     <ClInclude Include="Scene.h" />
     <ClInclude Include="SceneManager.h" />
+    <ClInclude Include="TextureLoader.h" />
     <ClInclude Include="Window.h" />
     <ClInclude Include="Win32Window.h" />
     <ClInclude Include="WindowsInputManager.h" />

@@ -1,5 +1,7 @@
 #include "DivisionEngine.h"
-namespace Division {
+
+namespace Division 
+{
 	DivisionEngine::DivisionEngine()
 	{
 		resourceManager_ = new ResourceManager();
@@ -8,6 +10,8 @@ namespace Division {
 
 	DivisionEngine::~DivisionEngine()
 	{
+		delete resourceManager_;
+		delete sceneManager_;
 	}
 
 	void DivisionEngine::getResourceManager(ResourceManager* res)
