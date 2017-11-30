@@ -1,17 +1,25 @@
 #include "ResourceManager.h"
-namespace Division {
+
+namespace Division 
+{
 	ResourceManager::ResourceManager()
 	{
 	}
+
+
 
 	ResourceManager::~ResourceManager()
 	{
 	}
 
+
+
 	void ResourceManager::addResource(std::string str, Resource* res)
 	{
 		resources_[str] = res;
 	}
+
+
 
 	void ResourceManager::getResource(std::string str, Resource* res)
 	{
@@ -19,6 +27,8 @@ namespace Division {
 		it = resources_.find(str);
 		res = it->second;
 	}
+
+
 
 	void ResourceManager::destroyResource(std::string str)
 	{

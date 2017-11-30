@@ -15,6 +15,7 @@ namespace Division
 
 	LPDIRECT3DTEXTURE9 TextureLoader::getTexture(std::string textureFile)
 	{
+		// TODO: change this to return a texture object (resource)
 		// TODO: put d3d object and d3d device somewhere so it can be shared everywhere
 		Win32Window* a = new Win32Window();
 		

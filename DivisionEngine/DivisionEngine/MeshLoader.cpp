@@ -18,6 +18,7 @@ namespace Division
 
 	LPD3DXMESH MeshLoader::getMesh(std::string meshFile)
 	{
+		// TODO: change this to return a mesh object (resource)
 		// TODO: put d3d object and d3d device somewhere so it can be shared everywhere
 		Win32Window* a = new Win32Window();
 

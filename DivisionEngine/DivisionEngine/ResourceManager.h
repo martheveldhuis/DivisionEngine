@@ -4,7 +4,9 @@
 #include "Resource.h"
 
 #include <map>
-namespace Division {
+
+namespace Division
+{
 	class ResourceManager
 	{
 	private:
@@ -13,7 +15,6 @@ namespace Division {
 	public:
 		ResourceManager();
 		~ResourceManager();
-
 		void addResource(std::string, Resource*);
 		void getResource(std::string, Resource*);
 		void destroyResource(std::string);
