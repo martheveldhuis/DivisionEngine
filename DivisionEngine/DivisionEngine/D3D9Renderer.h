@@ -26,9 +26,11 @@ namespace Division
 		void setupMatrices();
 		void setVertexBuffer(struct CUSTOMVERTEX *vertices, int verts);
 		void setIndexBuffer(void *vertices, int indexes);
+		LPDIRECT3DDEVICE9 getDevice() { return direct3Ddevice_; }
+		virtual void setTexture(void*);
+		LPDIRECT3DDEVICE9       direct3Ddevice_ = NULL; // Device to render with
 	private:
 		LPDIRECT3D9             direct3D_ = NULL; // To create 3D device, needs release
-		LPDIRECT3DDEVICE9       direct3Ddevice_ = NULL; // Device to render with
 		LPDIRECT3DVERTEXBUFFER9 vertexBuffer_ = NULL; // Buffer to hold vertices
 		LPDIRECT3DINDEXBUFFER9  indexBuffer_ = NULL; // Buffer to hold indices
 		HWND windowHandle_;

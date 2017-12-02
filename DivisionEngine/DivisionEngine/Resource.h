@@ -1,12 +1,14 @@
 #ifndef DIVISION_RESOURCE_H
 #define DIVISION_RESOURCE_H
 
-namespace Division
+namespace Division 
 {
 	class Resource
 	{
 	public:
 		virtual ~Resource() = 0 {};
+		virtual void* getResourceData() = 0;
 	};
 }
+
 #endif

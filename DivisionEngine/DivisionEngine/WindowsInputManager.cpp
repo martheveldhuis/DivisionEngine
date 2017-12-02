@@ -18,6 +18,9 @@ namespace Division
 	WindowsInputManager::~WindowsInputManager()
 	{
 		releaseDirectInput();
+
+		delete keyboard_;
+		delete mouse_;
 	}
 
 
@@ -30,7 +33,7 @@ namespace Division
 
 
 
-
+	// TODO: remove this to a general location for sharing
 	void WindowsInputManager::initializeDirectInput()
 	{
 		HRESULT result = DirectInput8Create(GetModuleHandle(NULL), // TODO:  hisntance?

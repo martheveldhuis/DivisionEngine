@@ -41,6 +41,11 @@ namespace Division
 
 	LoggerPool::~LoggerPool()
 	{
+		std::unordered_map<std::string, Logger*>::const_iterator toBeDeleted = logPool_.begin();
+		while (toBeDeleted != logPool_.end()) {
+			delete toBeDeleted->second;
+		}
+		logPool_.clear();
 	}
 
 }

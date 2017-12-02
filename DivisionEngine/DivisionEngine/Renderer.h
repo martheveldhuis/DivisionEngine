@@ -25,6 +25,7 @@ namespace Division
 		virtual void setupMatrices() = 0;
 		virtual void setVertexBuffer(CUSTOMVERTEX* vertexBuffer, int) = 0;
 		virtual void setIndexBuffer(void* indexBuffer, int indexes) = 0;
+		virtual void setTexture(void*) = 0;
 	};
 }
 #endif

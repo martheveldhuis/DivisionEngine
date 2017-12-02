@@ -4,14 +4,17 @@
 #include "Resource.h"
 #include <d3d9.h>
 
-namespace Division {
-	class Texture
+namespace Division
+{
+	class Texture : public Resource
 	{
 	public:
-		Texture();
+		Texture(LPDIRECT3DTEXTURE9);
 		~Texture();
+		void* getResourceData();
 	private:
-		LPDIRECT3DTEXTURE9	textureData_ = NULL;
+		LPDIRECT3DTEXTURE9 textureData_ = NULL;
 	};
 }
+
 #endif
