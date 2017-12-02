@@ -1,7 +1,7 @@
 #include "LoggerPool.h"
 
-namespace Division {
-
+namespace Division
+{
 	std::unordered_map<std::string, Logger*> LoggerPool::logPool_;
 
 	LoggerPool::LoggerPool()

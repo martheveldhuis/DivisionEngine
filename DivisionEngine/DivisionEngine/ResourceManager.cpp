@@ -1,5 +1,6 @@
 #include "ResourceManager.h"
-namespace Division {
+namespace Division
+{
 	ResourceManager::ResourceManager()
 	{
 	}

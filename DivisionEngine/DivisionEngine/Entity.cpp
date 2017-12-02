@@ -1,5 +1,6 @@
 #include "Entity.h"
-namespace Division {
+namespace Division
+{
 	Entity::Entity()
 	{}
 

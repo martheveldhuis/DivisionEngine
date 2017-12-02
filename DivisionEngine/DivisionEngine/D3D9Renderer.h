@@ -9,7 +9,8 @@
 #include <strsafe.h>
 #pragma warning( default : 4996 )
 
-namespace Division {
+namespace Division
+{
 
 	class D3D9Renderer : public Renderer
 	{

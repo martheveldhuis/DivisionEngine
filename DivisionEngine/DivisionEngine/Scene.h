@@ -9,7 +9,8 @@
 #include "ResourceManager.h"
 #include "Terrain.h"
 
-namespace Division {
+namespace Division
+{
 	class Scene
 	{
 	public:

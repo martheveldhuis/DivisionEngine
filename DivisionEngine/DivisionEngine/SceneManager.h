@@ -6,7 +6,8 @@
 #include "ResourceManager.h"
 
 #include <map>
-namespace Division {
+namespace Division
+{
 	class SceneManager
 	{
 	private:

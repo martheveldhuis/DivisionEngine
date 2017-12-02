@@ -1,5 +1,6 @@
 #include "SceneManager.h"
-namespace Division {
+namespace Division
+{
 	SceneManager::SceneManager()
 	{
 	}

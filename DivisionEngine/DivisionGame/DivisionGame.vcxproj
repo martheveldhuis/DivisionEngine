@@ -23,7 +23,7 @@
     <ProjectGuid>{78971394-757D-4B8E-B7AC-8E7714F39D94}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
     <RootNamespace>DivisionGame</RootNamespace>
-    <WindowsTargetPlatformVersion>10.0.16299.0</WindowsTargetPlatformVersion>
+    <WindowsTargetPlatformVersion>8.1</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">

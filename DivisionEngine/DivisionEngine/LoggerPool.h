@@ -5,8 +5,8 @@
 #include "Logger.h"
 #include <string>
 
-namespace Division {
-
+namespace Division
+{
 	/// <summary>
 	/// TBA
 	/// </summary>

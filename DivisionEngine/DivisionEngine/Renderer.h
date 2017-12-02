@@ -5,7 +5,6 @@
 
 namespace Division 
 {
-
 	struct CUSTOMVERTEX
 	{
 		float x, y, z;      // 3D vertex position

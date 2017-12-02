@@ -1,5 +1,6 @@
 #include "DivisionEngine.h"
-namespace Division {
+namespace Division
+{
 	DivisionEngine::DivisionEngine()
 	{
 		resourceManager_ = new ResourceManager();

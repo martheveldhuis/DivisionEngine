@@ -4,7 +4,9 @@
 #include "Resource.h"
 
 #include <map>
-namespace Division {
+
+namespace Division
+{
 	class ResourceManager
 	{
 	private:

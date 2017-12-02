@@ -7,7 +7,8 @@
 #include "Resource.h"
 #include "Texture.h"
 
-namespace Division {
+namespace Division
+{
 	class Mesh : public Resource
 	{
 	public:

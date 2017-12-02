@@ -1,6 +1,6 @@
 #include "Win32Window.h"
-namespace Division {
-
+namespace Division
+{
 	Win32Window::Win32Window(std::string winName = "x", std::string winTitle = "x")
 	{
 		//Create a window class.

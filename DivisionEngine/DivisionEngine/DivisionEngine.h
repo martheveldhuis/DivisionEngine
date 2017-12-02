@@ -3,7 +3,8 @@
 
 #include "ResourceManager.h"
 #include "SceneManager.h"
-namespace Division {
+namespace Division
+{
 	class DivisionEngine
 	{
 	private:

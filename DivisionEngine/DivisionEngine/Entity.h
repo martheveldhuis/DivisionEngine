@@ -5,7 +5,8 @@
 #include "ResourceManager.h"
 
 #include <map>
-namespace Division {
+namespace Division
+{
 	class Entity
 	{
 	private:
