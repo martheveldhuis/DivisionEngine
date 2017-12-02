@@ -1,5 +1,6 @@
 #include "Scene.h"
-namespace Division {
+namespace Division
+{
 	Scene::Scene()
 	{
 	}
@@ -9,14 +10,14 @@ namespace Division {
 		// this should come from the ??heightmaploader??
 
 
-		const int width = 3;
-		const int lenght = 3;
+		const int width = 30;
+		const int lenght = 30;
 
 	    CUSTOMVERTEX* vertices = new CUSTOMVERTEX[width * lenght];
 
 		int index = 0;
 	
-
+		srand(GetTickCount64());
 		for (int i = 0; i < width; i++) {
 			for (int j = 0; j < lenght; j++) {
 				// maak random height value
@@ -30,7 +31,7 @@ namespace Division {
 				int x = i - width / 2 + 1;
 				int z = j - lenght / 2 + 1;
 				index = i * width + j;
-				vertices[index] = { static_cast<float>(x), 1, static_cast<float>(z), 0xff000000 + grayColor };
+				vertices[index] = { static_cast<float>(x), y, static_cast<float>(z), 0xff000000 + grayColor };
 			}
 		}
 

@@ -1,8 +1,8 @@
 #include "Terrain.h"
+#include "LoggerPool.h"
 
 namespace Division 
 {
-
 	Terrain::Terrain(CUSTOMVERTEX vertices[],
 		Renderer* renderer, int vertexCount) :
 		vertices_(vertices), renderer_(renderer), vertexCount_(vertexCount)
@@ -24,22 +24,30 @@ namespace Division
 		renderer_->render(vertexCount_, indexCount_);
 	}
 
-	int Terrain::GenerateIndices(int** ppIndices, int verticesAlongWidth, int verticesAlongLength)
+	int Terrain::GenerateIndices(int** indicesBuffer, int verticesWidth, int verticesLength)
 	{
-		int numIndices = (verticesAlongWidth * 2) * (verticesAlongLength - 1);
+		int numIndices = (verticesWidth * 4) * (verticesLength - 1);
 
-		*ppIndices = new int[numIndices];
-
+		*indicesBuffer = new int[numIndices];
 		int index = 0;
-		for (int z = 0; z < verticesAlongLength - 1; z++)
+		for (int z = 0; z < verticesLength - 1; z++)
 		{
-				int x;
-				for (x = verticesAlongWidth - 1; x >= 0; x--)
-				{
-					(*ppIndices)[index++] = x + (z * verticesAlongWidth);
-					(*ppIndices)[index++] = x + (z * verticesAlongWidth) + verticesAlongWidth;
-				}
+			int x;
+			for (x = verticesWidth - 1; x >= 0; x--)
+			{
+				int indexAt = x + (z * verticesWidth);
+					(*indicesBuffer)[index++] = indexAt;//5
+					(*indicesBuffer)[index++] = indexAt + verticesWidth;//4
+			}
+
+			for (x = 0; x <= verticesWidth - 1; x++)
+			{
+				int indexAt = x + (z * verticesWidth);
+				(*indicesBuffer)[index++] = indexAt + verticesWidth;//4
+				(*indicesBuffer)[index++] = indexAt;//5
+			}
 		}
+
 		return numIndices;
 	}
 
