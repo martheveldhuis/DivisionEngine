@@ -13,7 +13,6 @@ namespace Division {
 	class Win32Window : public virtual Window
 	{
 	public:
-		Win32Window();
 		Win32Window(std::string, std::string);
 		~Win32Window();
 		static LRESULT WINAPI MsgProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);

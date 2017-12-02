@@ -17,6 +17,7 @@ namespace Division {
 		Entity(ResourceManager*);
 		~Entity();
 
+		void render();
 		void addResource(std::string, Resource*);
 		void getResource(std::string, Resource*);
 		void removeResource(std::string);

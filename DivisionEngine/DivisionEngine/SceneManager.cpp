@@ -27,9 +27,11 @@ namespace Division {
 		renderers_.erase(renderers_.find(str));
 	}
 
-	void SceneManager::createScene(std::string str)
+	Scene* SceneManager::createScene(std::string str, Renderer* renderer)
 	{
-		scenes_[str] = new Scene(resourceManager_);
+		Scene* createdScene = new Scene(resourceManager_, renderer);
+		scenes_[str] = createdScene;
+		return createdScene;
 	}
 
 	void SceneManager::getScene(std::string str, Scene* scene)

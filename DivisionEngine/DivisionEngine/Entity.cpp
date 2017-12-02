@@ -10,6 +10,11 @@ namespace Division {
 	Entity::~Entity()
 	{}
 
+	void Entity::render()
+	{
+		//loop through map and render mesh + text
+	}
+
 	void Entity::addResource(std::string str, Resource* res)
 	{
 		resources_[str] = res;
