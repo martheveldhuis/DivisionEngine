@@ -9,31 +9,34 @@ namespace Division {
 		// this should come from the ??heightmaploader??
 
 
-		const int width = 34;
-		const int lenght = 34;
+		const int width = 3;
+		const int lenght = 3;
 
 	    CUSTOMVERTEX* vertices = new CUSTOMVERTEX[width * lenght];
 
 		int index = 0;
-		
+	
 
-		for (int i = width / 2; i > -(width / 2); i--) {
-			for (int j = -(lenght / 2); j < lenght / 2; j++) {
+		for (int i = 0; i < width; i++) {
+			for (int j = 0; j < lenght; j++) {
 				// maak random height value
-				float x = (rand() % 300) / 100.0f; //max = 3.0
+				float y = (rand() % 300) / 100.0f; //max = 3.0
 
-				// maak grijswaarde gebaseerd op height val
-				DWORD grayValB = int(x) * 80;
-				DWORD grayValG = (int(x) * 80) << 8;
-				DWORD grayValR = (int(x) * 80) << 16;
+												   // maak grijswaarde gebaseerd op height val
+				DWORD grayValB = int(y) * 80;
+				DWORD grayValG = (int(y) * 80) << 8;
+				DWORD grayValR = (int(y) * 80) << 16;
 				int grayColor = grayValR + grayValG + grayValB;
-
-				vertices[index++] = { static_cast<float>(i), x/2, static_cast<float>(j), 0xff000000 + grayColor };
+				int x = i - width / 2 + 1;
+				int z = j - lenght / 2 + 1;
+				index = i * width + j;
+				vertices[index] = { static_cast<float>(x), 1, static_cast<float>(z), 0xff000000 + grayColor };
 			}
 		}
 
+
 		addRenderer("main", renderer);
-		terrain_ = new Terrain(vertices, renderer, index);
+		terrain_ = new Terrain(vertices, renderer, width * lenght);
 	}
 
 	Scene::~Scene()

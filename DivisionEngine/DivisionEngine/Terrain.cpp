@@ -26,39 +26,19 @@ namespace Division
 
 	int Terrain::GenerateIndices(int** ppIndices, int verticesAlongWidth, int verticesAlongLength)
 	{
-		int numIndices = (verticesAlongWidth * 2) * (verticesAlongLength - 1) + (verticesAlongLength - 2);
+		int numIndices = (verticesAlongWidth * 2) * (verticesAlongLength - 1);
 
 		*ppIndices = new int[numIndices];
 
 		int index = 0;
 		for (int z = 0; z < verticesAlongLength - 1; z++)
 		{
-			if (z % 2 == 0)
-			{
-				int x;
-				for (x = 0; x < verticesAlongWidth; x++)
-				{
-					(*ppIndices)[index++] = x + (z * verticesAlongWidth);
-					(*ppIndices)[index++] = x + (z * verticesAlongWidth) + verticesAlongWidth;
-				}
-				if (z != verticesAlongLength - 2)
-				{
-					(*ppIndices)[index++] = --x + (z * verticesAlongWidth);
-				}
-			}
-			else
-			{
 				int x;
 				for (x = verticesAlongWidth - 1; x >= 0; x--)
 				{
 					(*ppIndices)[index++] = x + (z * verticesAlongWidth);
 					(*ppIndices)[index++] = x + (z * verticesAlongWidth) + verticesAlongWidth;
 				}
-				if (z != verticesAlongLength - 2)
-				{
-					(*ppIndices)[index++] = ++x + (z * verticesAlongWidth);
-				}
-			}
 		}
 		return numIndices;
 	}

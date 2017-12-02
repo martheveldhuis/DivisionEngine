@@ -81,11 +81,11 @@ namespace Division
 		}
 
 		// Turn off culling, so we see the front and back of the triangle
-		direct3Ddevice_->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE);
+		//direct3Ddevice_->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE);
 
 		// Turn off D3D lighting, since we are providing our own vertex colors
 		direct3Ddevice_->SetRenderState(D3DRS_LIGHTING, FALSE);
-		//direct3Ddevice_->SetRenderState(D3DRS_FILLMODE, D3DFILL_WIREFRAME);
+		direct3Ddevice_->SetRenderState(D3DRS_FILLMODE, D3DFILL_WIREFRAME);
 		//direct3Ddevice_->SetRenderState(D3DRS_FILLMODE, D3DFILL_POINT);
 	}
 
