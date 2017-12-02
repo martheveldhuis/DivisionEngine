@@ -1,6 +1,7 @@
 #include "TextureLoader.h"
 #include "Win32Window.h"
 #include "D3D9Renderer.h"
+#include "Texture.h"
 
 namespace Division
 {
@@ -13,38 +14,29 @@ namespace Division
 	{
 	}
 
-	LPDIRECT3DTEXTURE9 TextureLoader::getTexture(std::string textureFile)
+	Resource * TextureLoader::getResource(std::string textureFile, void* d3dDevice)
 	{
-		// TODO: change this to return a texture object (resource)
-		// TODO: put d3d object and d3d device somewhere so it can be shared everywhere
-		Win32Window* a = new Win32Window();
-		
-		HWND hWnd = a->getWindowHandle();
+		LPDIRECT3DDEVICE9 g_pd3dDevice = static_cast<LPDIRECT3DDEVICE9>(d3dDevice);
 
-		D3D9Renderer* rend = new D3D9Renderer(NULL,NULL, hWnd);
-		rend->setup();
-		LPDIRECT3DDEVICE9 g_pd3dDevice = rend->direct3Ddevice_;
+		LPDIRECT3DTEXTURE9 textureData = NULL;
 
-
-
-		///////////////////////////////////////////////////////////////
-
-		LPDIRECT3DTEXTURE9 texture = NULL;
-
-		HRESULT result = D3DXCreateTextureFromFile(g_pd3dDevice, 
-												   textureFile.c_str(), 
-												   &texture);
+		HRESULT result = D3DXCreateTextureFromFile(g_pd3dDevice,
+			textureFile.c_str(),
+			&textureData);
 		if (FAILED(result))
 		{
 			std::string prefixedTextureFile = "..\\" + textureFile;
 
-			if (FAILED(D3DXCreateTextureFromFile(g_pd3dDevice, 
-												 prefixedTextureFile.c_str(),
-												 &texture)))
+			if (FAILED(D3DXCreateTextureFromFile(g_pd3dDevice,
+				prefixedTextureFile.c_str(),
+				&textureData)))
 			{
-				// Log that this failed
+				// TODO: Log that this failed.
 			}
 		}
+
+
+		Resource* texture = new Texture(textureData);
 
 		return texture;
 	}

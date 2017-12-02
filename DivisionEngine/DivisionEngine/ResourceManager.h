@@ -4,20 +4,25 @@
 #include "Resource.h"
 
 #include <map>
+#include <d3dx9.h>
 
 namespace Division
 {
 	class ResourceManager
 	{
-	private:
-		std::map<std::string, Resource*> resources_;
-
 	public:
-		ResourceManager();
+		ResourceManager(LPDIRECT3DDEVICE9);
 		~ResourceManager();
-		void addResource(std::string, Resource*);
-		void getResource(std::string, Resource*);
-		void destroyResource(std::string);
+		void addNewTexture(std::string);
+		void addNewMesh(std::string);
+		Resource* getTexture(std::string);
+		Resource* getMesh(std::string);
+		void removeTexture(std::string);
+		void removeMesh(std::string);
+	private:
+		std::map<std::string, Resource*> textures_;
+		std::map<std::string, Resource*> meshes_;
+		LPDIRECT3DDEVICE9 direct3Ddevice_;
 	};
 }
 #endif

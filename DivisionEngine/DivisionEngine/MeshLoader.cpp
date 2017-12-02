@@ -1,6 +1,7 @@
 #include "MeshLoader.h"
 #include "Win32Window.h"
 #include "D3D9Renderer.h"
+#include "Mesh.h"
 
 namespace Division
 {
@@ -14,22 +15,10 @@ namespace Division
 	{
 	}
 
-
-
-	LPD3DXMESH MeshLoader::getMesh(std::string meshFile)
+	Resource* MeshLoader::getResource(std::string meshFile, void* d3dDevice)
 	{
-		// TODO: change this to return a mesh object (resource)
-		// TODO: put d3d object and d3d device somewhere so it can be shared everywhere
-		Win32Window* a = new Win32Window();
-
-		HWND hWnd = a->getWindowHandle();
-
-		D3D9Renderer* rend = new D3D9Renderer(NULL, NULL, hWnd);
-		rend->setup();
-		LPDIRECT3DDEVICE9 g_pd3dDevice = rend->direct3Ddevice_;
-
-
-		///////////////////////////////////////////////////////////////
+		// TODO: move this line somewhere else?
+		LPDIRECT3DDEVICE9 g_pd3dDevice = static_cast<LPDIRECT3DDEVICE9>(d3dDevice);
 
 		LPD3DXBUFFER pD3DXMtrlBuffer;
 		DWORD g_dwNumMaterials = 0L;
@@ -37,22 +26,25 @@ namespace Division
 
 
 		if (FAILED(D3DXLoadMeshFromX(meshFile.c_str(), D3DXMESH_SYSTEMMEM,
-									g_pd3dDevice, NULL,
-									&pD3DXMtrlBuffer, NULL, &g_dwNumMaterials,
-									&mesh)))
+			g_pd3dDevice, NULL,
+			&pD3DXMtrlBuffer, NULL, &g_dwNumMaterials,
+			&mesh)))
 		{
 			std::string prefixedtMeshFile = "..\\" + meshFile;
 
 			HRESULT result = D3DXLoadMeshFromX(prefixedtMeshFile.c_str(), D3DXMESH_SYSTEMMEM,
-									   g_pd3dDevice, NULL,
-									   &pD3DXMtrlBuffer, NULL, &g_dwNumMaterials,
-									   &mesh);
+				g_pd3dDevice, NULL,
+				&pD3DXMtrlBuffer, NULL, &g_dwNumMaterials,
+				&mesh);
 			if (FAILED(result))
 			{
-				// Log that this failed
+				// TODO: Log that this failed.
 			}
 		}
 
-		return mesh;
+		// TODO: add proper implementation
+		return new Mesh(mesh);
 	}
+
+
 }

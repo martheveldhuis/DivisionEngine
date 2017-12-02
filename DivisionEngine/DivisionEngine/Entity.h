@@ -1,26 +1,31 @@
 #ifndef DIVISION_ENTITY_H
 #define DIVISION_ENTITY_H
 
+#include <map>
+
 #include "Resource.h"
 #include "ResourceManager.h"
+#include "Renderer.h"
 
-#include <map>
-namespace Division {
+namespace Division 
+{
 	class Entity
 	{
-	private:
-		std::map<std::string, Resource*> resources_;
-		ResourceManager* resourceManager_;
-
 	public:
-		Entity();
-		Entity(ResourceManager*);
+		Entity(ResourceManager*, std::string textureFile, std::string meshFile);
 		~Entity();
-
-		void render();
-		void addResource(std::string, Resource*);
-		void getResource(std::string, Resource*);
-		void removeResource(std::string);
+		void addTexture(std::string, Resource*);
+		void addMesh(std::string, Resource*);
+		Resource* getTexture(std::string);
+		Resource* getMesh(std::string);
+		void removeTexture(std::string);
+		void removeMesh(std::string);
+		void render(Renderer*);
+	private:
+		ResourceManager* resourceManager_;
+		std::map<std::string, Resource*> textures_;
+		std::map<std::string, Resource*> meshes_;
 	};
 }
+
 #endif

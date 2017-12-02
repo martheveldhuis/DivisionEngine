@@ -5,14 +5,16 @@
 #include <d3dx9.h>
 #include <string>
 
+#include "ResourceLoader.h"
+
 namespace Division
 {
-	class MeshLoader
+	class MeshLoader : public ResourceLoader
 	{
 	public:
 		MeshLoader();
 		~MeshLoader();
-		LPD3DXMESH getMesh(std::string);
+		static Resource* getResource(std::string, void*);
 	};
 }
 

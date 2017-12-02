@@ -1,14 +1,18 @@
 #include "Mesh.h"
+
 namespace Division
 {
-
-	Mesh::Mesh(std::string meshName, std::string textureName, LPDIRECT3DDEVICE9 direct3Device_)
+	Mesh::Mesh(LPD3DXMESH meshData) : meshData_(meshData)
 	{
 	}
 
-
 	Mesh::~Mesh()
 	{
+	}
+
+	void * Mesh::getResourceData()
+	{
+		return (void*)meshData_;
 	}
 
 }

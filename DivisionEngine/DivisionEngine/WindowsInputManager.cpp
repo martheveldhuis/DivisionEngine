@@ -18,6 +18,9 @@ namespace Division
 	WindowsInputManager::~WindowsInputManager()
 	{
 		releaseDirectInput();
+
+		delete keyboard_;
+		delete mouse_;
 	}
 
 

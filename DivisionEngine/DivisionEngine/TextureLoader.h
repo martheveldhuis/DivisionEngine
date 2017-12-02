@@ -5,14 +5,16 @@
 #include <d3dx9.h>
 #include <string>
 
+#include "ResourceLoader.h"
+
 namespace Division
 {
-	class TextureLoader
+	class TextureLoader : public ResourceLoader
 	{
 	public:
 		TextureLoader();
 		~TextureLoader();
-		LPDIRECT3DTEXTURE9 getTexture(std::string);
+		static Resource* getResource(std::string, void*);
 	};
 }
 

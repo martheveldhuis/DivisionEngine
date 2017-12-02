@@ -1,4 +1,5 @@
 #include "D3D9Renderer.h"
+#include "Texture.h"
 
 #define D3DFVF_CUSTOMVERTEX (D3DFVF_XYZ|D3DFVF_DIFFUSE)
 
@@ -85,7 +86,7 @@ namespace Division
 
 		// Turn off D3D lighting, since we are providing our own vertex colors
 		direct3Ddevice_->SetRenderState(D3DRS_LIGHTING, FALSE);
-		direct3Ddevice_->SetRenderState(D3DRS_FILLMODE, D3DFILL_WIREFRAME);
+		//direct3Ddevice_->SetRenderState(D3DRS_FILLMODE, D3DFILL_WIREFRAME);
 		//direct3Ddevice_->SetRenderState(D3DRS_FILLMODE, D3DFILL_POINT);
 	}
 
@@ -169,5 +170,19 @@ namespace Division
 			;
 		memcpy(pData, indexBuffer, sizeof(DWORD) * indexes);
 		vertexBuffer_->Unlock();
+	}
+
+
+
+	void D3D9Renderer::setTexture(void* texture)
+	{
+		LPDIRECT3DTEXTURE9 textureData = static_cast<LPDIRECT3DTEXTURE9>(texture);
+		direct3Ddevice_->SetTexture(0, textureData);
+		direct3Ddevice_->SetTextureStageState(0, D3DTSS_COLOROP, D3DTOP_MODULATE);
+		direct3Ddevice_->SetTextureStageState(0, D3DTSS_COLORARG1, D3DTA_TEXTURE);
+		direct3Ddevice_->SetTextureStageState(0, D3DTSS_COLORARG2, D3DTA_DIFFUSE);
+		direct3Ddevice_->SetTextureStageState(0, D3DTSS_ALPHAOP, D3DTOP_DISABLE);
+		direct3Ddevice_->SetTextureStageState(0, D3DTSS_TEXTURETRANSFORMFLAGS, D3DTTFF_COUNT4 | D3DTTFF_PROJECTED);
+		direct3Ddevice_->SetTextureStageState(0, D3DTSS_TEXCOORDINDEX, D3DTSS_TCI_CAMERASPACEPOSITION);
 	}
 }

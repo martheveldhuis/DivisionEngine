@@ -7,6 +7,7 @@ namespace Division
 	{
 	public:
 		virtual ~Resource() = 0 {};
+		virtual void* getResourceData() = 0;
 	};
 }
 

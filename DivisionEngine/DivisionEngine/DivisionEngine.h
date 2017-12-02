@@ -11,8 +11,7 @@ namespace Division
 	public:
 		DivisionEngine();
 		~DivisionEngine();
-		void getResourceManager(ResourceManager*);
-		void getSceneManager(SceneManager*);
+		void run();
 	private:
 		ResourceManager* resourceManager_;
 		SceneManager* sceneManager_;

@@ -9,8 +9,8 @@ namespace Division {
 		// this should come from the ??heightmaploader??
 
 
-		const int width = 3;
-		const int lenght = 3;
+		const int width = 10;
+		const int lenght = 10;
 
 	    CUSTOMVERTEX* vertices = new CUSTOMVERTEX[width * lenght];
 
@@ -30,7 +30,7 @@ namespace Division {
 				int x = i - width / 2 + 1;
 				int z = j - lenght / 2 + 1;
 				index = i * width + j;
-				vertices[index] = { static_cast<float>(x), 1, static_cast<float>(z), 0xff000000 + grayColor };
+				vertices[index] = { static_cast<float>(x), y/2, static_cast<float>(z), 0xff000000 + grayColor };
 			}
 		}
 
