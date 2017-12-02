@@ -4,7 +4,6 @@
 
 namespace Division 
 {
-
 	D3D9Renderer::D3D9Renderer(LPDIRECT3D9 direct3D, LPDIRECT3DDEVICE9 direct3Ddevice, HWND windowHandle) :
 		direct3D_(direct3D), direct3Ddevice_(direct3Ddevice), windowHandle_(windowHandle)
 	{
@@ -85,7 +84,7 @@ namespace Division
 
 		// Turn off D3D lighting, since we are providing our own vertex colors
 		direct3Ddevice_->SetRenderState(D3DRS_LIGHTING, FALSE);
-		direct3Ddevice_->SetRenderState(D3DRS_FILLMODE, D3DFILL_WIREFRAME);
+		//direct3Ddevice_->SetRenderState(D3DRS_FILLMODE, D3DFILL_WIREFRAME);
 		//direct3Ddevice_->SetRenderState(D3DRS_FILLMODE, D3DFILL_POINT);
 	}
 
@@ -109,7 +108,7 @@ namespace Division
 		// period before conversion to a radian angle.
 		UINT iTime = GetTickCount64() % 1000; // replace with mouse move
 		FLOAT fAngle = iTime * (2.0f * D3DX_PI) / 1000.0f;
-		D3DXMatrixRotationY(&matWorld, 0);
+		D3DXMatrixRotationY(&matWorld, fAngle);
 		direct3Ddevice_->SetTransform(D3DTS_WORLD, &matWorld);
 
 		// Set up our view matrix. A view matrix can be defined given an eye point,
@@ -137,7 +136,7 @@ namespace Division
 	void D3D9Renderer::setVertexBuffer(CUSTOMVERTEX * vertexBuffer, int verts)
 	{
 		// Create the vertex buffer.
-		if (FAILED(direct3Ddevice_->CreateVertexBuffer(verts * sizeof(CUSTOMVERTEX),
+		if (!vertexBuffer_ && FAILED(direct3Ddevice_->CreateVertexBuffer(verts * sizeof(CUSTOMVERTEX),
 			0, D3DFVF_CUSTOMVERTEX,
 			D3DPOOL_DEFAULT, &vertexBuffer_, NULL)))
 		{
@@ -155,7 +154,7 @@ namespace Division
 	void D3D9Renderer::setIndexBuffer(void* indexBuffer, int indexes)
 	{
 		// Create the vertex buffer.
-		if (FAILED(direct3Ddevice_->CreateIndexBuffer(indexes * sizeof(DWORD),
+		if (!indexBuffer_ && FAILED(direct3Ddevice_->CreateIndexBuffer(indexes * sizeof(DWORD),
 			D3DUSAGE_WRITEONLY | D3DUSAGE_DYNAMIC,
 			D3DFMT_INDEX32,
 			D3DPOOL_DEFAULT, &indexBuffer_, NULL)))
