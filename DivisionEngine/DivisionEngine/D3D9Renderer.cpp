@@ -58,7 +58,7 @@ namespace Division
 
 		// Turn off D3D lighting, since we are providing our own vertex colors
 		direct3Ddevice_->SetRenderState(D3DRS_LIGHTING, FALSE);
-		direct3Ddevice_->SetRenderState(D3DRS_FILLMODE, D3DFILL_WIREFRAME);
+		//direct3Ddevice_->SetRenderState(D3DRS_FILLMODE, D3DFILL_WIREFRAME);
 		//direct3Ddevice_->SetRenderState(D3DRS_FILLMODE, D3DFILL_POINT);
 	}
 
@@ -73,35 +73,23 @@ namespace Division
 
 	void D3D9Renderer::setupMatrices()
 	{
-		// For our world matrix, we will just rotate the object about the y-axis.
-		D3DXMATRIXA16 matWorld;
+		D3DXMATRIXA16 matWorldRotY;
+	    D3DXMATRIXA16 matWorldScale;
 
-		// Set up the rotation matrix to generate 1 full rotation (2*PI radians)
-		// every 1000 ms. To avoid the loss of precision inherent in very high
-		// floating point numbers, the system time is modulated by the rotation
-		// period before conversion to a radian angle.
 		UINT iTime = GetTickCount64() % 1000; // replace with mouse move
 		FLOAT fAngle = iTime * (2.0f * D3DX_PI) / 1000.0f;
-		D3DXMatrixRotationY(&matWorld, 0);
-		direct3Ddevice_->SetTransform(D3DTS_WORLD, &matWorld);
+		D3DXMatrixRotationY(&matWorldRotY, D3DX_PI/4.0f);
+		D3DXMatrixScaling(&matWorldScale, 4,4,4);
+		matWorldRotY *= matWorldScale;
+		direct3Ddevice_->SetTransform(D3DTS_WORLD, &matWorldRotY);
 
-		// Set up our view matrix. A view matrix can be defined given an eye point,
-		// a point to lookat, and a direction for which way is up. Here, we set the
-		// eye five units back along the z-axis and up three units, look at the
-		// origin, and define "up" to be in the y-direction.
-		D3DXVECTOR3 vEyePt(0.0f, 13.0f, -15.0f);
-		D3DXVECTOR3 vLookatPt(0.0f, 0.0f, 10.0f);// add position to the view.
+		D3DXVECTOR3 vEyePt(0.0f, 5.0f, -20.0f);
+		D3DXVECTOR3 vLookatPt(0.0f, 0.0f, 5.0f);// add position to the view.
 		D3DXVECTOR3 vUpVec(0.0f, 1.0f, 0.0f);
 		D3DXMATRIXA16 matView;
 		D3DXMatrixLookAtLH(&matView, &vEyePt, &vLookatPt, &vUpVec);
 		direct3Ddevice_->SetTransform(D3DTS_VIEW, &matView);
 
-		// For the projection matrix, we set up a perspective transform (which
-		// transforms geometry from 3D view space to 2D viewport space, with
-		// a perspective divide making objects smaller in the distance). To build
-		// a perpsective transform, we need the field of view (1/4 pi is common),
-		// the aspect ratio, and the near and far clipping planes (which define at
-		// what distances geometry should be no longer be rendered).
 		D3DXMATRIXA16 matProj;
 		D3DXMatrixPerspectiveFovLH(&matProj, D3DX_PI / 4, 1.0f, 1.0f, 100.0f);
 		direct3Ddevice_->SetTransform(D3DTS_PROJECTION, &matProj);
@@ -148,53 +136,9 @@ namespace Division
 
 
 
-	void D3D9Renderer::setTexture(Resource* resource)
+	void D3D9Renderer::setTexture(void* resource)
 	{
-		D3D9Texture* texture = dynamic_cast<D3D9Texture*>(resource);
+		D3D9Texture* texture = static_cast<D3D9Texture*>(resource);
 		direct3Ddevice_->SetTexture(0, texture->getTextureData());
-		direct3Ddevice_->SetTextureStageState(0, D3DTSS_COLOROP, D3DTOP_MODULATE);
-		direct3Ddevice_->SetTextureStageState(0, D3DTSS_COLORARG1, D3DTA_TEXTURE);
-		direct3Ddevice_->SetTextureStageState(0, D3DTSS_COLORARG2, D3DTA_DIFFUSE);
-		direct3Ddevice_->SetTextureStageState(0, D3DTSS_ALPHAOP, D3DTOP_DISABLE);
-		direct3Ddevice_->SetTextureStageState(0, D3DTSS_TEXTURETRANSFORMFLAGS, D3DTTFF_COUNT4 | D3DTTFF_PROJECTED);
-		direct3Ddevice_->SetTextureStageState(0, D3DTSS_TEXCOORDINDEX, D3DTSS_TCI_CAMERASPACEPOSITION);
-	}
-
-
-
-	void D3D9Renderer::setMesh(Resource* resource)
-	{
-		D3D9Mesh* mesh = dynamic_cast<D3D9Mesh*>(resource);
-		D3DMATERIAL9* meshMaterials = mesh->getMeshMaterials();
-
-		direct3Ddevice_->Clear(0, NULL, D3DCLEAR_TARGET | D3DCLEAR_ZBUFFER, D3DCOLOR_XRGB(0, 0xff, 0xff), 1.0f, 0);
-
-		HRESULT a = direct3Ddevice_->BeginScene();
-		// Begin the scene
-		if (SUCCEEDED(a))
-		{
-			// Setup the world, view, and projection matrices
-			setupMatrices();
-
-
-			for (DWORD i = 0; i < mesh->getNumberOfMaterials(); i++)
-			{
-				// Set the material and texture for this subset
-				direct3Ddevice_->SetMaterial(&meshMaterials[i]);
-				//direct3Ddevice_->SetTexture(0, g_pMeshTextures[i]);
-
-				// Draw the mesh subset
-				LPD3DXMESH meshData = mesh->getMeshData();
-				meshData->DrawSubset(i);
-			}
-
-			// End the scene
-			direct3Ddevice_->EndScene();
-		}
-
-		// Present the backbuffer contents to the display
-		direct3Ddevice_->Present(NULL, NULL, NULL, NULL);
-
-
 	}
 }

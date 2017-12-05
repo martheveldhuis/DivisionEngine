@@ -25,6 +25,9 @@ namespace Division
 		void addRenderer(std::string, Renderer*);
 		Renderer* getRenderer(std::string);
 		void removeRenderer(std::string);
+		void addEntity(std::string, Entity*);
+		Entity* getEntity(std::string);
+		void removeEntity(std::string);
 		void begin();
 	private:
 		std::map<std::string, Window*> windows_;

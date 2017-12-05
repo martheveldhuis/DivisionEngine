@@ -17,7 +17,7 @@ namespace Division
 	{
 		D3D9Renderer* d3d9Renderer = dynamic_cast<D3D9Renderer*>(renderer);
 		
-		LPDIRECT3DDEVICE9 device = d3d9Renderer->getDevice();
+		LPDIRECT3DDEVICE9 device = static_cast<LPDIRECT3DDEVICE9>(d3d9Renderer->getDevice());
 		
 		std::map<std::string, Resource*>::const_iterator meshIterator = meshes_.begin();
 		while (meshIterator != meshes_.end()) {
@@ -26,7 +26,7 @@ namespace Division
 			D3DMATERIAL9* meshMaterials = mesh->getMeshMaterials();
 			std::vector<std::string> textureFileNames = mesh->getTextureFileNames();
 
-
+			textures_ = mesh->getTextures();
 			std::map<std::string, Resource*>::const_iterator textureIterator = textures_.begin();
 
 			for (DWORD i = 0; i < mesh->getNumberOfMaterials(); i++)
@@ -40,7 +40,7 @@ namespace Division
 					D3D9Texture* texture = dynamic_cast<D3D9Texture*>(textureIterator->second);
 
 					if (textureIterator != textures_.end())
-						device->SetTexture(0, texture->getTextureData());
+						d3d9Renderer->setTexture(texture);
 				}
 				else {
 					//mesh->getTextures();

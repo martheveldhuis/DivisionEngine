@@ -52,6 +52,14 @@ namespace Division
 
 	void D3D9Mesh::setTextures(std::map<std::string, Resource*> textures)
 	{
-		textures_ = textures;
+		std::map<std::string, Resource*>::const_iterator textureIterator = textures.begin();
+		while (textureIterator != textures.end()) {
+			textures_[textureIterator->first] = textureIterator->second;
+			++textureIterator;
+		}
+	}
+	std::map<std::string, Resource*> D3D9Mesh::getTextures()
+	{
+		return textures_;
 	}
 }

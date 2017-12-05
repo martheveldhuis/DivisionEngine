@@ -22,6 +22,7 @@ namespace Division
 		DWORD getNumberOfMaterials();
 		std::vector<std::string> getTextureFileNames();
 		void setTextures(std::map<std::string, Resource*>);
+		std::map<std::string, Resource*> getTextures();
 	private:
 		LPD3DXMESH meshData_ = NULL; 
 		D3DMATERIAL9* meshMaterials_ = NULL;

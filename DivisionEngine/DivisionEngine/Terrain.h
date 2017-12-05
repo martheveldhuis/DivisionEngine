@@ -3,7 +3,7 @@
 
 #include "D3D9Mesh.h"
 #include "Renderer.h"
-#include "Texture.h"
+#include "D3D9Texture.h"
 
 namespace Division
 {
@@ -15,7 +15,7 @@ namespace Division
 		void render(Renderer* renderer);
 		int generateIndices(int** ppIndices, int verticesAlongWidth, int verticesAlongLength);
 	private:
-		Texture* texture_ = NULL; // texture
+		D3D9Texture* texture_ = NULL; // texture
 		CUSTOMVERTEX* vertices_;
 		int vertexCount_ = 0;
 		int* indices_ = NULL;

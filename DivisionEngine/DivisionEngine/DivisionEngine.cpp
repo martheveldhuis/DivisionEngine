@@ -23,14 +23,15 @@ namespace Division
 		Division::Win32Window* win = new Division::Win32Window("Window", "Window title");
 		Division::D3D9Renderer* renderer = new Division::D3D9Renderer(NULL, NULL, win->getWindowHandle());
 
-		LPDIRECT3DDEVICE9 dev = renderer->getDevice();
+		LPDIRECT3DDEVICE9 dev = static_cast<LPDIRECT3DDEVICE9>(renderer->getDevice());
 		Division::ResourceManager* resourceManager = new Division::ResourceManager(dev);
 
 		Division::Entity* entity = new Division::D3D9GameObject(resourceManager, 0,0,0);
 		entity->addMesh("tiger.x");
-		
+
 		Division::Scene* scene;
 		scene = sceneManager_->createScene("Test Scene", renderer);
+		scene->addEntity("t", entity);
 		scene->addWindow("Window", win);
 
 		HWND window = win->getWindowHandle();
@@ -48,7 +49,6 @@ namespace Division
 			else {
 
 				scene->begin();
-				entity->render(renderer);
 
 				Division::InputStates inputStates = windowsInputManager->getInput();
 				if (inputStates.moveForward)

@@ -87,6 +87,7 @@ namespace Division
 		while (textureIterator != textureFileNames.end()) {
 
 			textures[*textureIterator] = getTexture(*textureIterator);
+			
 			++textureIterator;
 		}
 
