@@ -15,9 +15,6 @@ namespace Division
 	class Renderer {
 	public:
 		virtual ~Renderer() = 0 {};
-		virtual void render(int,int) = 0;
-		// could remove this from the interface if setup calls the init+setup
-		virtual void initGraphics() = 0;
 		virtual void setup() = 0;
 		/// <summary>Releases all previously initialized objects</summary>
 		virtual void cleanup() = 0;
@@ -26,6 +23,7 @@ namespace Division
 		virtual void setVertexBuffer(CUSTOMVERTEX* vertexBuffer, int) = 0;
 		virtual void setIndexBuffer(void* indexBuffer, int indexes) = 0;
 		virtual void setTexture(void*) = 0;
+		virtual void* getDevice() = 0;
 	};
 }
 #endif

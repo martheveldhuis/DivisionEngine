@@ -10,8 +10,8 @@ namespace Division
 		// this should come from the ??heightmaploader??
 
 
-		const int width = 30;
-		const int lenght = 30;
+		const int width = 4;
+		const int lenght = 4;
 
 	    CUSTOMVERTEX* vertices = new CUSTOMVERTEX[width * lenght];
 
@@ -31,13 +31,13 @@ namespace Division
 				int x = i - width / 2 + 1;
 				int z = j - lenght / 2 + 1;
 				index = i * width + j;
-				vertices[index] = { static_cast<float>(x), y, static_cast<float>(z), 0xff000000 + grayColor };
+				vertices[index] = { static_cast<float>(x), 1, static_cast<float>(z), 0xff000000 + grayColor };
 			}
 		}
 
 
 		addRenderer("main", renderer);
-		terrain_ = new Terrain(vertices, renderer, width * lenght);
+		terrain_ = new Terrain(vertices, width * lenght);
 	}
 
 	Scene::~Scene()
@@ -49,13 +49,20 @@ namespace Division
 		windows_[str] = window;
 	}
 
-	void Scene::getWindow(std::string str, Window* window)
+	Window* Scene::getWindow(std::string name)
 	{
-		window = windows_.find(str)->second;
+		std::map<std::string, Window*>::const_iterator found = windows_.find(name);
+
+		if (found != windows_.end()) {
+			return found->second;
+		}
+
+		return nullptr;
 	}
 
 	void Scene::removeWindow(std::string str)
 	{
+		//TODO add exist check
 		windows_.erase(windows_.find(str));
 	}
 
@@ -64,17 +71,40 @@ namespace Division
 		renderers_[name] = renderer;
 	}
 
-	void Scene::getRenderer(std::string name, Renderer* renderer)
+	Renderer* Scene::getRenderer(std::string name)
 	{
-		renderer = renderers_.find(name)->second;
+		std::map<std::string, Renderer*>::const_iterator found = renderers_.find(name);
+
+		if (found != renderers_.end()) {
+			return found->second;
+		}
+
+		return nullptr;
 	}
 
 	void Scene::removeRenderer(std::string name)
 	{
+		//TODO add exist check
 		renderers_.erase(renderers_.find(name));
 	}
 	void Scene::begin()
 	{
-		terrain_->render();
+
+		renderer_ = this->getRenderer("main");
+		renderer_->setupMatrices();
+
+		LPDIRECT3DDEVICE9 renderDevice = static_cast<LPDIRECT3DDEVICE9>(renderer_->getDevice());
+		renderDevice->Clear(0, NULL, D3DCLEAR_TARGET | D3DCLEAR_ZBUFFER, D3DCOLOR_XRGB(0, 0xff, 0xff), 1.0f, 0);
+
+		renderDevice->BeginScene();
+
+		terrain_->render(renderer_);
+
+		//loop through entities
+
+		renderDevice->EndScene();
+
+		 //Present the backbuffer contents to the display
+		renderDevice->Present(NULL, NULL, NULL, NULL);
 	}
 }

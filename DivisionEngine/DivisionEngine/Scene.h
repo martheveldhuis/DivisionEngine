@@ -19,10 +19,10 @@ namespace Division
 		~Scene();
 
 		void addWindow(std::string, Window*);
-		void getWindow(std::string, Window*);
+		Window* getWindow(std::string);
 		void removeWindow(std::string);
 		void addRenderer(std::string, Renderer*);
-		void getRenderer(std::string, Renderer*);
+		Renderer* getRenderer(std::string);
 		void removeRenderer(std::string);
 		void begin();
 	private:
