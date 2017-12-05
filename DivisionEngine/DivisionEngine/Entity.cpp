@@ -1,13 +1,13 @@
 #include "Entity.h"
-#include "Texture.h"
 
 namespace Division 
 {
-	Entity::Entity(ResourceManager *resourceManager, std::string textureFile, std::string meshFile)
+	Entity::Entity(ResourceManager *resourceManager, float x, float y, float z)
 		: resourceManager_(resourceManager)
 	{
-		addTexture(textureFile, resourceManager_->getTexture(textureFile));
-		addMesh(meshFile, resourceManager_->getMesh(meshFile));
+		position_.xPosition = x;
+		position_.yPosition = y;
+		position_.zPosition = z;
 	}
 
 
@@ -31,25 +31,16 @@ namespace Division
 
 
 
-	void Entity::render(Renderer* renderer)
+	void Entity::addTexture(std::string textureFile)
 	{
-		// TODO: loop through all textures and meshes
-		Texture* texture = dynamic_cast<Texture*>(textures_["banana.bmp"]);
-		renderer->setTexture((void*)texture->getResourceData());
+		textures_[textureFile] = resourceManager_->getTexture(textureFile);
 	}
 
 
 
-	void Entity::addTexture(std::string textureFile, Resource *texture)
+	void Entity::addMesh(std::string meshFile)
 	{
-		textures_[textureFile] = texture;
-	}
-
-
-
-	void Entity::addMesh(std::string meshFile, Resource *mesh)
-	{
-		meshes_[meshFile] = mesh;
+		meshes_[meshFile] = resourceManager_->getMesh(meshFile);
 	}
 
 
@@ -63,7 +54,7 @@ namespace Division
 
 
 
-	Resource * Entity::getMesh(std::string meshFile)
+	Resource* Entity::getMesh(std::string meshFile)
 	{
 		std::map<std::string, Resource*>::iterator it;
 		it = textures_.find(meshFile);

@@ -1,10 +1,10 @@
 #ifndef DIVISION_RESOURCEMANAGER_H
 #define DIVISION_RESOURCEMANAGER_H
 
-#include "Resource.h"
-
 #include <map>
 #include <d3dx9.h>
+
+#include "DivisionMesh.h"
 
 namespace Division
 {
@@ -13,13 +13,13 @@ namespace Division
 	public:
 		ResourceManager(LPDIRECT3DDEVICE9);
 		~ResourceManager();
-		void addNewTexture(std::string);
-		void addNewMesh(std::string);
 		Resource* getTexture(std::string);
-		Resource* getMesh(std::string);
+		DivisionMesh* getMesh(std::string);
 		void removeTexture(std::string);
 		void removeMesh(std::string);
 	private:
+		Resource* addNewTexture(std::string);
+		DivisionMesh* addNewMesh(std::string);
 		std::map<std::string, Resource*> textures_;
 		std::map<std::string, Resource*> meshes_;
 		LPDIRECT3DDEVICE9 direct3Ddevice_;

@@ -3,6 +3,8 @@
 
 #include "ResourceManager.h"
 #include "SceneManager.h"
+#include "Win32Window.h"
+#include "WindowsInputManager.h"
 
 namespace Division
 {

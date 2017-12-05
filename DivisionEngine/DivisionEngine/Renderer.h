@@ -2,6 +2,7 @@
 #define DIVISION_RENDERER_H
 
 #include <Windows.h>
+#include "Resource.h"
 
 namespace Division 
 {

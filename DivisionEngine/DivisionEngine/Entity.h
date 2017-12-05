@@ -9,22 +9,32 @@
 
 namespace Division 
 {
+	struct Position
+	{
+		float xPosition;
+		float yPosition;
+		float zPosition;
+	};
+
+
 	class Entity
 	{
 	public:
-		Entity(ResourceManager*, std::string textureFile, std::string meshFile);
-		~Entity();
-		void addTexture(std::string, Resource*);
-		void addMesh(std::string, Resource*);
-		Resource* getTexture(std::string);
-		Resource* getMesh(std::string);
-		void removeTexture(std::string);
-		void removeMesh(std::string);
-		void render(Renderer*);
-	private:
+		Entity(ResourceManager*, float, float, float);
+		virtual ~Entity();
+		virtual void addTexture(std::string);
+		virtual void addMesh(std::string);
+		virtual Resource* getTexture(std::string);
+		virtual Resource* getMesh(std::string);
+		virtual void removeTexture(std::string);
+		virtual void removeMesh(std::string);
+		virtual void render(Renderer*) = 0;
+	protected:
 		ResourceManager* resourceManager_;
 		std::map<std::string, Resource*> textures_;
 		std::map<std::string, Resource*> meshes_;
+		bool isVisible_ = true;
+		Position position_;
 	};
 }
 

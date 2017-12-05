@@ -5,6 +5,7 @@
 #include <d3dx9.h>
 #include <string>
 
+#include "D3D9Mesh.h"
 #include "ResourceLoader.h"
 
 namespace Division
@@ -14,7 +15,7 @@ namespace Division
 	public:
 		MeshLoader();
 		~MeshLoader();
-		static Resource* getResource(std::string, void*);
+		static DivisionMesh* getResource(std::string, void*);
 	};
 }
 

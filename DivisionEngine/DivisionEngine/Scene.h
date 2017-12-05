@@ -4,7 +4,8 @@
 #include <map>
 
 #include "Entity.h"
-#include "D3D9Renderer.h"
+#include "Renderer.h"
+//#include "D3D9Renderer.h"
 #include "Window.h"
 #include "ResourceManager.h"
 #include "Terrain.h"

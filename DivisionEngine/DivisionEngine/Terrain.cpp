@@ -1,5 +1,4 @@
 #include "Terrain.h"
-#include "LoggerPool.h"
 
 
 #define D3DFVF_CUSTOMVERTEX (D3DFVF_XYZ|D3DFVF_DIFFUSE)

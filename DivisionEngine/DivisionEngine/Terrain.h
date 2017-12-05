@@ -1,7 +1,7 @@
 #ifndef DIVISION_TERRAIN_H
 #define DIVISION_TERRAIN_H
 
-#include "Mesh.h"
+#include "D3D9Mesh.h"
 #include "Renderer.h"
 #include "Texture.h"
 
