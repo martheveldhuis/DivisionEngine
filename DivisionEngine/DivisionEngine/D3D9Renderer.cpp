@@ -1,5 +1,6 @@
 #include "D3D9Renderer.h"
-#include "Texture.h"
+#include "D3D9Texture.h"
+#include "D3D9Mesh.h"
 
 #define D3DFVF_CUSTOMVERTEX (D3DFVF_XYZ|D3DFVF_DIFFUSE)
 
@@ -173,15 +174,53 @@ namespace Division
 
 
 
-	void D3D9Renderer::setTexture(void* texture)
+	void D3D9Renderer::setTexture(Resource* resource)
 	{
-		LPDIRECT3DTEXTURE9 textureData = static_cast<LPDIRECT3DTEXTURE9>(texture);
-		direct3Ddevice_->SetTexture(0, textureData);
+		D3D9Texture* texture = dynamic_cast<D3D9Texture*>(resource);
+		direct3Ddevice_->SetTexture(0, texture->getTextureData());
 		direct3Ddevice_->SetTextureStageState(0, D3DTSS_COLOROP, D3DTOP_MODULATE);
 		direct3Ddevice_->SetTextureStageState(0, D3DTSS_COLORARG1, D3DTA_TEXTURE);
 		direct3Ddevice_->SetTextureStageState(0, D3DTSS_COLORARG2, D3DTA_DIFFUSE);
 		direct3Ddevice_->SetTextureStageState(0, D3DTSS_ALPHAOP, D3DTOP_DISABLE);
 		direct3Ddevice_->SetTextureStageState(0, D3DTSS_TEXTURETRANSFORMFLAGS, D3DTTFF_COUNT4 | D3DTTFF_PROJECTED);
 		direct3Ddevice_->SetTextureStageState(0, D3DTSS_TEXCOORDINDEX, D3DTSS_TCI_CAMERASPACEPOSITION);
+	}
+
+
+
+	void D3D9Renderer::setMesh(Resource* resource)
+	{
+		D3D9Mesh* mesh = dynamic_cast<D3D9Mesh*>(resource);
+		D3DMATERIAL9* meshMaterials = mesh->getMeshMaterials();
+
+		direct3Ddevice_->Clear(0, NULL, D3DCLEAR_TARGET | D3DCLEAR_ZBUFFER, D3DCOLOR_XRGB(0, 0xff, 0xff), 1.0f, 0);
+
+		HRESULT a = direct3Ddevice_->BeginScene();
+		// Begin the scene
+		if (SUCCEEDED(a))
+		{
+			// Setup the world, view, and projection matrices
+			setupMatrices();
+
+
+			for (DWORD i = 0; i < mesh->getNumberOfMaterials(); i++)
+			{
+				// Set the material and texture for this subset
+				direct3Ddevice_->SetMaterial(&meshMaterials[i]);
+				//direct3Ddevice_->SetTexture(0, g_pMeshTextures[i]);
+
+				// Draw the mesh subset
+				LPD3DXMESH meshData = mesh->getMeshData();
+				meshData->DrawSubset(i);
+			}
+
+			// End the scene
+			direct3Ddevice_->EndScene();
+		}
+
+		// Present the backbuffer contents to the display
+		direct3Ddevice_->Present(NULL, NULL, NULL, NULL);
+
+
 	}
 }

@@ -1,7 +1,4 @@
 #include "TextureLoader.h"
-#include "Win32Window.h"
-#include "D3D9Renderer.h"
-#include "Texture.h"
 
 namespace Division
 {
@@ -10,12 +7,16 @@ namespace Division
 	}
 
 
+
 	TextureLoader::~TextureLoader()
 	{
 	}
 
-	Resource * TextureLoader::getResource(std::string textureFile, void* d3dDevice)
+
+
+	Resource* TextureLoader::getResource(std::string textureFile, void* d3dDevice)
 	{
+		// TODO: remove this line
 		LPDIRECT3DDEVICE9 g_pd3dDevice = static_cast<LPDIRECT3DDEVICE9>(d3dDevice);
 
 		LPDIRECT3DTEXTURE9 textureData = NULL;
@@ -35,9 +36,6 @@ namespace Division
 			}
 		}
 
-
-		Resource* texture = new Texture(textureData);
-
-		return texture;
+		return new D3D9Texture(textureData);
 	}
 }

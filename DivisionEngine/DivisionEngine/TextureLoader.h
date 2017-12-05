@@ -6,6 +6,7 @@
 #include <string>
 
 #include "ResourceLoader.h"
+#include "D3D9Texture.h"
 
 namespace Division
 {

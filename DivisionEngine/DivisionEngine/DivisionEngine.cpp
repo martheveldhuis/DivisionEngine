@@ -1,6 +1,7 @@
 #include "DivisionEngine.h"
 #include "Win32Window.h"
 #include "WindowsInputManager.h"
+#include "D3D9GameObject.h"
 
 namespace Division 
 {
@@ -25,9 +26,9 @@ namespace Division
 		LPDIRECT3DDEVICE9 dev = renderer->getDevice();
 		Division::ResourceManager* resourceManager = new Division::ResourceManager(dev);
 
-		Division::Entity* entity = new Division::Entity(resourceManager, "banana.bmp", "tiger.x");
-		entity->render(renderer);
-
+		Division::Entity* entity = new Division::D3D9GameObject(resourceManager, 0,0,0);
+		entity->addMesh("tiger.x");
+		
 		Division::Scene* scene;
 		scene = sceneManager_->createScene("Test Scene", renderer);
 		scene->addWindow("Window", win);
@@ -57,9 +58,9 @@ namespace Division
 			}
 
 		}
-		delete win;
+		/*delete win;
 		delete renderer;
 		delete resourceManager;
-		delete entity;
+		delete entity;*/
 	}
 }

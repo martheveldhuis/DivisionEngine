@@ -1,6 +1,7 @@
 #include "ResourceManager.h"
 #include "TextureLoader.h"
 #include "MeshLoader.h"
+#include "DivisionMesh.h"
 
 namespace Division 
 {
@@ -30,18 +31,21 @@ namespace Division
 
 
 
-	void ResourceManager::addNewTexture(std::string textureFile)
+
+	Resource* ResourceManager::addNewTexture(std::string textureFile)
 	{
 		Resource* texture = TextureLoader::getResource(textureFile, direct3Ddevice_);
 		textures_[textureFile] = texture;
+		return texture;
 	}
 
 
 
-	void ResourceManager::addNewMesh(std::string meshFile)
+	DivisionMesh* ResourceManager::addNewMesh(std::string meshFile)
 	{
-		Resource* mesh = MeshLoader::getResource(meshFile, direct3Ddevice_);
+		DivisionMesh* mesh = MeshLoader::getResource(meshFile, direct3Ddevice_);
 		meshes_[meshFile] = mesh;
+		return mesh;
 	}
 
 
@@ -54,35 +58,41 @@ namespace Division
 		if (it != textures_.end())
 			return it->second;
 		else {
-			addNewTexture(textureFile);
-			it = textures_.find(textureFile);
-
-			if (it != textures_.end())
-				return it->second;
+			return addNewTexture(textureFile);
 		}
 		
-		return NULL;
+		return nullptr;
 	}
 
 
 
-	Resource * ResourceManager::getMesh(std::string meshFile)
+	DivisionMesh* ResourceManager::getMesh(std::string meshFile)
 	{
 		std::map<std::string, Resource*>::iterator it;
 		it = meshes_.find(meshFile);
 
-		if (it != meshes_.end())
-			return it->second;
-		else {
-			addNewMesh(meshFile);
+		DivisionMesh* mesh;
+		std::map<std::string, Resource*> textures;
 
-			it = meshes_.find(meshFile);
-
-			if (it != meshes_.end())
-				return it->second;
+		if (it != meshes_.end()) {
+			 mesh = dynamic_cast<DivisionMesh*>(it->second);
 		}
+		else {
+			mesh = addNewMesh(meshFile);
+		}
+
+		std::vector<std::string> textureFileNames = mesh->getTextureFileNames();
+
+		std::vector<std::string>::const_iterator textureIterator = textureFileNames.begin();
+		while (textureIterator != textureFileNames.end()) {
+
+			textures[*textureIterator] = getTexture(*textureIterator);
+			++textureIterator;
+		}
+
+		mesh->setTextures(textures);
 		
-		return NULL;
+		return mesh;
 	}
 
 

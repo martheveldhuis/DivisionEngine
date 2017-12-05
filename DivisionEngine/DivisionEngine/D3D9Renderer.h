@@ -27,7 +27,8 @@ namespace Division
 		void setVertexBuffer(struct CUSTOMVERTEX *vertices, int verts);
 		void setIndexBuffer(void *vertices, int indexes);
 		LPDIRECT3DDEVICE9 getDevice() { return direct3Ddevice_; }
-		virtual void setTexture(void*);
+		virtual void setTexture(Resource*);
+		virtual void setMesh(Resource*);
 		LPDIRECT3DDEVICE9       direct3Ddevice_ = NULL; // Device to render with
 	private:
 		LPDIRECT3D9             direct3D_ = NULL; // To create 3D device, needs release

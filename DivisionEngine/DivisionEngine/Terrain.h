@@ -1,10 +1,10 @@
 #ifndef DIVISION_TERRAIN_H
 #define DIVISION_TERRAIN_H
 
-#include "Mesh.h"
+#include "D3D9Mesh.h"
 #include "Renderer.h"
 #include "D3D9Renderer.h"
-#include "Texture.h"
+#include "D3D9Texture.h"
 
 namespace Division
 {
@@ -16,7 +16,7 @@ namespace Division
 		void render();
 		int GenerateIndices(int** ppIndices, int verticesAlongWidth, int verticesAlongLength);
 	private:
-		Texture* texture_ = NULL; // texture
+		D3D9Texture* texture_ = NULL; // texture
 		Renderer* renderer_;
 		CUSTOMVERTEX* vertices_;
 		int vertexCount_ = 0;
