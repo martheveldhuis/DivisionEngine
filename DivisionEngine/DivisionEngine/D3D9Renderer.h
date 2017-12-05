@@ -2,6 +2,7 @@
 #define DIVISION_D3D9RENDERER_H
 
 #include "Renderer.h"
+#include <Windows.h>
 #include <d3d9.h>
 #include <mmsystem.h>
 #include <d3dx9.h>
