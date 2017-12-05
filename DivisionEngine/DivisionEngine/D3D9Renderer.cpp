@@ -16,40 +16,12 @@ namespace Division
 	{
 	}
 
-	void D3D9Renderer::render(int vertices, int indices)
-	{
-		// Clear the backbuffer to a black color
-		direct3Ddevice_->Clear(0, NULL, D3DCLEAR_TARGET | D3DCLEAR_ZBUFFER, D3DCOLOR_XRGB(0, 0xff, 0xff), 1.0f, 0);
-
-		HRESULT a = direct3Ddevice_->BeginScene();
-		// Begin the scene
-		if (SUCCEEDED(a))
-		{
-			// Setup the world, view, and projection matrices
-			setupMatrices();
-
-			// Render the vertex buffer contents
-			direct3Ddevice_->SetStreamSource(0, vertexBuffer_, 0, sizeof(CUSTOMVERTEX));
-			direct3Ddevice_->SetFVF(D3DFVF_CUSTOMVERTEX);
-			direct3Ddevice_->SetIndices(indexBuffer_);
-			direct3Ddevice_->DrawIndexedPrimitive(D3DPT_TRIANGLESTRIP, 0, 0, vertices, 0, indices - 2);
-			//direct3Ddevice_->DrawPrimitive(D3DPT_TRIANGLESTRIP, 0, 9997);
-
-			// End the scene
-			direct3Ddevice_->EndScene();
-		}
-
-		// Present the backbuffer contents to the display
-		direct3Ddevice_->Present(NULL, NULL, NULL, NULL);
-	}
-
-
 	void D3D9Renderer::setup()
 	{
-		initGraphics();
+		initializeGraphics();
 	}
 
-	void D3D9Renderer::initGraphics()
+	void D3D9Renderer::initializeGraphics()
 	{
 		//Create the Direct3D Object
 		direct3D_ = NULL;
@@ -86,7 +58,7 @@ namespace Division
 
 		// Turn off D3D lighting, since we are providing our own vertex colors
 		direct3Ddevice_->SetRenderState(D3DRS_LIGHTING, FALSE);
-		//direct3Ddevice_->SetRenderState(D3DRS_FILLMODE, D3DFILL_WIREFRAME);
+		direct3Ddevice_->SetRenderState(D3DRS_FILLMODE, D3DFILL_WIREFRAME);
 		//direct3Ddevice_->SetRenderState(D3DRS_FILLMODE, D3DFILL_POINT);
 	}
 
@@ -110,7 +82,7 @@ namespace Division
 		// period before conversion to a radian angle.
 		UINT iTime = GetTickCount64() % 1000; // replace with mouse move
 		FLOAT fAngle = iTime * (2.0f * D3DX_PI) / 1000.0f;
-		D3DXMatrixRotationY(&matWorld, fAngle);
+		D3DXMatrixRotationY(&matWorld, 0);
 		direct3Ddevice_->SetTransform(D3DTS_WORLD, &matWorld);
 
 		// Set up our view matrix. A view matrix can be defined given an eye point,
@@ -151,6 +123,7 @@ namespace Division
 			;
 		memcpy(pVertices, vertexBuffer, sizeof(CUSTOMVERTEX) * verts);
 		vertexBuffer_->Unlock();
+		direct3Ddevice_->SetStreamSource(0, vertexBuffer_, 0, sizeof(CUSTOMVERTEX));
 	}
 
 	void D3D9Renderer::setIndexBuffer(void* indexBuffer, int indexes)
@@ -170,6 +143,7 @@ namespace Division
 			;
 		memcpy(pData, indexBuffer, sizeof(DWORD) * indexes);
 		vertexBuffer_->Unlock();
+		direct3Ddevice_->SetIndices(indexBuffer_);
 	}
 
 

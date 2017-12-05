@@ -1,14 +1,16 @@
 #include "Terrain.h"
 
+
+#define D3DFVF_CUSTOMVERTEX (D3DFVF_XYZ|D3DFVF_DIFFUSE)
+
 namespace Division 
 {
-	Terrain::Terrain(CUSTOMVERTEX vertices[],
-		Renderer* renderer, int vertexCount) :
-		vertices_(vertices), renderer_(renderer), vertexCount_(vertexCount)
+	Terrain::Terrain(CUSTOMVERTEX vertices[], int vertexCount) :
+		vertices_(vertices), vertexCount_(vertexCount)
 	{
 		int vertWidth = sqrt(vertexCount);
 
-		indexCount_ = GenerateIndices(&indices_, vertWidth, vertWidth);
+		indexCount_ = generateIndices(&indices_, vertWidth, vertWidth);
 	}
 
 
@@ -16,14 +18,20 @@ namespace Division
 	{
 	}
 
-	void Terrain::render()
+	void Terrain::render(Renderer* renderer)
 	{
-		renderer_->setVertexBuffer(vertices_, vertexCount_);
-		renderer_->setIndexBuffer(indices_, indexCount_);
-		renderer_->render(vertexCount_, indexCount_);
+		renderer->setVertexBuffer(vertices_, vertexCount_);
+		renderer->setIndexBuffer(indices_, indexCount_);
+
+		LPDIRECT3DDEVICE9 renderDevice = static_cast<LPDIRECT3DDEVICE9>(renderer->getDevice());
+
+		// Render the vertex buffer contents
+		renderDevice->SetFVF(D3DFVF_CUSTOMVERTEX);
+		renderDevice->DrawIndexedPrimitive(D3DPT_TRIANGLESTRIP, 0, 0, vertexCount_, 0, indexCount_ - 2);
+
 	}
 
-	int Terrain::GenerateIndices(int** indicesBuffer, int verticesWidth, int verticesLength)
+	int Terrain::generateIndices(int** indicesBuffer, int verticesWidth, int verticesLength)
 	{
 		int numIndices = (verticesWidth * 4) * (verticesLength - 1);
 
