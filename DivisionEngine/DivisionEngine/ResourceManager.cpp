@@ -1,6 +1,4 @@
 #include "ResourceManager.h"
-#include "TextureLoader.h"
-#include "MeshLoader.h"
 
 namespace Division 
 {

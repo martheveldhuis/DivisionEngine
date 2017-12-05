@@ -2,6 +2,8 @@
 #define DIVISION_RESOURCEMANAGER_H
 
 #include "Resource.h"
+#include "TextureLoader.h"
+#include "MeshLoader.h"
 
 #include <map>
 #include <d3dx9.h>

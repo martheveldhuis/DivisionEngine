@@ -1,7 +1,5 @@
 #include "TextureLoader.h"
-#include "Win32Window.h"
-#include "D3D9Renderer.h"
-#include "Texture.h"
+
 
 namespace Division
 {

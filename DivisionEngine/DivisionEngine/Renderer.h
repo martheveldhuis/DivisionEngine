@@ -1,14 +1,14 @@
 #ifndef DIVISION_RENDERER_H
 #define DIVISION_RENDERER_H
 
-#include <Windows.h>
+//#include <Windows.h>
 
 namespace Division 
 {
 	struct CUSTOMVERTEX
 	{
 		float x, y, z;      // 3D vertex position
-		DWORD color;        // The vertex color
+		unsigned int color;        // The vertex color
 	};
 
 	/// <summary>Abstract Renderer containing all functions every renderer should have.</summary>

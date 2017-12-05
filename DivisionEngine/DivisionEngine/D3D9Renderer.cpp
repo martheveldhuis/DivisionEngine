@@ -1,5 +1,5 @@
 #include "D3D9Renderer.h"
-#include "Texture.h"
+
 
 #define D3DFVF_CUSTOMVERTEX (D3DFVF_XYZ|D3DFVF_DIFFUSE)
 

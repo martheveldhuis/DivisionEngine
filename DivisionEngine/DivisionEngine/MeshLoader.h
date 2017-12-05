@@ -5,6 +5,10 @@
 #include <d3dx9.h>
 #include <string>
 
+#include "Win32Window.h"
+#include "D3D9Renderer.h"
+#include "Mesh.h"
+
 #include "ResourceLoader.h"
 
 namespace Division

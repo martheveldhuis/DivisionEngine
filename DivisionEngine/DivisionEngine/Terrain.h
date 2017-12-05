@@ -5,6 +5,7 @@
 #include "Renderer.h"
 #include "D3D9Renderer.h"
 #include "Texture.h"
+#include "LoggerPool.h"
 
 namespace Division
 {

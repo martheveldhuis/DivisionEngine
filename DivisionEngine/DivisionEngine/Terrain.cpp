@@ -1,5 +1,4 @@
 #include "Terrain.h"
-#include "LoggerPool.h"
 
 namespace Division 
 {
