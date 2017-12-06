@@ -132,7 +132,7 @@
     <ClCompile Include="D3D9Renderer.cpp" />
     <ClCompile Include="DivisionEngine.cpp" />
     <ClCompile Include="Entity.cpp" />
-    <ClCompile Include="D3D9GameObject.cpp" />
+    <ClCompile Include="Model.cpp" />
     <ClCompile Include="Keyboard.cpp" />
     <ClCompile Include="Logger.cpp" />
     <ClCompile Include="LoggerPool.cpp" />
@@ -151,9 +151,9 @@
   <ItemGroup>
     <ClInclude Include="D3D9Renderer.h" />
     <ClInclude Include="DivisionEngine.h" />
-    <ClInclude Include="DivisionMesh.h" />
+    <ClInclude Include="Mesh.h" />
     <ClInclude Include="Entity.h" />
-    <ClInclude Include="D3D9GameObject.h" />
+    <ClInclude Include="Model.h" />
     <ClInclude Include="InputDevice.h" />
     <ClInclude Include="Keyboard.h" />
     <ClInclude Include="Logger.h" />

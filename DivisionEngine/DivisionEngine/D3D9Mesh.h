@@ -8,21 +8,21 @@
 
 #include "Resource.h"
 #include "D3D9Texture.h"
-#include "DivisionMesh.h"
+#include "Mesh.h"
+#include "Renderer.h"
 
 namespace Division 
 {
-	class D3D9Mesh : public DivisionMesh
+	class D3D9Mesh : public Mesh
 	{
 	public:
 		D3D9Mesh(LPD3DXMESH, D3DMATERIAL9*, DWORD, std::vector<std::string>);
 		~D3D9Mesh();
-		LPD3DXMESH getMeshData();
-		D3DMATERIAL9* getMeshMaterials();
-		DWORD getNumberOfMaterials();
 		std::vector<std::string> getTextureFileNames();
 		void setTextures(std::map<std::string, Resource*>);
 		std::map<std::string, Resource*> getTextures();
+		int getNumberOfMaterials();
+		void draw(Renderer*);
 	private:
 		LPD3DXMESH meshData_ = NULL; 
 		D3DMATERIAL9* meshMaterials_ = NULL;

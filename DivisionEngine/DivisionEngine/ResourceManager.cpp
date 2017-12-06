@@ -1,7 +1,7 @@
 #include "ResourceManager.h"
 #include "TextureLoader.h"
 #include "MeshLoader.h"
-#include "DivisionMesh.h"
+#include "Mesh.h"
 
 namespace Division 
 {
@@ -41,9 +41,9 @@ namespace Division
 
 
 
-	DivisionMesh* ResourceManager::addNewMesh(std::string meshFile)
+	Mesh* ResourceManager::addNewMesh(std::string meshFile)
 	{
-		DivisionMesh* mesh = MeshLoader::getResource(meshFile, direct3Ddevice_);
+		Mesh* mesh = MeshLoader::getResource(meshFile, direct3Ddevice_);
 		meshes_[meshFile] = mesh;
 		return mesh;
 	}
@@ -66,16 +66,16 @@ namespace Division
 
 
 
-	DivisionMesh* ResourceManager::getMesh(std::string meshFile)
+	Mesh* ResourceManager::getMesh(std::string meshFile)
 	{
 		std::map<std::string, Resource*>::iterator it;
 		it = meshes_.find(meshFile);
 
-		DivisionMesh* mesh;
+		Mesh* mesh;
 		std::map<std::string, Resource*> textures;
 
 		if (it != meshes_.end()) {
-			 mesh = dynamic_cast<DivisionMesh*>(it->second);
+			 mesh = dynamic_cast<Mesh*>(it->second);
 		}
 		else {
 			mesh = addNewMesh(meshFile);
@@ -84,12 +84,21 @@ namespace Division
 		std::vector<std::string> textureFileNames = mesh->getTextureFileNames();
 
 		std::vector<std::string>::const_iterator textureIterator = textureFileNames.begin();
-		while (textureIterator != textureFileNames.end()) {
+		if (textureIterator == textureFileNames.end()) {
+			for (int i = 0; i < mesh->getNumberOfMaterials(); ++i) {
 
-			textures[*textureIterator] = getTexture(*textureIterator);
-			
-			++textureIterator;
+			}
 		}
+		else {
+			while (textureIterator != textureFileNames.end()) {
+				textures[*textureIterator] = getTexture(*textureIterator);
+				++textureIterator;
+			}
+		}
+		
+		
+		
+
 
 		mesh->setTextures(textures);
 		

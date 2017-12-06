@@ -21,24 +21,9 @@ namespace Division
 	}
 
 
-
-	LPD3DXMESH D3D9Mesh::getMeshData()
+	int D3D9Mesh::getNumberOfMaterials()
 	{
-		return meshData_;
-	}
-
-
-
-	D3DMATERIAL9* D3D9Mesh::getMeshMaterials()
-	{
-		return meshMaterials_;
-	}
-
-
-
-	DWORD D3D9Mesh::getNumberOfMaterials()
-	{
-		return numberOfMaterials_;
+		return static_cast<int>(numberOfMaterials_);
 	}
 
 
@@ -58,8 +43,29 @@ namespace Division
 			++textureIterator;
 		}
 	}
+
+
+
 	std::map<std::string, Resource*> D3D9Mesh::getTextures()
 	{
 		return textures_;
+	}
+
+
+
+	void D3D9Mesh::draw(Renderer *renderer)
+	{
+		LPDIRECT3DDEVICE9 renderDevice = static_cast<LPDIRECT3DDEVICE9>(renderer->getDevice());
+		
+		std::map<std::string, Resource*>::const_iterator textureIterator = textures_.begin();
+		for (DWORD i = 0; i < numberOfMaterials_; i++) {
+			renderDevice->SetMaterial(&meshMaterials_[i]);
+
+			if (textureIterator != textures_.end())
+				renderer->setTexture(textureIterator->second);
+
+			meshData_->DrawSubset(i);
+			++textureIterator;
+		}
 	}
 }

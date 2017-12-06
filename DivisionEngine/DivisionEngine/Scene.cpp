@@ -1,5 +1,5 @@
 #include "Scene.h"
-#include "D3D9GameObject.h"
+#include "Model.h"
 namespace Division
 {
 	Scene::Scene()

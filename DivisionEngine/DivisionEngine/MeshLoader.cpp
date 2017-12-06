@@ -14,7 +14,9 @@ namespace Division
 	{
 	}
 
-	DivisionMesh* MeshLoader::getResource(std::string meshFile, void* d3dDevice)
+
+
+	Mesh* MeshLoader::getResource(std::string meshFile, void* d3dDevice)
 	{
 		// TODO: move this line somewhere else?
 		LPDIRECT3DDEVICE9 g_pd3dDevice = static_cast<LPDIRECT3DDEVICE9>(d3dDevice);
