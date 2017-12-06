@@ -10,13 +10,13 @@ namespace Division
 	class Terrain
 	{
 	public:
-		Terrain(CUSTOMVERTEX vertices[], int vertexCount);
+		Terrain(DivisionVertex vertices[], int vertexCount);
 		~Terrain();
 		void render(Renderer* renderer);
 		int generateIndices(int** ppIndices, int verticesAlongWidth, int verticesAlongLength);
 	private:
 		D3D9Texture* texture_ = NULL; // texture
-		CUSTOMVERTEX* vertices_;
+		DivisionVertex* vertices_;
 		int vertexCount_ = 0;
 		int* indices_ = NULL;
 		DWORD indexCount_ = 0;

@@ -1,13 +1,10 @@
 #include "D3D9Renderer.h"
-#include "D3D9Texture.h"
-#include "D3D9Mesh.h"
 
 #define D3DFVF_CUSTOMVERTEX (D3DFVF_XYZ|D3DFVF_DIFFUSE)
 
 namespace Division 
 {
-	D3D9Renderer::D3D9Renderer(LPDIRECT3D9 direct3D, LPDIRECT3DDEVICE9 direct3Ddevice, HWND windowHandle) :
-		direct3D_(direct3D), direct3Ddevice_(direct3Ddevice), windowHandle_(windowHandle)
+	D3D9Renderer::D3D9Renderer()
 	{
 		setup();
 	}
@@ -24,7 +21,9 @@ namespace Division
 	void D3D9Renderer::initializeGraphics()
 	{
 		//Create the Direct3D Object
-		direct3D_ = NULL;
+		if (direct3D_ && direct3Ddevice_)
+			return;
+
 		if (NULL == (direct3D_ = Direct3DCreate9(D3D_SDK_VERSION)))
 			; //log failure
 
@@ -42,7 +41,6 @@ namespace Division
 		//The final step is to use the IDirect3D9::CreateDevice method to create the Direct3D device, as illustrated in the
 		//following code example.
 
-		direct3Ddevice_ = NULL;
 		if (FAILED(direct3D_->CreateDevice(D3DADAPTER_DEFAULT, D3DDEVTYPE_HAL, windowHandle_,
 			D3DCREATE_SOFTWARE_VERTEXPROCESSING,
 			&d3dpp, &direct3Ddevice_)))
@@ -95,10 +93,10 @@ namespace Division
 		direct3Ddevice_->SetTransform(D3DTS_PROJECTION, &matProj);
 	}
 
-	void D3D9Renderer::setVertexBuffer(CUSTOMVERTEX * vertexBuffer, int verts)
+	void D3D9Renderer::setVertexBuffer(DivisionVertex * vertexBuffer, int verts)
 	{
 		// Create the vertex buffer.
-		if (!vertexBuffer_ && FAILED(direct3Ddevice_->CreateVertexBuffer(verts * sizeof(CUSTOMVERTEX),
+		if (!vertexBuffer_ && FAILED(direct3Ddevice_->CreateVertexBuffer(verts * sizeof(DivisionVertex),
 			0, D3DFVF_CUSTOMVERTEX,
 			D3DPOOL_DEFAULT, &vertexBuffer_, NULL)))
 		{
@@ -107,11 +105,11 @@ namespace Division
 
 		// Fill the vertex buffer.
 		VOID* pVertices;
-		if (FAILED(vertexBuffer_->Lock(0, sizeof(CUSTOMVERTEX) * verts, (void**)&pVertices, 0)))
+		if (FAILED(vertexBuffer_->Lock(0, sizeof(DivisionVertex) * verts, (void**)&pVertices, 0)))
 			;
-		memcpy(pVertices, vertexBuffer, sizeof(CUSTOMVERTEX) * verts);
+		memcpy(pVertices, vertexBuffer, sizeof(DivisionVertex) * verts);
 		vertexBuffer_->Unlock();
-		direct3Ddevice_->SetStreamSource(0, vertexBuffer_, 0, sizeof(CUSTOMVERTEX));
+		direct3Ddevice_->SetStreamSource(0, vertexBuffer_, 0, sizeof(DivisionVertex));
 	}
 
 	void D3D9Renderer::setIndexBuffer(void* indexBuffer, int indexes)

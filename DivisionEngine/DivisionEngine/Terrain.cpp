@@ -5,7 +5,7 @@
 
 namespace Division 
 {
-	Terrain::Terrain(CUSTOMVERTEX vertices[], int vertexCount) :
+	Terrain::Terrain(DivisionVertex vertices[], int vertexCount) :
 		vertices_(vertices), vertexCount_(vertexCount)
 	{
 		int vertWidth = sqrt(vertexCount);

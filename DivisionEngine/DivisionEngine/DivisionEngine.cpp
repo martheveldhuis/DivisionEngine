@@ -1,6 +1,7 @@
 #include "DivisionEngine.h"
 #include "Win32Window.h"
 #include "WindowsInputManager.h"
+#include "D3D9Renderer.h"
 #include "D3D9GameObject.h"
 
 namespace Division 
@@ -26,7 +27,7 @@ namespace Division
 		LPDIRECT3DDEVICE9 dev = static_cast<LPDIRECT3DDEVICE9>(renderer->getDevice());
 		Division::ResourceManager* resourceManager = new Division::ResourceManager(dev);
 
-		Division::Entity* entity = new Division::D3D9GameObject(resourceManager, 0,0,0);
+		Division::Entity* entity = new Division::D3D9GameObject(resourceManager, 0, 0, 0);
 		entity->addMesh("tiger.x");
 
 		Division::Scene* scene;
