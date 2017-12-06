@@ -15,7 +15,7 @@ namespace Division
 	public:
 		MeshLoader();
 		~MeshLoader();
-		static DivisionMesh* getResource(std::string, void*);
+		static Mesh* getResource(std::string, void*);
 	};
 }
 

@@ -15,11 +15,15 @@ namespace Division
 		logFile_ << __TIME__ << "[INFO] Logger " << name << " created" << std::endl;
 	}
 
+
+
 	Logger::~Logger()
 	{
-		logFile_ << __TIME__ << "[INFO] Logger destroyed";
+		logFile_ << __TIME__ << "[INFO] Logger destroyed" << std::endl;
 		logFile_.close();
 	}
+
+
 
 	void Logger::error(const std::string& msg, const char *file, const int& line)
 	{
@@ -27,16 +31,19 @@ namespace Division
 		logFile_ << __TIME__ << "[ERROR] In file " << fname << ext << " at line " << line << ": " << msg << std::endl;
 	}
 
+
+
 	void Logger::warning(const std::string& msg, const char *file, const int& line)
 	{
 		_splitpath_s(file, drive, dir, fname, ext);
 		logFile_ << __TIME__ << "[WARNING] In file " << fname << ext << " at line " << line << ": " << msg << std::endl;
 	}
 
+
+
 	void Logger::info(const std::string& msg, const char *file, const int& line)
 	{
 		_splitpath_s(file, drive, dir, fname, ext);
 		logFile_ << __TIME__ << "[INFO] In file " << fname << ext << " at line " << line << ": " << msg << std::endl;
 	}
-	
 }

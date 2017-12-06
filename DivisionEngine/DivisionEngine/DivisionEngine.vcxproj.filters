@@ -66,6 +66,7 @@
     <ClCompile Include="SceneLoader.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="D3D9Mesh.cpp">
     <ClCompile Include="D3D9Repository.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -73,6 +74,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="D3D9MeshLoader.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Model.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -131,16 +135,16 @@
     <ClInclude Include="ResourceLoader.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="D3D9GameObject.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="D3D9Mesh.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="D3D9Texture.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="DivisionMesh.h">
+    <ClInclude Include="Model.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Mesh.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="SceneLoader.h">

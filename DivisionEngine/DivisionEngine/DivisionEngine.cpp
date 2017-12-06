@@ -1,8 +1,10 @@
 #include "DivisionEngine.h"
 #include "Win32Window.h"
 #include "WindowsInputManager.h"
+#include "Model.h"
 #include "D3D9Renderer.h"
-#include "D3D9GameObject.h"
+
+#include <map>
 
 namespace Division 
 {
@@ -27,8 +29,11 @@ namespace Division
 		LPDIRECT3DDEVICE9 dev = static_cast<LPDIRECT3DDEVICE9>(renderer->getDevice());
 		Division::ResourceManager* resourceManager = new Division::ResourceManager(dev);
 
-		Division::Entity* entity = new Division::D3D9GameObject(resourceManager, 0, 0, 0);
+		Division::Entity* entity = new Division::Model(resourceManager, 0,0,0);
 		entity->addMesh("tiger.x");
+		std::map<std::string, Resource*> texture;
+		texture["banana.bmp"] = entity->addTexture("banana.bmp");
+		entity->getMesh("tiger.x")->setTextures(texture);
 
 		Division::Scene* scene;
 		scene = sceneManager_->createScene("Test Scene", renderer);

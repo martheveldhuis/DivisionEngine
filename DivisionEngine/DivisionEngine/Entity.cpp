@@ -14,33 +14,39 @@ namespace Division
 
 	Entity::~Entity()
 	{
-		std::map<std::string, Resource*>::const_iterator toBeDeleted;
+		std::map<std::string, Resource*>::const_iterator textureToBeDeleted;
 
-		toBeDeleted = textures_.begin();
-		while (toBeDeleted != textures_.end()) {
-			delete toBeDeleted->second;
+		textureToBeDeleted = textures_.begin();
+		while (textureToBeDeleted != textures_.end()) {
+			delete textureToBeDeleted->second;
 		}
 		textures_.clear();
 
-		toBeDeleted = meshes_.begin();
-		while (toBeDeleted != meshes_.end()) {
-			delete toBeDeleted->second;
+		std::map<std::string, Mesh*>::const_iterator meshToBeDeleted;
+
+		meshToBeDeleted = meshes_.begin();
+		while (meshToBeDeleted != meshes_.end()) {
+			delete meshToBeDeleted->second;
 		}
 		meshes_.clear();
 	}
 
 
 
-	void Entity::addTexture(std::string textureFile)
+	Resource* Entity::addTexture(std::string textureFile)
 	{
-		textures_[textureFile] = resourceManager_->getTexture(textureFile);
+		Resource* texture = resourceManager_->getTexture(textureFile);
+		textures_[textureFile] = texture;
+		return texture;
 	}
 
 
 
-	void Entity::addMesh(std::string meshFile)
+	Mesh* Entity::addMesh(std::string meshFile)
 	{
-		meshes_[meshFile] = resourceManager_->getMesh(meshFile);
+		Mesh* mesh = resourceManager_->getMesh(meshFile);
+		meshes_[meshFile] = mesh;
+		return mesh;
 	}
 
 
@@ -49,15 +55,30 @@ namespace Division
 	{
 		std::map<std::string, Resource*>::iterator it;
 		it = textures_.find(textureFile);
+
+		if (it != textures_.end())
+			return it->second;
+		else {
+			return addTexture(textureFile);
+		}
+
 		return it->second;
 	}
 
 
 
-	Resource* Entity::getMesh(std::string meshFile)
+	Mesh* Entity::getMesh(std::string meshFile)
 	{
-		std::map<std::string, Resource*>::iterator it;
-		it = textures_.find(meshFile);
+		std::map<std::string, Mesh*>::iterator it;
+		it = meshes_.find(meshFile);
+		return it->second;
+
+		if (it != meshes_.end())
+			return it->second;
+		else {
+			return addMesh(meshFile);
+		}
+
 		return it->second;
 	}
 
@@ -76,10 +97,21 @@ namespace Division
 
 	void Entity::removeMesh(std::string meshFile)
 	{
-		std::map<std::string, Resource*>::iterator it;
+		std::map<std::string, Mesh*>::iterator it;
 		it = meshes_.find(meshFile);
-		Resource* resource = it->second;
+		Mesh* resource = it->second;
 		meshes_.erase(it);
 		delete resource;
+	}
+
+
+
+	void Entity::render(Renderer* renderer)
+	{
+		std::map<std::string, Mesh*>::const_iterator meshIterator = meshes_.begin();
+		while (meshIterator != meshes_.end()) {
+			meshIterator->second->draw(renderer);
+			++meshIterator;
+		}
 	}
 }

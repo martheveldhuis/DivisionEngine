@@ -1,5 +1,6 @@
 #ifndef DIVISION_LOGGER_H
 #define DIVISION_LOGGER_H
+
 #define logError(msg) error(msg, __FILE__, __LINE__)
 #define logWarning(msg) warning(msg, __FILE__, __LINE__)
 #define logInfo(msg) info(msg, __FILE__, __LINE__)
