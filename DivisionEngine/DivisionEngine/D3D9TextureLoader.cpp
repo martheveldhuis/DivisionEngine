@@ -1,4 +1,4 @@
-#include "TextureLoader.h"
+#include "D3D9TextureLoader.h"
 
 namespace Division
 {

@@ -35,9 +35,18 @@ namespace Division
 		return createdScene;
 	}
 
-	void SceneManager::getScene(std::string str, Scene* scene)
+	Scene * SceneManager::loadScene(std::string sceneFile)
 	{
-		scene = scenes_.find(str)->second;
+		SceneLoader* loader = new SceneLoader(this, new D3D9Repository(), resourceManager_);
+		loader->loadScene(sceneFile);
+
+		return getScene(sceneFile);
+	}
+
+	Scene* SceneManager::getScene(std::string str)
+	{
+		Scene* scene = scenes_.find(str)->second;
+		return scene;
 	}
 
 	void SceneManager::removeScene(std::string str)

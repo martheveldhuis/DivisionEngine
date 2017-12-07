@@ -4,19 +4,20 @@
 #include "D3D9Mesh.h"
 #include "Renderer.h"
 #include "D3D9Texture.h"
+#include "Entity.h"
 
 namespace Division
 {
-	class Terrain
+	class Terrain : public Entity
 	{
 	public:
-		Terrain(CUSTOMVERTEX vertices[], int vertexCount);
+		Terrain(ResourceManager*, DivisionVertex vertices[], int, int);
 		~Terrain();
 		void render(Renderer* renderer);
 		int generateIndices(int** ppIndices, int verticesAlongWidth, int verticesAlongLength);
 	private:
 		D3D9Texture* texture_ = NULL; // texture
-		CUSTOMVERTEX* vertices_;
+		DivisionVertex* vertices_;
 		int vertexCount_ = 0;
 		int* indices_ = NULL;
 		DWORD indexCount_ = 0;
