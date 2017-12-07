@@ -1,13 +1,12 @@
 #include "ResourceManager.h"
-#include "TextureLoader.h"
-#include "MeshLoader.h"
-#include "Mesh.h"
 
 namespace Division 
 {
 	ResourceManager::ResourceManager(LPDIRECT3DDEVICE9 direct3Ddevice) 
 		: direct3Ddevice_(direct3Ddevice)
 	{
+		LoggerPool::getInstance()->getLogger("resourceManager")
+			->logInfo("Created ResourceManager");
 	}
 
 
@@ -19,14 +18,19 @@ namespace Division
 		toBeDeleted = textures_.begin();
 		while (toBeDeleted != textures_.end()) {
 			delete toBeDeleted->second;
+			++toBeDeleted;
 		}
 		textures_.clear();
 
 		toBeDeleted = meshes_.begin();
 		while (toBeDeleted != meshes_.end()) {
 			delete toBeDeleted->second;
+			++toBeDeleted;
 		}
 		meshes_.clear();
+
+		LoggerPool::getInstance()->getLogger("resourceManager")
+			->logInfo("Destroyed ResourceManager");
 	}
 
 
@@ -55,13 +59,15 @@ namespace Division
 		std::map<std::string, Resource*>::iterator it;
 		it = textures_.find(textureFile);
 
+		Resource* texture;
+
 		if (it != textures_.end())
-			return it->second;
+			texture = it->second;
 		else {
-			return addNewTexture(textureFile);
+			texture = addNewTexture(textureFile);
 		}
 		
-		return nullptr;
+		return texture;
 	}
 
 
@@ -96,10 +102,6 @@ namespace Division
 			}
 		}
 		
-		
-		
-
-
 		mesh->setTextures(textures);
 		
 		return mesh;

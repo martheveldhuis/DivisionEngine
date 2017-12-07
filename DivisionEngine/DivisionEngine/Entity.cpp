@@ -8,27 +8,20 @@ namespace Division
 		position_.xPosition = x;
 		position_.yPosition = y;
 		position_.zPosition = z;
+
+		LoggerPool::getInstance()->getLogger("Entity")
+			->logInfo("Created Entity");
 	}
 
 
 
 	Entity::~Entity()
 	{
-		std::map<std::string, Resource*>::const_iterator textureToBeDeleted;
-
-		textureToBeDeleted = textures_.begin();
-		while (textureToBeDeleted != textures_.end()) {
-			delete textureToBeDeleted->second;
-		}
 		textures_.clear();
-
-		std::map<std::string, Mesh*>::const_iterator meshToBeDeleted;
-
-		meshToBeDeleted = meshes_.begin();
-		while (meshToBeDeleted != meshes_.end()) {
-			delete meshToBeDeleted->second;
-		}
 		meshes_.clear();
+
+		LoggerPool::getInstance()->getLogger("Entity")
+			->logInfo("Destroyed Entity");
 	}
 
 

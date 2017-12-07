@@ -1,7 +1,5 @@
 #include "MeshLoader.h"
 
-#include <vector>
-
 namespace Division
 {
 	MeshLoader::MeshLoader()
@@ -38,7 +36,8 @@ namespace Division
 				&buffer, NULL, &numberOfMaterials,
 				&mesh);
 			if (FAILED(result)) {
-				// TODO: Log that this failed.
+				LoggerPool::getInstance()->getLogger("MeshLoader")
+					->logInfo("Failed to load mesh from file");
 			}
 		}
 
@@ -46,7 +45,8 @@ namespace Division
 
 		D3DMATERIAL9* meshMaterials = new D3DMATERIAL9[numberOfMaterials];
 		if (meshMaterials == NULL) {
-			// TODO: Log that this failed.
+			LoggerPool::getInstance()->getLogger("MeshLoader")
+				->logInfo("Failed to get materials");
 		}
 
 		for (DWORD i = 0; i < numberOfMaterials; i++) {

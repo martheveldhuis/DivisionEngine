@@ -4,9 +4,11 @@
 #include <d3d9.h>
 #include <d3dx9.h>
 #include <string>
+#include <vector>
 
 #include "D3D9Mesh.h"
 #include "ResourceLoader.h"
+#include "LoggerPool.h"
 
 namespace Division
 {

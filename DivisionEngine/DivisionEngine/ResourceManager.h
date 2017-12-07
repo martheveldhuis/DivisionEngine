@@ -4,7 +4,10 @@
 #include <map>
 #include <d3dx9.h>
 
+#include "TextureLoader.h"
+#include "MeshLoader.h"
 #include "Mesh.h"
+#include "LoggerPool.h"
 
 namespace Division
 {

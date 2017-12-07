@@ -64,9 +64,9 @@ namespace Division
 			}
 
 		}
-		/*delete win;
+		delete win;
 		delete renderer;
 		delete resourceManager;
-		delete entity;*/
+		delete entity;
 	}
 }

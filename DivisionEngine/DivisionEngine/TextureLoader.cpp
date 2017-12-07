@@ -32,7 +32,8 @@ namespace Division
 				prefixedTextureFile.c_str(),
 				&textureData)))
 			{
-				// TODO: Log that this failed.
+				LoggerPool::getInstance()->getLogger("TextureLoader")
+					->logError("Failed to create texture from file, " + result);
 			}
 		}
 
