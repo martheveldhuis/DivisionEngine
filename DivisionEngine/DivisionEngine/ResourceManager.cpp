@@ -5,7 +5,10 @@
 
 namespace Division 
 {
-	ResourceManager::ResourceManager(LPDIRECT3DDEVICE9 direct3Ddevice) 
+	ResourceManager::ResourceManager()
+	{
+	}
+	ResourceManager::ResourceManager(LPDIRECT3DDEVICE9 direct3Ddevice)
 		: direct3Ddevice_(direct3Ddevice)
 	{
 	}

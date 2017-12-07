@@ -12,7 +12,6 @@
 
 namespace Division
 {
-
 	class D3D9Renderer : public Renderer
 	{
 	public:
@@ -26,6 +25,7 @@ namespace Division
 		void setupMatrices();
 		void setVertexBuffer(struct CUSTOMVERTEX *vertices, int verts);
 		void setIndexBuffer(void *vertices, int indexes);
+		void setHandle(void*); //TODO Needs a implementation
 		void* getDevice() { return direct3Ddevice_; }
 		virtual void setTexture(void*);
 	private:

@@ -17,7 +17,7 @@ namespace Division
 		Win32Window(std::string, std::string);
 		~Win32Window();
 		static LRESULT WINAPI MsgProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);
-		HWND getWindowHandle();
+		void* getWindowHandle();
 	private:
 		HWND windowHandle_;
 	};

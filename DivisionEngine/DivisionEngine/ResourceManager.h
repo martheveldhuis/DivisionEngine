@@ -11,6 +11,7 @@ namespace Division
 	class ResourceManager
 	{
 	public:
+		ResourceManager();
 		ResourceManager(LPDIRECT3DDEVICE9);
 		~ResourceManager();
 		Resource* getTexture(std::string);

@@ -36,7 +36,7 @@ namespace Division
 		return DefWindowProc(hWnd, msg, wParam, lParam);
 	}
 
-	HWND Win32Window::getWindowHandle()
+	void* Win32Window::getWindowHandle()
 	{
 		return windowHandle_;
 	}

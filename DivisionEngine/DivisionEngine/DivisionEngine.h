@@ -3,8 +3,6 @@
 
 #include "ResourceManager.h"
 #include "SceneManager.h"
-#include "Win32Window.h"
-#include "WindowsInputManager.h"
 
 namespace Division
 {
@@ -14,6 +12,9 @@ namespace Division
 		DivisionEngine();
 		~DivisionEngine();
 		void run();
+		SceneManager* getSceneManager();
+		ResourceManager* getResourceManager();
+
 	private:
 		ResourceManager* resourceManager_;
 		SceneManager* sceneManager_;

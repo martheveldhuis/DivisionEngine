@@ -4,7 +4,7 @@
 #include <Windows.h>
 #include "Resource.h"
 
-namespace Division 
+namespace Division
 {
 	struct CUSTOMVERTEX
 	{
@@ -23,6 +23,7 @@ namespace Division
 		virtual void setupMatrices() = 0;
 		virtual void setVertexBuffer(CUSTOMVERTEX* vertexBuffer, int) = 0;
 		virtual void setIndexBuffer(void* indexBuffer, int indexes) = 0;
+		virtual void setHandle(void*) = 0;
 		virtual void setTexture(void*) = 0;
 		virtual void* getDevice() = 0;
 	};

@@ -15,16 +15,18 @@ namespace Division
 		std::map<std::string, Scene*> scenes_;
 		ResourceManager* resourceManager_;
 	public:
-		SceneManager();
 		SceneManager(ResourceManager*);
 		~SceneManager();
 
+		void renderScenes();
+
 		void addRenderer(std::string, Renderer*);
-		void getRenderer(std::string, Renderer*);
+		Renderer* getRenderer(std::string);
 		void removeRenderer(std::string);
 
-		Scene* createScene(std::string, Renderer*);
-		void getScene(std::string, Scene*);
+		Scene* createScene(std::string);
+		void addScene(std::string, Scene*);
+		Scene* getScene(std::string);
 		void removeScene(std::string);
 	};
 }

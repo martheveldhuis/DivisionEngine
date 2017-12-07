@@ -1,16 +1,14 @@
 #include "Entity.h"
 
-namespace Division 
+namespace Division
 {
-	Entity::Entity(ResourceManager *resourceManager, float x, float y, float z)
+	Entity::Entity(ResourceManager *resourceManager, float x = 0, float y = 0, float z = 0)
 		: resourceManager_(resourceManager)
 	{
 		position_.xPosition = x;
 		position_.yPosition = y;
 		position_.zPosition = z;
 	}
-
-
 
 	Entity::~Entity()
 	{
@@ -29,21 +27,15 @@ namespace Division
 		meshes_.clear();
 	}
 
-
-
 	void Entity::addTexture(std::string textureFile)
 	{
 		textures_[textureFile] = resourceManager_->getTexture(textureFile);
 	}
 
-
-
 	void Entity::addMesh(std::string meshFile)
 	{
 		meshes_[meshFile] = resourceManager_->getMesh(meshFile);
 	}
-
-
 
 	Resource* Entity::getTexture(std::string textureFile)
 	{
@@ -52,16 +44,12 @@ namespace Division
 		return it->second;
 	}
 
-
-
 	Resource* Entity::getMesh(std::string meshFile)
 	{
 		std::map<std::string, Resource*>::iterator it;
 		it = textures_.find(meshFile);
 		return it->second;
 	}
-
-
 
 	void Entity::removeTexture(std::string textureFile)
 	{
@@ -71,8 +59,6 @@ namespace Division
 		textures_.erase(it);
 		delete resource;
 	}
-
-
 
 	void Entity::removeMesh(std::string meshFile)
 	{

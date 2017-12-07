@@ -7,7 +7,7 @@
 #include "ResourceManager.h"
 #include "Renderer.h"
 
-namespace Division 
+namespace Division
 {
 	struct Position
 	{
@@ -15,7 +15,6 @@ namespace Division
 		float yPosition;
 		float zPosition;
 	};
-
 
 	class Entity
 	{

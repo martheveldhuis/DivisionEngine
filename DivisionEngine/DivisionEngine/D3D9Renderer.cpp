@@ -4,7 +4,7 @@
 
 #define D3DFVF_CUSTOMVERTEX (D3DFVF_XYZ|D3DFVF_DIFFUSE)
 
-namespace Division 
+namespace Division
 {
 	D3D9Renderer::D3D9Renderer(LPDIRECT3D9 direct3D, LPDIRECT3DDEVICE9 direct3Ddevice, HWND windowHandle) :
 		direct3D_(direct3D), direct3Ddevice_(direct3Ddevice), windowHandle_(windowHandle)
@@ -74,12 +74,12 @@ namespace Division
 	void D3D9Renderer::setupMatrices()
 	{
 		D3DXMATRIXA16 matWorldRotY;
-	    D3DXMATRIXA16 matWorldScale;
+		D3DXMATRIXA16 matWorldScale;
 
 		UINT iTime = GetTickCount64() % 1000; // replace with mouse move
 		FLOAT fAngle = iTime * (2.0f * D3DX_PI) / 1000.0f;
-		D3DXMatrixRotationY(&matWorldRotY, D3DX_PI/4.0f);
-		D3DXMatrixScaling(&matWorldScale, 4,4,4);
+		D3DXMatrixRotationY(&matWorldRotY, D3DX_PI / 4.0f);
+		D3DXMatrixScaling(&matWorldScale, 4, 4, 4);
 		matWorldRotY *= matWorldScale;
 		direct3Ddevice_->SetTransform(D3DTS_WORLD, &matWorldRotY);
 
@@ -134,7 +134,9 @@ namespace Division
 		direct3Ddevice_->SetIndices(indexBuffer_);
 	}
 
-
+	void D3D9Renderer::setHandle(void *)
+	{
+	}
 
 	void D3D9Renderer::setTexture(void* resource)
 	{
