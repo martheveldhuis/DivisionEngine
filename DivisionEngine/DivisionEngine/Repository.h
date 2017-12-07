@@ -5,6 +5,7 @@
 
 #include "ResourceLoader.h"
 #include "Renderer.h"
+#include "Entity.h"
 
 namespace Division
 {
@@ -15,6 +16,7 @@ namespace Division
 		virtual ResourceLoader* getTextureLoader() = 0;
 		virtual ResourceLoader* getMeshLoader() = 0;
 		virtual Renderer* getRenderer() = 0;
+		virtual Entity* parseHeightmap(std::string, ResourceManager*) = 0;
 	};
 }
 

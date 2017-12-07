@@ -9,6 +9,7 @@ namespace Division
 	Scene::Scene(ResourceManager * rm, Renderer* renderer) : resourceManager_(rm)
 	{
 		addRenderer("main", renderer);
+		renderer_ = renderer;
 	}
 
 	Scene::~Scene()
@@ -100,7 +101,7 @@ namespace Division
 			++entityIterator;
 		}
 
-		terrain_->render(renderer_);
+		//terrain_->render(renderer_);
 
 
 		renderDevice->EndScene();

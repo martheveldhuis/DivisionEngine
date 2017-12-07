@@ -4,9 +4,10 @@
 
 namespace Division 
 {
+	LPDIRECT3D9 D3D9Renderer::direct3D_;
+	LPDIRECT3DDEVICE9 D3D9Renderer::direct3Ddevice_;
 	D3D9Renderer::D3D9Renderer()
 	{
-		setup();
 	}
 
 	D3D9Renderer::~D3D9Renderer()
@@ -52,7 +53,7 @@ namespace Division
 		}
 
 		// Turn off culling, so we see the front and back of the triangle
-		//direct3Ddevice_->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE);
+		direct3Ddevice_->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE);
 
 		// Turn off D3D lighting, since we are providing our own vertex colors
 		direct3Ddevice_->SetRenderState(D3DRS_LIGHTING, FALSE);
@@ -76,20 +77,21 @@ namespace Division
 
 		UINT iTime = GetTickCount64() % 1000; // replace with mouse move
 		FLOAT fAngle = iTime * (2.0f * D3DX_PI) / 1000.0f;
-		D3DXMatrixRotationY(&matWorldRotY, D3DX_PI/4.0f);
-		D3DXMatrixScaling(&matWorldScale, 4,4,4);
-		matWorldRotY *= matWorldScale;
+		D3DXMatrixRotationY(&matWorldRotY, fAngle);
+		//D3DXMatrixScaling(&matWorldScale, .5, .5, .5);
+	//	D3DXMatrixScaling(&matWorldScale, 5,5,5);
+	//	matWorldRotY *= matWorldScale;
 		direct3Ddevice_->SetTransform(D3DTS_WORLD, &matWorldRotY);
 
-		D3DXVECTOR3 vEyePt(0.0f, 5.0f, -20.0f);
-		D3DXVECTOR3 vLookatPt(0.0f, 0.0f, 5.0f);// add position to the view.
+		D3DXVECTOR3 vEyePt(0.0f, 8.0f, -5.0f);
+		D3DXVECTOR3 vLookatPt(0.0f, 0.0f, 0.0f);// add position to the view.
 		D3DXVECTOR3 vUpVec(0.0f, 1.0f, 0.0f);
 		D3DXMATRIXA16 matView;
 		D3DXMatrixLookAtLH(&matView, &vEyePt, &vLookatPt, &vUpVec);
 		direct3Ddevice_->SetTransform(D3DTS_VIEW, &matView);
 
 		D3DXMATRIXA16 matProj;
-		D3DXMatrixPerspectiveFovLH(&matProj, D3DX_PI / 4, 1.0f, 1.0f, 100.0f);
+		D3DXMatrixPerspectiveFovLH(&matProj, D3DX_PI / 4, 1.0f, 1.0f, 300.0f);
 		direct3Ddevice_->SetTransform(D3DTS_PROJECTION, &matProj);
 	}
 
@@ -138,5 +140,9 @@ namespace Division
 	{
 		D3D9Texture* texture = static_cast<D3D9Texture*>(resource);
 		direct3Ddevice_->SetTexture(0, texture->getTextureData());
+	}
+	void D3D9Renderer::setHandle(void* handle)
+	{
+		windowHandle_ = static_cast<HWND>(handle);
 	}
 }

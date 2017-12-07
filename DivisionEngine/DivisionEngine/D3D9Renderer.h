@@ -28,7 +28,7 @@ namespace Division
 		void setTexture(void*);
 		void setHandle(void*);
 	private:
-		static LPDIRECT3D9      direct3D_; // To create 3D device, needs release
+		static LPDIRECT3D9      direct3D_ ; // To create 3D device, needs release
 		static LPDIRECT3DDEVICE9 direct3Ddevice_; // Device to render with
 		LPDIRECT3DVERTEXBUFFER9 vertexBuffer_ = NULL; // Buffer to hold vertices
 		LPDIRECT3DINDEXBUFFER9  indexBuffer_ = NULL; // Buffer to hold indices

@@ -1,6 +1,6 @@
 #include "ResourceManager.h"
-#include "TextureLoader.h"
-#include "MeshLoader.h"
+#include "D3D9TextureLoader.h"
+#include "D3D9MeshLoader.h"
 #include "Mesh.h"
 
 namespace Division 

@@ -5,19 +5,23 @@
 
 #include "ResourceLoader.h"
 #include "Renderer.h"
+#include "Terrain.h"
+#include "Repository.h"
 #include "D3D9TextureLoader.h"
 #include "D3D9MeshLoader.h"
 #include "D3D9Renderer.h"
+#include "LoggerPool.h"
 
 namespace Division
 {
-	class D3D9Repository
+	class D3D9Repository : public Repository
 	{
 	public:
 		D3D9Repository();
 		~D3D9Repository();
 		ResourceLoader* getTextureLoader();
 		ResourceLoader* getMeshLoader();
+		Entity* parseHeightmap(std::string, ResourceManager*);
 		Renderer* getRenderer();
 	};
 }

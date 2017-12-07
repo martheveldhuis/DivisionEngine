@@ -54,9 +54,6 @@
     <ClCompile Include="Terrain.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="D3D9GameObject.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="D3D9Mesh.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -66,7 +63,6 @@
     <ClCompile Include="SceneLoader.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="D3D9Mesh.cpp">
     <ClCompile Include="D3D9Repository.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>

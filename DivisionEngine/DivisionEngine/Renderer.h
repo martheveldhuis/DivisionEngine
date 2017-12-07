@@ -1,14 +1,12 @@
 #ifndef DIVISION_RENDERER_H
 #define DIVISION_RENDERER_H
 
-#include "Resources.h"
-
 namespace Division 
 {
 	struct DivisionVertex
 	{
 		float x, y, z;      // 3D vertex position
-		DWORD color;        // The vertex color
+		unsigned int color;        // The vertex color
 	};
 
 	/// <summary>Abstract Renderer containing all functions every renderer should have.</summary>
@@ -24,7 +22,7 @@ namespace Division
 		virtual void setVertexBuffer(DivisionVertex* vertexBuffer, int) = 0;
 		virtual void setIndexBuffer(void* indexBuffer, int indexes) = 0;
 		virtual void setTexture(void*) = 0;
-		virtual void setHandle(void*);
+		virtual void setHandle(void*) = 0;
 		virtual void* getDevice() = 0;
 	};
 }

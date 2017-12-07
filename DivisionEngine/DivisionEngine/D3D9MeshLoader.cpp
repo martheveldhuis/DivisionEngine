@@ -26,10 +26,11 @@ namespace Division
 		DWORD numberOfMaterials = 0L; // How many materials the loaded mesh has. Initialized to 0.
 		std::vector<std::string> textureFileNames;
 
-		if (FAILED(D3DXLoadMeshFromX(meshFile.c_str(), D3DXMESH_SYSTEMMEM,
+		HRESULT result = D3DXLoadMeshFromX(meshFile.c_str(), D3DXMESH_SYSTEMMEM,
 			g_pd3dDevice, NULL,
 			&buffer, NULL, &numberOfMaterials,
-			&mesh)))
+			&mesh);
+		if (FAILED(result))
 		{
 			std::string prefixedtMeshFile = "..\\" + meshFile;
 

@@ -3,17 +3,15 @@
 
 #include "Renderer.h"
 #include "Scene.h"
+#include "SceneLoader.h"
 #include "ResourceManager.h"
+#include "D3D9Repository.h"
 
 #include <map>
 namespace Division
 {
 	class SceneManager
 	{
-	private:
-		std::map<std::string, Renderer*> renderers_;
-		std::map<std::string, Scene*> scenes_;
-		ResourceManager* resourceManager_;
 	public:
 		SceneManager();
 		SceneManager(ResourceManager*);
@@ -24,8 +22,13 @@ namespace Division
 		void removeRenderer(std::string);
 
 		Scene* createScene(std::string, Renderer*);
-		void getScene(std::string, Scene*);
+		Scene* loadScene(std::string);
+		Scene* getScene(std::string);
 		void removeScene(std::string);
+	private:
+		std::map<std::string, Renderer*> renderers_;
+		std::map<std::string, Scene*> scenes_;
+		ResourceManager* resourceManager_;
 	};
 }
 
