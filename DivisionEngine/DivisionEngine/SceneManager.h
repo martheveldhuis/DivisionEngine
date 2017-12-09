@@ -5,7 +5,7 @@
 #include "Scene.h"
 #include "SceneLoader.h"
 #include "ResourceManager.h"
-#include "D3D9Repository.h"
+#include "Repository.h"
 
 #include <map>
 namespace Division
@@ -14,7 +14,7 @@ namespace Division
 	{
 	public:
 		SceneManager();
-		SceneManager(ResourceManager*);
+		SceneManager(ResourceManager*, Repository*);
 		~SceneManager();
 
 		void addRenderer(std::string, Renderer*);
@@ -29,6 +29,7 @@ namespace Division
 		std::map<std::string, Renderer*> renderers_;
 		std::map<std::string, Scene*> scenes_;
 		ResourceManager* resourceManager_;
+		Repository* repository_;
 	};
 }
 

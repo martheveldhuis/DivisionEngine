@@ -12,12 +12,14 @@
 
 namespace Division
 {
-	class TextureLoader : public ResourceLoader
+	class D3D9TextureLoader : public ResourceLoader
 	{
 	public:
-		TextureLoader();
-		~TextureLoader();
-		static Resource* getResource(std::string, void*);
+		D3D9TextureLoader(LPDIRECT3DDEVICE9);
+		~D3D9TextureLoader();
+		Resource* getResource(std::string);
+	private:
+		LPDIRECT3DDEVICE9 direct3DDevice_ = NULL;
 	};
 }
 

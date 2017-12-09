@@ -1,5 +1,6 @@
 #include "Scene.h"
 #include "Model.h"
+#include "Win32Window.h"
 namespace Division
 {
 	Scene::Scene()
@@ -105,8 +106,8 @@ namespace Division
 
 
 		renderDevice->EndScene();
-
+		Win32Window *win = dynamic_cast<Win32Window*>(getWindow("Window"));
 		 //Present the backbuffer contents to the display
-		renderDevice->Present(NULL, NULL, NULL, NULL);
+		renderDevice->Present(NULL, NULL, win->getWindowHandle(), NULL);
 	}
 }

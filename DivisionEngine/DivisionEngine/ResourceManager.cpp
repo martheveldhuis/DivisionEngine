@@ -1,31 +1,32 @@
 #include "ResourceManager.h"
 
-namespace Division 
+namespace Division
 {
-	ResourceManager::ResourceManager(LPDIRECT3DDEVICE9 direct3Ddevice) 
-		: direct3Ddevice_(direct3Ddevice)
+	ResourceManager::ResourceManager(ResourceLoader* textureLoader,
+		ResourceLoader* meshLoader) :
+		textureLoader_(textureLoader), meshLoader_(meshLoader)
 	{
 		LoggerPool::getInstance()->getLogger("resourceManager")
 			->logInfo("Created ResourceManager");
 	}
 
 
-
 	ResourceManager::~ResourceManager()
 	{
-		std::map<std::string, Resource*>::const_iterator toBeDeleted;
+		std::map<std::string, Resource*>::const_iterator toBeDeleteTexture;
 
-		toBeDeleted = textures_.begin();
-		while (toBeDeleted != textures_.end()) {
-			delete toBeDeleted->second;
-			++toBeDeleted;
+		toBeDeleteTexture = textures_.begin();
+		while (toBeDeleteTexture != textures_.end()) {
+			delete toBeDeleteTexture->second;
+			++toBeDeleteTexture;
 		}
 		textures_.clear();
 
-		toBeDeleted = meshes_.begin();
-		while (toBeDeleted != meshes_.end()) {
-			delete toBeDeleted->second;
-			++toBeDeleted;
+		std::map<std::string, Resource*>::const_iterator toDeleteMesh;
+		toDeleteMesh = meshes_.begin();
+		while (toDeleteMesh != meshes_.end()) {
+			delete toDeleteMesh->second;
+			++toDeleteMesh;
 		}
 		meshes_.clear();
 
@@ -38,16 +39,16 @@ namespace Division
 
 	Resource* ResourceManager::addNewTexture(std::string textureFile)
 	{
-		Resource* texture = TextureLoader::getResource(textureFile, direct3Ddevice_);
+		Resource* texture = textureLoader_->getResource(textureFile);
 		textures_[textureFile] = texture;
 		return texture;
 	}
 
 
 
-	Mesh* ResourceManager::addNewMesh(std::string meshFile)
+	Resource* ResourceManager::addNewMesh(std::string meshFile)
 	{
-		Mesh* mesh = MeshLoader::getResource(meshFile, direct3Ddevice_);
+		Resource* mesh = meshLoader_->getResource(meshFile);
 		meshes_[meshFile] = mesh;
 		return mesh;
 	}
@@ -66,7 +67,7 @@ namespace Division
 		else {
 			texture = addNewTexture(textureFile);
 		}
-		
+
 		return texture;
 	}
 
@@ -84,26 +85,19 @@ namespace Division
 			 mesh = dynamic_cast<Mesh*>(it->second);
 		}
 		else {
-			mesh = addNewMesh(meshFile);
+			mesh = dynamic_cast<Mesh*>(addNewMesh(meshFile));
 		}
 
 		std::vector<std::string> textureFileNames = mesh->getTextureFileNames();
 
-		std::vector<std::string>::const_iterator textureIterator = textureFileNames.begin();
-		if (textureIterator == textureFileNames.end()) {
-			for (int i = 0; i < mesh->getNumberOfMaterials(); ++i) {
+		std::vector<std::string>::const_iterator textureFilesIterator = textureFileNames.begin();
+		while (textureFilesIterator != textureFileNames.end()) {
+			textures[*textureFilesIterator] = getTexture(*textureFilesIterator);
+			++textureFilesIterator;
+		}
 
-			}
-		}
-		else {
-			while (textureIterator != textureFileNames.end()) {
-				textures[*textureIterator] = getTexture(*textureIterator);
-				++textureIterator;
-			}
-		}
-		
 		mesh->setTextures(textures);
-		
+
 		return mesh;
 	}
 
@@ -113,9 +107,12 @@ namespace Division
 	{
 		std::map<std::string, Resource*>::iterator it;
 		it = textures_.find(textureFile);
-		Resource* resource = it->second;
-		textures_.erase(it);
-		delete resource;
+
+		if (it != textures_.end()) {
+			Resource* resource = it->second;
+			textures_.erase(it);
+			delete resource;
+		}
 	}
 
 
@@ -124,8 +121,11 @@ namespace Division
 	{
 		std::map<std::string, Resource*>::iterator it;
 		it = meshes_.find(meshFile);
-		Resource* resource = it->second;
-		meshes_.erase(it);
-		delete it->second;
+
+		if (it != meshes_.end()) {
+			Resource* resource = it->second;
+			meshes_.erase(it);
+			delete resource;
+		}
 	}
 }

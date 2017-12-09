@@ -13,7 +13,7 @@ namespace Division
 
 		//Create the application's window.
 		windowHandle_ = CreateWindow(winName.c_str(), winTitle.c_str(),
-			WS_OVERLAPPEDWINDOW, 100, 100, 256, 256,
+			WS_OVERLAPPEDWINDOW, 100, 100, 800, 600,
 			NULL, NULL, wc.hInstance, NULL);
 
 		ShowWindow(windowHandle_, SW_SHOWDEFAULT);

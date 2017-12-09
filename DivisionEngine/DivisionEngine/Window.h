@@ -6,7 +6,7 @@ namespace Division
 class Window
 {
   public:
-	virtual ~Window() = 0 {};
+	  virtual ~Window() {};
 };
 }
 #endif

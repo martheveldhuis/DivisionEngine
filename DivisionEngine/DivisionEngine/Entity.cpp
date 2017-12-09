@@ -1,13 +1,18 @@
 #include "Entity.h"
 
-namespace Division 
+namespace Division
 {
-	Entity::Entity(ResourceManager *resourceManager, float x, float y, float z)
+	Entity::Entity(ResourceManager *resourceManager, 
+		float x, float y, float z,
+		float xAngle, float yAngle, float zAngle)
 		: resourceManager_(resourceManager)
 	{
 		position_.xPosition = x;
 		position_.yPosition = y;
 		position_.zPosition = z;
+		position_.xAngle = xAngle;
+		position_.yAngle = yAngle;
+		position_.zAngle = zAngle;
 
 		LoggerPool::getInstance()->getLogger("Entity")
 			->logInfo("Created Entity");
@@ -54,8 +59,6 @@ namespace Division
 		else {
 			return addTexture(textureFile);
 		}
-
-		return it->second;
 	}
 
 
@@ -64,15 +67,12 @@ namespace Division
 	{
 		std::map<std::string, Mesh*>::iterator it;
 		it = meshes_.find(meshFile);
-		return it->second;
 
 		if (it != meshes_.end())
 			return it->second;
 		else {
 			return addMesh(meshFile);
 		}
-
-		return it->second;
 	}
 
 
@@ -81,9 +81,12 @@ namespace Division
 	{
 		std::map<std::string, Resource*>::iterator it;
 		it = textures_.find(textureFile);
-		Resource* resource = it->second;
-		textures_.erase(it);
-		delete resource;
+
+		if (it != textures_.end()) {
+			Resource* resource = it->second;
+			textures_.erase(it);
+			delete resource;
+		}
 	}
 
 
@@ -92,9 +95,12 @@ namespace Division
 	{
 		std::map<std::string, Mesh*>::iterator it;
 		it = meshes_.find(meshFile);
-		Mesh* resource = it->second;
-		meshes_.erase(it);
-		delete resource;
+
+		if (it != meshes_.end()) {
+			Resource* resource = it->second;
+			meshes_.erase(it);
+			delete resource;
+		}
 	}
 
 

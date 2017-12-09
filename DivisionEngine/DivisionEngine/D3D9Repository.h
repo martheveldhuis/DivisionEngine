@@ -19,10 +19,15 @@ namespace Division
 	public:
 		D3D9Repository();
 		~D3D9Repository();
+		void* getFrameworkInterface();
 		ResourceLoader* getTextureLoader();
 		ResourceLoader* getMeshLoader();
 		Entity* parseHeightmap(std::string, ResourceManager*);
 		Renderer* getRenderer();
+		private:
+			LPDIRECT3D9 direct3D_ = NULL;
+			LPDIRECT3DDEVICE9 direct3DDevice_ = NULL;
+			HWND windowHandle_ = NULL;
 	};
 }
 

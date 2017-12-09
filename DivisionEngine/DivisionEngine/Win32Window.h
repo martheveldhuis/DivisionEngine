@@ -11,7 +11,7 @@
 #define SCREEN_HEIGHT 1080
 namespace Division
 {
-	class Win32Window : public virtual Window
+	class Win32Window : public Window
 	{
 	public:
 		Win32Window(std::string, std::string);

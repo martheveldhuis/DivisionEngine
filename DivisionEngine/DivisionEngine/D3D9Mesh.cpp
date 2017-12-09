@@ -4,7 +4,7 @@ namespace Division
 {
 	D3D9Mesh::D3D9Mesh(LPD3DXMESH meshData, D3DMATERIAL9* meshMaterials,
 			   DWORD numberOfMaterials, std::vector<std::string> textureFileNames)
-		: meshData_(meshData), meshMaterials_(meshMaterials), 
+		: meshData_(meshData), meshMaterials_(meshMaterials),
 		  numberOfMaterials_(numberOfMaterials), textureFileNames_(textureFileNames)
 	{
 	}
@@ -56,16 +56,17 @@ namespace Division
 	void D3D9Mesh::draw(Renderer *renderer)
 	{
 		LPDIRECT3DDEVICE9 renderDevice = static_cast<LPDIRECT3DDEVICE9>(renderer->getDevice());
-		
+
 		std::map<std::string, Resource*>::const_iterator textureIterator = textures_.begin();
 		for (DWORD i = 0; i < numberOfMaterials_; i++) {
 			renderDevice->SetMaterial(&meshMaterials_[i]);
 
-			if (textureIterator != textures_.end())
+			if (textureIterator != textures_.end()) {
 				renderer->setTexture(textureIterator->second);
+				++textureIterator;
+			}
 
 			meshData_->DrawSubset(i);
-			++textureIterator;
 		}
 	}
 }

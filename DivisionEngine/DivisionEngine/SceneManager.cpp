@@ -1,11 +1,8 @@
 #include "SceneManager.h"
 namespace Division
 {
-	SceneManager::SceneManager()
-	{
-	}
-
-	SceneManager::SceneManager(ResourceManager* rm) : resourceManager_(rm)
+	SceneManager::SceneManager(ResourceManager* rm, Repository* repository_)
+		: resourceManager_(rm), repository_(repository_)
 	{
 	}
 
@@ -20,12 +17,15 @@ namespace Division
 
 	void SceneManager::getRenderer(std::string str, Renderer* rend)
 	{
-		rend = renderers_.find(str)->second;
+		if (renderers_.find(str) != renderers_.end()) {
+			rend = renderers_.find(str)->second;
+		}
 	}
 
 	void SceneManager::removeRenderer(std::string str)
 	{
-		renderers_.erase(renderers_.find(str));
+		// TODO: implement properly
+		//renderers_.erase(renderers_.find(str));
 	}
 
 	Scene* SceneManager::createScene(std::string str, Renderer* renderer)
@@ -35,9 +35,10 @@ namespace Division
 		return createdScene;
 	}
 
-	Scene * SceneManager::loadScene(std::string sceneFile)
+	Scene* SceneManager::loadScene(std::string sceneFile)
 	{
-		SceneLoader* loader = new SceneLoader(this, new D3D9Repository(), resourceManager_);
+		Division::Win32Window* win = new Division::Win32Window("Window", "Window title");
+		SceneLoader* loader = new SceneLoader(this, repository_, resourceManager_);
 		loader->loadScene(sceneFile);
 
 		return getScene(sceneFile);
@@ -45,12 +46,16 @@ namespace Division
 
 	Scene* SceneManager::getScene(std::string str)
 	{
-		Scene* scene = scenes_.find(str)->second;
-		return scene;
+		std::map<std::string, Scene*>::iterator it = scenes_.find(str);
+		if (it != scenes_.end()) {
+			return it->second;
+		}
+		return nullptr;
 	}
 
 	void SceneManager::removeScene(std::string str)
 	{
-		scenes_.erase(scenes_.find(str));
+		// TODO: implement properly
+		//scenes_.erase(scenes_.find(str));
 	}
 }

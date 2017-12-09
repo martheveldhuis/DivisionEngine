@@ -2,30 +2,28 @@
 
 namespace Division
 {
-	MeshLoader::MeshLoader()
+	D3D9MeshLoader::D3D9MeshLoader(LPDIRECT3DDEVICE9 direct3DDevice)
+		: direct3DDevice_(direct3DDevice)
 	{
 	}
 
 
 
-	MeshLoader::~MeshLoader()
+	D3D9MeshLoader::~D3D9MeshLoader()
 	{
 	}
 
 
 
-	Mesh* MeshLoader::getResource(std::string meshFile, void* d3dDevice)
+	Mesh* D3D9MeshLoader::getResource(std::string meshFile)
 	{
-		// TODO: move this line somewhere else?
-		LPDIRECT3DDEVICE9 g_pd3dDevice = static_cast<LPDIRECT3DDEVICE9>(d3dDevice);
-
 		LPD3DXMESH mesh = NULL;
 		LPD3DXBUFFER buffer = NULL; // Buffer with information about the texture file name and material properties.
 		DWORD numberOfMaterials = 0L; // How many materials the loaded mesh has. Initialized to 0.
 		std::vector<std::string> textureFileNames;
 
 		HRESULT result = D3DXLoadMeshFromX(meshFile.c_str(), D3DXMESH_SYSTEMMEM,
-			g_pd3dDevice, NULL,
+			direct3DDevice_, NULL,
 			&buffer, NULL, &numberOfMaterials,
 			&mesh);
 		if (FAILED(result))
@@ -33,7 +31,7 @@ namespace Division
 			std::string prefixedtMeshFile = "..\\" + meshFile;
 
 			HRESULT result = D3DXLoadMeshFromX(prefixedtMeshFile.c_str(), D3DXMESH_SYSTEMMEM,
-				g_pd3dDevice, NULL,
+				direct3DDevice_, NULL,
 				&buffer, NULL, &numberOfMaterials,
 				&mesh);
 			if (FAILED(result)) {

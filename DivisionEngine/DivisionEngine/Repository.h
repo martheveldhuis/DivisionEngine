@@ -13,6 +13,7 @@ namespace Division
 	{
 	public:
 		~Repository() {};
+		virtual void* getFrameworkInterface() = 0;
 		virtual ResourceLoader* getTextureLoader() = 0;
 		virtual ResourceLoader* getMeshLoader() = 0;
 		virtual Renderer* getRenderer() = 0;

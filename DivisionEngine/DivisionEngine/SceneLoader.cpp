@@ -26,16 +26,15 @@ namespace Division
 		renderer->setup();
 
 		LPDIRECT3DDEVICE9 dev = static_cast<LPDIRECT3DDEVICE9>(renderer->getDevice());
-		resourceManager_ = new Division::ResourceManager(dev);
 
-		Division::Entity* entity = new Model(resourceManager_, 0, 0, 0);
-		//entity->addMesh("tiger.x");
+		Division::Entity* entity = new Model(resourceManager_, 5.0f, 5.0f, 5.0f);
+		entity->addMesh("tiger.x");
 		std::map<std::string, Resource*> texture;
-		//texture["banana.bmp"] = entity->addTexture("banana.bmp");
-		//entity->getMesh("tiger.x")->setTextures(texture);
+		texture["banana.bmp"] = entity->addTexture("banana.bmp");
+		entity->getMesh("tiger.x")->setTextures(texture);
 
 		Scene* currentScene = sceneManager_->createScene(scene, renderer);
-		//currentScene->addEntity("t", entity);
+		currentScene->addEntity("t", entity);
 		currentScene->addWindow("Window", win);
 
 		Entity* terrain = d3D9Repository_->parseHeightmap("none", resourceManager_);

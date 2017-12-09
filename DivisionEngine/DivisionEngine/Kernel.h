@@ -1,22 +1,23 @@
-#ifndef DIVISION_DIVISIONENGINE_H
-#define DIVISION_DIVISIONENGINE_H
+#ifndef DIVISION_KERNEL_H
+#define DIVISION_KERNEL_H
 
 #include "ResourceManager.h"
 #include "SceneManager.h"
-#include "Win32Window.h"
 #include "WindowsInputManager.h"
+#include "D3D9Repository.h"
 
 namespace Division
 {
-	class DivisionEngine
+	class Kernel
 	{
 	public:
-		DivisionEngine();
-		~DivisionEngine();
+		Kernel();
+		~Kernel();
 		void run();
 	private:
+		Repository* repository_;
 		ResourceManager* resourceManager_;
 		SceneManager* sceneManager_;
 	};
 }
-#endif
+#endif // !DIVISION_KERNEL_H

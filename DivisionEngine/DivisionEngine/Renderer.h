@@ -1,7 +1,7 @@
 #ifndef DIVISION_RENDERER_H
 #define DIVISION_RENDERER_H
 
-namespace Division 
+namespace Division
 {
 	struct DivisionVertex
 	{

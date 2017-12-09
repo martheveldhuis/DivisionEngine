@@ -14,13 +14,17 @@ namespace Division
 		float xPosition;
 		float yPosition;
 		float zPosition;
+		float xAngle;
+		float yAngle;
+		float zAngle;
 	};
 
 
 	class Entity
 	{
 	public:
-		Entity(ResourceManager*, float, float, float);
+		Entity(ResourceManager*, float x = 0, float y = 0, float z = 0,
+			float xAngle = 0, float yAngle = 0, float zAngle = 0);
 		virtual ~Entity();
 		virtual Resource* addTexture(std::string);
 		virtual Mesh* addMesh(std::string);

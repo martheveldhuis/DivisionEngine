@@ -7,7 +7,7 @@ namespace Division
 {
 	Terrain::Terrain(ResourceManager* rm
 		, DivisionVertex vertices[], int vertexWidth, int vertexLength) :
-		vertices_(vertices), vertexCount_(vertexWidth * vertexLength), Entity(rm, 0, 0, 0)
+		vertices_(vertices), vertexCount_(vertexWidth * vertexLength), Entity(rm)
 	{
 
 		indexCount_ = generateIndices(&indices_, vertexWidth, vertexLength);

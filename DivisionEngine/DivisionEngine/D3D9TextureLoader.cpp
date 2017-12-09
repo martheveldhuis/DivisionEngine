@@ -2,33 +2,31 @@
 
 namespace Division
 {
-	TextureLoader::TextureLoader()
+	D3D9TextureLoader::D3D9TextureLoader(LPDIRECT3DDEVICE9 direct3DDevice)
+		: direct3DDevice_(direct3DDevice)
 	{
 	}
 
 
 
-	TextureLoader::~TextureLoader()
+	D3D9TextureLoader::~D3D9TextureLoader()
 	{
 	}
 
 
 
-	Resource* TextureLoader::getResource(std::string textureFile, void* d3dDevice)
+	Resource* D3D9TextureLoader::getResource(std::string textureFile)
 	{
-		// TODO: remove this line
-		LPDIRECT3DDEVICE9 g_pd3dDevice = static_cast<LPDIRECT3DDEVICE9>(d3dDevice);
-
 		LPDIRECT3DTEXTURE9 textureData = NULL;
 
-		HRESULT result = D3DXCreateTextureFromFile(g_pd3dDevice,
+		HRESULT result = D3DXCreateTextureFromFile(direct3DDevice_,
 			textureFile.c_str(),
 			&textureData);
 		if (FAILED(result))
 		{
 			std::string prefixedTextureFile = "..\\" + textureFile;
 
-			if (FAILED(D3DXCreateTextureFromFile(g_pd3dDevice,
+			if (FAILED(D3DXCreateTextureFromFile(direct3DDevice_,
 				prefixedTextureFile.c_str(),
 				&textureData)))
 			{

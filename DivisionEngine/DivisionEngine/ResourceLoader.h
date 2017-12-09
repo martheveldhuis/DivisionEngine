@@ -11,7 +11,7 @@ namespace Division
 	{
 	public:
 		virtual ~ResourceLoader() {};
-		virtual Resource* getResource(std::string, void*) = 0;
+		virtual Resource* getResource(std::string) = 0;
 	};
 }
 
