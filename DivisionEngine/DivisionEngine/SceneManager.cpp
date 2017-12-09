@@ -6,8 +6,11 @@ namespace Division
 	{
 	}
 
-	SceneManager::~SceneManager()
+	void SceneManager::renderScenes()
 	{
+		std::map<std::string, Scene*>::iterator it;
+		for (it = scenes_.begin(); it != scenes_.end(); it++)
+			it->second->render();
 	}
 
 	void SceneManager::addRenderer(std::string str, Renderer* rend)
@@ -15,17 +18,24 @@ namespace Division
 		renderers_[str] = rend;
 	}
 
-	void SceneManager::getRenderer(std::string str, Renderer* rend)
+	Renderer* SceneManager::getRenderer(std::string str)
 	{
-		if (renderers_.find(str) != renderers_.end()) {
-			rend = renderers_.find(str)->second;
-		}
+		std::map<std::string, Renderer*>::iterator it;
+		it = renderers_.find(str);
+		if (it != renderers_.end())
+			return it->second;
+		else
+			return nullptr;
 	}
 
 	void SceneManager::removeRenderer(std::string str)
 	{
-		// TODO: implement properly
-		//renderers_.erase(renderers_.find(str));
+		std::map<std::string, Renderer*>::iterator it;
+		it = renderers_.find(str);
+		if (it != renderers_.end()) {
+			it->second->cleanup();
+			renderers_.erase(it);
+		}
 	}
 
 	Scene* SceneManager::createScene(std::string str, Renderer* renderer)
@@ -55,7 +65,11 @@ namespace Division
 
 	void SceneManager::removeScene(std::string str)
 	{
-		// TODO: implement properly
-		//scenes_.erase(scenes_.find(str));
+		std::map<std::string, Scene*>::iterator it;
+		it = scenes_.find(str);
+		if (it != scenes_.end()) {
+			delete it->second;
+			scenes_.erase(it);
+		}
 	}
 }

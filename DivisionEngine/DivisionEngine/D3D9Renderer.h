@@ -10,7 +10,6 @@
 
 namespace Division
 {
-
 	class D3D9Renderer : public Renderer
 	{
 	public:

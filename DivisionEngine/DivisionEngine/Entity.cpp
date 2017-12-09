@@ -18,8 +18,6 @@ namespace Division
 			->logInfo("Created Entity");
 	}
 
-
-
 	Entity::~Entity()
 	{
 		textures_.clear();
@@ -47,8 +45,6 @@ namespace Division
 		return mesh;
 	}
 
-
-
 	Resource* Entity::getTexture(std::string textureFile)
 	{
 		std::map<std::string, Resource*>::iterator it;
@@ -75,8 +71,6 @@ namespace Division
 		}
 	}
 
-
-
 	void Entity::removeTexture(std::string textureFile)
 	{
 		std::map<std::string, Resource*>::iterator it;
@@ -88,8 +82,6 @@ namespace Division
 			delete resource;
 		}
 	}
-
-
 
 	void Entity::removeMesh(std::string meshFile)
 	{

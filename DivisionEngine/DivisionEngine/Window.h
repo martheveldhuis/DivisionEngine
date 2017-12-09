@@ -3,10 +3,11 @@
 
 namespace Division
 {
-class Window
-{
-  public:
-	  virtual ~Window() {};
-};
+	class Window
+	{
+	public:
+		virtual ~Window() = 0;
+		virtual void* getWindowHandle() = 0;
+	};
 }
 #endif

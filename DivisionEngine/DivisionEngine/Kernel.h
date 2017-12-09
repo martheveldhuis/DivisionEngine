@@ -14,6 +14,9 @@ namespace Division
 		Kernel();
 		~Kernel();
 		void run();
+		SceneManager* getSceneManager();
+		ResourceManager* getResourceManager();
+
 	private:
 		Repository* repository_;
 		ResourceManager* resourceManager_;
