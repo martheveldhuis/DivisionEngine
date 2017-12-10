@@ -16,7 +16,6 @@ namespace Division
 
 	void Kernel::run()
 	{
-		Division::Win32Window* win = new Division::Win32Window("Window", "Window title");
 		repository_ = new D3D9Repository();
 
 		resourceManager_ = new ResourceManager(repository_->getTextureLoader(),

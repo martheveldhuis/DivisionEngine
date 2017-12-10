@@ -24,6 +24,7 @@ namespace Division
 		void setVertexBuffer(struct DivisionVertex *vertices, int verts);
 		void setIndexBuffer(void *vertices, int indexes);
 		void* getDevice() { return direct3DDevice_; }
+		void setWorldMatrix(Position*);
 		void setTexture(void*);
 		void setHandle(void*);
 	private:

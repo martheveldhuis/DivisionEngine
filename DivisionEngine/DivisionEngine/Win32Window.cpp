@@ -1,8 +1,9 @@
 #include "Win32Window.h"
 namespace Division
 {
-	Win32Window::Win32Window(std::string winName = "x", std::string winTitle = "x")
+	Win32Window::Win32Window(std::string winTitle = "x")
 	{
+		std::string winName = "window";
 		//Create a window class.
 		WNDCLASSEX wc = { sizeof(WNDCLASSEX), CS_CLASSDC, Win32Window::MsgProc, 0L, 0L,
 			GetModuleHandle(NULL), NULL, NULL, NULL, NULL,

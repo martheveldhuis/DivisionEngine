@@ -51,7 +51,6 @@ namespace Division
 
 	Scene* SceneManager::loadScene(std::string sceneFile)
 	{
-		Division::Win32Window* win = new Division::Win32Window("Window", "Window title");
 		SceneLoader* loader = new SceneLoader(this, repository_, resourceManager_);
 		loader->loadScene(sceneFile);
 

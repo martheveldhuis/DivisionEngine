@@ -10,39 +10,24 @@
 
 namespace Division
 {
-	struct DivisionWindow
-	{
-		Window* window;
-		Renderer* renderer;
-		DivisionWindow(Window* w, Renderer* r) : window(w), renderer(r) {}
-		DivisionWindow() : window(nullptr), renderer(nullptr) {}
-	};
-
-	struct DivisionEntity
-	{
-		Entity* entity;
-		Window* window;
-		DivisionEntity(Entity* e, Window* w) : entity(e), window(w) {}
-		DivisionEntity() : entity(nullptr), window(nullptr) {} //TODO: is this necessary?
-	};
-
 	class Scene
 	{
 	public:
 		Scene(ResourceManager*);
 		~Scene();
 		void render();
-		void addWindow(std::string, DivisionWindow);
-		DivisionWindow* getWindow(std::string);
+		void addWindow(std::string, Window*, Renderer*);
+		Window* getWindow(std::string);
 		void removeWindow(std::string);
-		void addEntity(std::string, DivisionEntity);
-		/*std::pair<Entity*, Window*>* createEntity(std::string, Window*);*/ //TODO since entity is pure virtual cant make one.
-		DivisionEntity* getEntity(std::string);
-		void removeEntity(std::string);
+		void addEntityList(std::string, std::list<Entity*>, Window*);
+		std::list<Entity*> getEntityList(std::string);
+		void removeEntityList(std::string);
 	private:
-		std::map<std::string, DivisionWindow> windows_;
-		std::map<std::string, DivisionEntity> entities_;
-		ResourceManager* resourceManager_;
+		ResourceManager* resourceManager_; 
+		std::map<std::string, std::list<Entity*>> entityLists_;
+		std::map<std::string, Window*> windows_;
+		std::map<Window*, std::string> entityListToWindow_;
+		std::map<Window*, Renderer*> rendererToWindow_;
 	};
 }
 

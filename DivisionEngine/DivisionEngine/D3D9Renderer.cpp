@@ -63,6 +63,18 @@ namespace Division
 		direct3DDevice_->SetTransform(D3DTS_PROJECTION, &matProj);
 	}
 
+
+	void D3D9Renderer::setWorldMatrix(Position* position)
+	{
+		D3DXMATRIX rotation;
+		D3DXMATRIX translation;
+
+		D3DXMatrixRotationYawPitchRoll(&rotation, position->yAngle, position->xAngle, position->zAngle);
+		D3DXMatrixTranslation(&translation, position->xPosition, position->yPosition, position->zPosition);
+
+		direct3DDevice_->SetTransform(D3DTS_WORLD, &(translation * rotation));
+	}
+
 	void D3D9Renderer::setVertexBuffer(DivisionVertex * vertexBuffer, int verts)
 	{
 		// Create the vertex buffer.
@@ -102,6 +114,7 @@ namespace Division
 		direct3DDevice_->SetIndices(indexBuffer_);
 	}
 	
+
 	void D3D9Renderer::setTexture(void* resource)
 	{
 		D3D9Texture* texture = static_cast<D3D9Texture*>(resource);
