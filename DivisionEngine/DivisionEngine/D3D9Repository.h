@@ -11,6 +11,7 @@
 #include "D3D9MeshLoader.h"
 #include "D3D9Renderer.h"
 #include "LoggerPool.h"
+#include "Win32Window.h"
 
 namespace Division
 {
@@ -24,10 +25,11 @@ namespace Division
 		ResourceLoader* getMeshLoader();
 		Entity* parseHeightmap(std::string, ResourceManager*);
 		Renderer* getRenderer();
-		private:
-			LPDIRECT3D9 direct3D_ = NULL;
-			LPDIRECT3DDEVICE9 direct3DDevice_ = NULL;
-			HWND windowHandle_ = NULL;
+		Window* getWindow(std::string);
+	private:
+		LPDIRECT3D9 direct3D_ = NULL;
+		LPDIRECT3DDEVICE9 direct3DDevice_ = NULL;
+		HWND windowHandle_ = NULL;
 	};
 }
 

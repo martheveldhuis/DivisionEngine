@@ -48,7 +48,7 @@ namespace Division
 
 		int i;
 		FILE *f;
-		errno_t err = fopen_s(&f, "heightmap2.bmp", "rb");
+		errno_t err = fopen_s(&f, filename.c_str(), "rb");
 		if (err != 0) return nullptr;
 		unsigned char info[54];
 		fread(info, sizeof(unsigned char), 54, f);
@@ -106,12 +106,17 @@ namespace Division
 		return new D3D9Renderer(direct3DDevice_);
 	}
 
+	Window* D3D9Repository::getWindow(std::string title)
+	{
+		return new Win32Window(title);
+	}
+
 
 	D3D9Repository::~D3D9Repository()
 	{
 	}
 
-	void * D3D9Repository::getFrameworkInterface()
+	void* D3D9Repository::getFrameworkInterface()
 	{
 		return direct3D_;
 	}
