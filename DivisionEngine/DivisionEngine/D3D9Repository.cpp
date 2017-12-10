@@ -45,58 +45,74 @@ namespace Division
 
 
 	Entity* D3D9Repository::parseHeightmap(std::string filename, ResourceManager* rm) {
-
+		Logger* logger = LoggerPool::getInstance()->getLogger("heightmap");
+		logger->logInfo("Loading heightmap");
 		int i;
 		FILE *f;
 		errno_t err = fopen_s(&f, filename.c_str(), "rb");
 		if (err != 0) return nullptr;
 		unsigned char info[54];
 		fread(info, sizeof(unsigned char), 54, f);
-		int dataOffset = *(int*)(&info[0x0A]);
-
-		const int length = *(int*)&info[0x12];
-		const int width = *(int*)&info[0x16];
-		const int g = *(int*)&info[0x1C];
+		const int fileSize = *(int*)&info[0x2];
+		const int dataOffset = *(int*)(&info[0x0A]);
+		const int width = *(int*)&info[0x12];
+		const int height = *(int*)&info[0x16];
+		const int bitCount = *(int*)&info[0x1C];
+		const int dataSizeHeader = fileSize - dataOffset;
 
 		int pad = 0;
 
-		if ((width * 3) % 4 != 0)
-			pad = 4 - ((width * 3) % 4); 
+		if ((width * (bitCount / 8)) % 4 != 0)
+			pad = 4 - ((width * (bitCount / 8)) % 4);
 
-		long size = width * 3+ pad;
-		
-		unsigned char* data = new unsigned char[size*length];
-		if (dataOffset > 0)
-			fseek(f, (long int)(dataOffset) -54, SEEK_CUR);
-		DivisionVertex* vertices = new DivisionVertex[width * length];
+		long size = width * (bitCount / 8) + pad;
 
-		int index = 0;
+		const int dataSizeCalculated = size*height;
 
-		fread(data, sizeof(unsigned char), size * length, f);
-		for (int i = 0; i < width; i++) {
-			for (int j = 0; j < length; j++) {
-				index = i * width + j;
-
-				int heightmapIndex = j* width + i;
-				int y = data[heightmapIndex];
-
-				DWORD grayValB = int(y);
-				DWORD grayValG = (int(y)) << 8;
-				DWORD grayValR = (int(y)) << 16;
-				int grayColor = grayValR + grayValG + grayValB;
-				int x = i - width / 2 + 1;
-				int z = j - length / 2 + 1;
-				vertices[index] = { static_cast<float>(x), y / 20.0f - 23.5f, static_cast<float>(z), 0xff000000 + grayColor };
-			}
+		if (dataSizeCalculated != dataSizeHeader) {
+			logger->logInfo("Expected data size not equal to calculated data size");
 		}
+
+		unsigned char* data = new unsigned char[dataSizeCalculated];
+		if (dataOffset > 0)
+			fseek(f, (long int)(dataOffset)-54, SEEK_CUR);
+
+		DivisionVertex* vertices = new DivisionVertex[width * height];
+
+
+		int index = 0, currentColumn, currentRow;
+
+
+		fread(data, 1, dataSizeCalculated, f);
+		for (int i = 0; i < width*height; i++) {
+			currentColumn = floor(i / height);
+			currentRow = i % height;
+
+
+			int heightmapIndex;// = currentColumn + currentRow * size;
+			heightmapIndex = (height - currentRow) * size + currentColumn;
+
+			int y = data[heightmapIndex * (bitCount / 8)];
+			DWORD grayValB = y;
+			DWORD grayValG = y << 8;
+			DWORD grayValR = y << 16;
+			int grayColor = grayValR + grayValG + grayValB;
+			int z = width / -2 + currentColumn;
+			int x = height / -2 + currentRow;
+			vertices[i] = { static_cast<float>(x),y /2.0f - 82.5f, static_cast<float>(z), 0xff000000 + grayColor };
+		}
+
 
 
 		fclose(f);
 
 		delete[] data;
 
+		logger->logInfo("Successfully finished loading heightmap");
 
-		return new Terrain(rm, vertices, width, length);
+		return new Terrain(rm, vertices, width, height);
+
+	
 	}
 	
 
