@@ -18,6 +18,7 @@ namespace Division
 		void error(const std::string& msg, const char *file, const int& line);
 		void warning(const std::string& msg, const char *file, const int& line);
 		void info(const std::string& msg, const char *file, const int& line);
+		void info(const int msg, const char *file, const int& line);
 	private:
 		char drive[_MAX_DRIVE];
 		char dir[_MAX_DIR];

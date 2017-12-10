@@ -46,4 +46,10 @@ namespace Division
 		_splitpath_s(file, drive, dir, fname, ext);
 		logFile_ << __TIME__ << "[INFO] In file " << fname << ext << " at line " << line << ": " << msg << std::endl;
 	}
+
+	void Logger::info(const int msg, const char *file, const int& line)
+	{
+		_splitpath_s(file, drive, dir, fname, ext);
+		logFile_ << __TIME__ << "[INFO] In file " << fname << ext << " at line " << line << ": " << msg << std::endl;
+	}
 }
