@@ -53,15 +53,26 @@ namespace Division
 
 
 
-	void D3D9Mesh::draw(Renderer *renderer)
+	void D3D9Mesh::draw(Renderer *renderer, std::map<std::string, Resource*> customTextures)
 	{
 		LPDIRECT3DDEVICE9 renderDevice = static_cast<LPDIRECT3DDEVICE9>(renderer->getDevice());
+		std::map<std::string, Resource*>::const_iterator textureIterator;
+		std::map<std::string, Resource*>::const_iterator textureEnd;
 
-		std::map<std::string, Resource*>::const_iterator textureIterator = textures_.begin();
+		if (customTextures.size() == 0) {
+			textureIterator = textures_.begin();
+			textureEnd = textures_.end();
+		}
+		else {
+			textureIterator = customTextures.begin();
+			textureEnd = customTextures.end();
+		}
+			
+
 		for (DWORD i = 0; i < numberOfMaterials_; i++) {
 			renderDevice->SetMaterial(&meshMaterials_[i]);
 
-			if (textureIterator != textures_.end()) {
+			if (textureIterator != textureEnd) {
 				renderer->setTexture(textureIterator->second);
 				++textureIterator;
 			}

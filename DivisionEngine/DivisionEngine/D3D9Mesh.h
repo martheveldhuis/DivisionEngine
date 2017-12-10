@@ -22,7 +22,7 @@ namespace Division
 		void setTextures(std::map<std::string, Resource*>);
 		std::map<std::string, Resource*> getTextures();
 		int getNumberOfMaterials();
-		void draw(Renderer*);
+		void draw(Renderer*, std::map<std::string, Resource*>);
 	private:
 		LPD3DXMESH meshData_ = NULL; 
 		D3DMATERIAL9* meshMaterials_ = NULL;

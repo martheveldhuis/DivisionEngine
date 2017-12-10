@@ -36,7 +36,7 @@ namespace Division
 		entity->addMesh("tiger.x");
 		std::map<std::string, Resource*> texture;
 		texture["banana.bmp"] = entity->getTexture("banana.bmp");
-		entity->getMesh("tiger.x")->setTextures(texture);
+		//entity->getMesh("tiger.x")->setTextures(texture);
 				
 		Entity* entity2 = new Model(resourceManager_, 5.0f, 5.0f, 5.0f); // TODO: fix
 		entity2->addMesh("tiger.x");
@@ -46,6 +46,7 @@ namespace Division
 
 		Entity* terrain = d3D9Repository_->parseHeightmap("none", resourceManager_);
 		theScene->addEntity("terrain", DivisionEntity(terrain, win2));
+		theScene->addEntity("terrain2", DivisionEntity(terrain, win));
 		
 
 	}

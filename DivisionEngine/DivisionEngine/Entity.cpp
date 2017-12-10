@@ -101,7 +101,8 @@ namespace Division
 	{
 		std::map<std::string, Mesh*>::const_iterator meshIterator = meshes_.begin();
 		while (meshIterator != meshes_.end()) {
-			meshIterator->second->draw(renderer);
+			
+			meshIterator->second->draw(renderer,  textures_);
 			++meshIterator;
 		}
 	}
