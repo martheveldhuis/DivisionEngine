@@ -19,11 +19,15 @@ namespace Division
 	}
 
 	Entity* D3D9Repository::parseHeightmap(std::string filename, ResourceManager* rm) {
-
+		Logger* logger = LoggerPool::getInstance()->getLogger("heightmap");
+		logger->logInfo("Loading heightmap");
 		int i;
 		FILE *f;
-		errno_t err = fopen_s(&f, "heightmap.bmp", "rb");
-		if (err != 0) return nullptr;
+		errno_t err = fopen_s(&f, "heightmap2.bmp", "rb");
+		if (err != 0) {
+			logger->logInfo("An error occured reading the heightmap");
+			return nullptr;
+		}
 		unsigned char info[54];
 		fread(info, sizeof(unsigned char), 54, f);
 		const int fileSize = *(int*)&info[0x2];
@@ -43,7 +47,7 @@ namespace Division
 		const int dataSizeCalculated = size*height;
 
 		if (dataSizeCalculated != dataSizeHeader) {
-			// log expected data size is not equal to calculated data size.
+			logger->logInfo("Expected data size not equal to calculated data size");
 		}
 
 		unsigned char* data = new unsigned char[dataSizeCalculated];
@@ -81,6 +85,7 @@ namespace Division
 
 		delete[] data;
 
+		logger->logInfo("Successfully finished loading heightmap");
 
 		return new Terrain(rm, vertices, width, height);
 
