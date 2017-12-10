@@ -26,10 +26,10 @@ namespace Division
 		LPDIRECT3DDEVICE9 renderDevice = static_cast<LPDIRECT3DDEVICE9>(renderer->getDevice());
 
 		// Render the vertex buffer contents
-		if (!texture_)
-			renderDevice->SetTexture(0, NULL);
+		if (texture_)
+			renderer->setTexture(texture_);
 		renderDevice->SetFVF(D3DFVF_CUSTOMVERTEX);
-		renderDevice->DrawIndexedPrimitive(D3DPT_TRIANGLESTRIP, 0, 0, vertexCount_, 0, indexCount_ - 2);
+		renderDevice->DrawIndexedPrimitive(D3DPT_TRIANGLESTRIP, 0, 0, vertexCount_, 0,indexCount_ -2);
 
 	}
 
@@ -42,14 +42,14 @@ namespace Division
 		for (int z = 0; z < verticesLength - 1; z++)
 		{
 			int x;
-			for (x = verticesWidth - 1; x >= 0; x--)
+			for (x = 0; x < verticesWidth; x++)
 			{
 				int indexAt = x + (z * verticesWidth);
-					(*indicesBuffer)[index++] = indexAt;
-					(*indicesBuffer)[index++] = indexAt + verticesWidth;
+				(*indicesBuffer)[index++] = indexAt;
+				(*indicesBuffer)[index++] = indexAt + verticesWidth;
 			}
 
-			for (x = 0; x <= verticesWidth - 1; x++)
+			for (x = verticesWidth - 1; x >= 0; x--)
 			{
 				int indexAt = x + (z * verticesWidth);
 				(*indicesBuffer)[index++] = indexAt + verticesWidth;
