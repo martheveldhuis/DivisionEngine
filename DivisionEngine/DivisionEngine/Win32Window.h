@@ -14,7 +14,7 @@ namespace Division
 	class Win32Window : public Window
 	{
 	public:
-		Win32Window(std::string, std::string);
+		Win32Window(std::string);
 		~Win32Window();
 		static LRESULT WINAPI MsgProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);
 		void* getWindowHandle();

@@ -153,6 +153,7 @@
   <ItemGroup>
     <ClInclude Include="D3D9Renderer.h" />
     <ClInclude Include="D3D9Repository.h" />
+    <ClInclude Include="json.hpp" />
     <ClInclude Include="Kernel.h" />
     <ClInclude Include="Mesh.h" />
     <ClInclude Include="Entity.h" />

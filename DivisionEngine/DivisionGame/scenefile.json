@@ -1,0 +1,23 @@
+{
+  "terrain": {
+    "heightmap": "heightmap2.bmp",
+    "texture": ""
+  },
+  "game_objects": [
+    {
+      "name": "tiger",
+      "mesh": "tiger.x",
+      "texture": "banana.bmp",
+      "pos": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "angle": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      }
+    }
+  ]
+}
