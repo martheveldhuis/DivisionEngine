@@ -13,16 +13,12 @@ namespace Division
 	class SceneManager
 	{
 	public:
-		SceneManager();
 		SceneManager(ResourceManager*, Repository*);
 		~SceneManager();
-
 		void renderScenes();
-
 		void addRenderer(std::string, Renderer*);
 		Renderer* getRenderer(std::string);
 		void removeRenderer(std::string);
-
 		Scene* createScene(std::string, Renderer*);
 		Scene* loadScene(std::string);
 		Scene* getScene(std::string);

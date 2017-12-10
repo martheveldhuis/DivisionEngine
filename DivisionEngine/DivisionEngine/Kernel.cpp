@@ -38,7 +38,7 @@ namespace Division
 			}
 			else {
 
-				scene->begin();
+				scene->render();
 			}
 
 		}

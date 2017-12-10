@@ -6,6 +6,10 @@ namespace Division
 	{
 	}
 
+	SceneManager::~SceneManager()
+	{
+	}
+
 	void SceneManager::renderScenes()
 	{
 		std::map<std::string, Scene*>::iterator it;
@@ -40,7 +44,7 @@ namespace Division
 
 	Scene* SceneManager::createScene(std::string str, Renderer* renderer)
 	{
-		Scene* createdScene = new Scene(resourceManager_, renderer);
+		Scene* createdScene = new Scene(resourceManager_);
 		scenes_[str] = createdScene;
 		return createdScene;
 	}

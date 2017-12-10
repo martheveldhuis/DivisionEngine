@@ -101,11 +101,7 @@ namespace Division
 		vertexBuffer_->Unlock();
 		direct3DDevice_->SetIndices(indexBuffer_);
 	}
-
-	void D3D9Renderer::setHandle(void *)
-	{
-	}
-
+	
 	void D3D9Renderer::setTexture(void* resource)
 	{
 		D3D9Texture* texture = static_cast<D3D9Texture*>(resource);
