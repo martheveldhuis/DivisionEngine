@@ -99,7 +99,7 @@ namespace Division
 			int grayColor = grayValR + grayValG + grayValB;
 			int z = width / -2 + currentColumn;
 			int x = height / -2 + currentRow;
-			vertices[i] = { static_cast<float>(x),y /2.0f - 82.5f, static_cast<float>(z), 0xff000000 + grayColor };
+			vertices[i] = { static_cast<float>(x),y / 10.0f - 52.5f, static_cast<float>(z), 0xff000000 + grayColor };
 		}
 
 

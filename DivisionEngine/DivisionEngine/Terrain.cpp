@@ -25,6 +25,8 @@ namespace Division
 
 		LPDIRECT3DDEVICE9 renderDevice = static_cast<LPDIRECT3DDEVICE9>(renderer->getDevice());
 
+		renderer->setWorldMatrix(&position_);
+
 		// Render the vertex buffer contents
 		if (texture_)
 			renderer->setTexture(texture_);

@@ -23,7 +23,7 @@ namespace Division
 
 
 		// Turn off culling, so we see the front and back of the triangle
-		direct3DDevice_->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE);
+	//	direct3DDevice_->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE);
 
 		// Turn off D3D lighting, since we are providing our own vertex colors
 		direct3DDevice_->SetRenderState(D3DRS_LIGHTING, FALSE);
@@ -72,7 +72,7 @@ namespace Division
 		D3DXMatrixRotationYawPitchRoll(&rotation, position->yAngle, position->xAngle, position->zAngle);
 		D3DXMatrixTranslation(&translation, position->xPosition, position->yPosition, position->zPosition);
 
-		direct3DDevice_->SetTransform(D3DTS_WORLD, &(translation * rotation));
+		direct3DDevice_->SetTransform(D3DTS_WORLD, &(rotation * translation));
 	}
 
 	void D3D9Renderer::setVertexBuffer(DivisionVertex * vertexBuffer, int verts)

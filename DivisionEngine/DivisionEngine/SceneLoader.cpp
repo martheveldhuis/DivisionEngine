@@ -34,9 +34,11 @@ namespace Division
 		renderer->setup();
 
 		Scene* theScene = sceneManager_->createScene(scene, renderer);
-		theScene->addWindow("Window title", DivisionWindow(win, renderer));
+		theScene->addWindow("Window title", win, renderer);
 
 		nlohmann::json objectJson = sceneJson["game_objects"];
+
+		std::list<Entity*> entitylist1;
 
 		int objectCount = 0;
 		for (nlohmann::json::iterator it = objectJson.begin(); it != objectJson.end(); ++it) {
@@ -59,19 +61,14 @@ namespace Division
 				}
 			}
 
-
-			theScene->addEntity((*it)["name"], DivisionEntity(newEntity, win));
+			entitylist1.push_back(newEntity);
 		}
 
-				
-		Entity* entity2 = new Model(resourceManager_, 5.0f, 5.0f, 5.0f); // TODO: fix
-		entity2->addMesh("tiger.x");
-
-		theScene->addEntity("t", DivisionEntity(entity, win));
-		theScene->addEntity("t2", DivisionEntity(entity2, win2));
-
 		Entity* terrain = d3D9Repository_->parseHeightmap(heightmap, resourceManager_);
-		theScene->addEntity("terrain2", DivisionEntity(terrain, win));
+
+		entitylist1.push_back(terrain);
+
+		theScene->addEntityList("entityList1", entitylist1, win);
 		
 
 	}
