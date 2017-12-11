@@ -4,18 +4,22 @@
 #include <d3d9.h>
 #include <d3dx9.h>
 #include <string>
+#include <vector>
 
 #include "D3D9Mesh.h"
 #include "ResourceLoader.h"
+#include "LoggerPool.h"
 
 namespace Division
 {
-	class MeshLoader : public ResourceLoader
+	class D3D9MeshLoader : public ResourceLoader
 	{
 	public:
-		MeshLoader();
-		~MeshLoader();
-		static DivisionMesh* getResource(std::string, void*);
+		D3D9MeshLoader(LPDIRECT3DDEVICE9);
+		~D3D9MeshLoader();
+		Mesh* getResource(std::string);
+	private:
+		LPDIRECT3DDEVICE9 direct3DDevice_ = NULL;
 	};
 }
 

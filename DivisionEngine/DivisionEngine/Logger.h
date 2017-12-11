@@ -1,5 +1,6 @@
 #ifndef DIVISION_LOGGER_H
 #define DIVISION_LOGGER_H
+
 #define logError(msg) error(msg, __FILE__, __LINE__)
 #define logWarning(msg) warning(msg, __FILE__, __LINE__)
 #define logInfo(msg) info(msg, __FILE__, __LINE__)
@@ -17,6 +18,7 @@ namespace Division
 		void error(const std::string& msg, const char *file, const int& line);
 		void warning(const std::string& msg, const char *file, const int& line);
 		void info(const std::string& msg, const char *file, const int& line);
+		void info(const int msg, const char *file, const int& line);
 	private:
 		char drive[_MAX_DRIVE];
 		char dir[_MAX_DIR];

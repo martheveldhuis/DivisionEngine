@@ -5,37 +5,29 @@
 
 #include "Entity.h"
 #include "Renderer.h"
-//#include "D3D9Renderer.h"
 #include "Window.h"
 #include "ResourceManager.h"
-#include "Terrain.h"
 
 namespace Division
 {
 	class Scene
 	{
 	public:
-		Scene();
-		Scene(ResourceManager*, Renderer* renderer);
+		Scene(ResourceManager*);
 		~Scene();
-
-		void addWindow(std::string, Window*);
+		void render();
+		void addWindow(std::string, Window*, Renderer*);
 		Window* getWindow(std::string);
 		void removeWindow(std::string);
-		void addRenderer(std::string, Renderer*);
-		Renderer* getRenderer(std::string);
-		void removeRenderer(std::string);
-		void addEntity(std::string, Entity*);
-		Entity* getEntity(std::string);
-		void removeEntity(std::string);
-		void begin();
+		void addEntityList(std::string, std::list<Entity*>, Window*);
+		std::list<Entity*> getEntityList(std::string);
+		void removeEntityList(std::string);
 	private:
+		ResourceManager* resourceManager_; 
+		std::map<std::string, std::list<Entity*>> entityLists_;
 		std::map<std::string, Window*> windows_;
-		std::map<std::string, Renderer*> renderers_;
-		std::map<std::string, Entity*> entities_;
-		Terrain* terrain_;
-		ResourceManager* resourceManager_;
-		Renderer* renderer_;
+		std::map<Window*, std::string> entityListToWindow_;
+		std::map<Window*, Renderer*> rendererToWindow_;
 	};
 }
 

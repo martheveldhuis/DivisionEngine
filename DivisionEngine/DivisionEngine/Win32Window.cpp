@@ -1,19 +1,20 @@
 #include "Win32Window.h"
 namespace Division
 {
-	Win32Window::Win32Window(std::string winName = "x", std::string winTitle = "x")
+	Win32Window::Win32Window(std::string winTitle = "x")
 	{
+		std::string winName = "window";
 		//Create a window class.
 		WNDCLASSEX wc = { sizeof(WNDCLASSEX), CS_CLASSDC, Win32Window::MsgProc, 0L, 0L,
 			GetModuleHandle(NULL), NULL, NULL, NULL, NULL,
-			winName.c_str(), NULL };
+			"window", NULL };
 
 		//Register the window class.
 		RegisterClassEx(&wc);
 
 		//Create the application's window.
-		windowHandle_ = CreateWindow(winName.c_str(), winTitle.c_str(),
-			WS_OVERLAPPEDWINDOW, 100, 100, 256, 256,
+		windowHandle_ = CreateWindow("window", winTitle.c_str(),
+			WS_OVERLAPPEDWINDOW, 100, 100, 800, 600,
 			NULL, NULL, wc.hInstance, NULL);
 
 		ShowWindow(windowHandle_, SW_SHOWDEFAULT);
@@ -36,7 +37,7 @@ namespace Division
 		return DefWindowProc(hWnd, msg, wParam, lParam);
 	}
 
-	HWND Win32Window::getWindowHandle()
+	void* Win32Window::getWindowHandle()
 	{
 		return windowHandle_;
 	}

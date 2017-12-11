@@ -10,8 +10,8 @@ namespace Division
 	class ResourceLoader
 	{
 	public:
-		virtual ~ResourceLoader() = 0 {};
-		virtual Resource* getResource(std::string, void*) = 0;
+		virtual ~ResourceLoader() {};
+		virtual Resource* getResource(std::string) = 0;
 	};
 }
 
