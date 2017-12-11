@@ -8,6 +8,16 @@ namespace Division
 		float x, y, z;      // 3D vertex position
 		unsigned int color;        // The vertex color
 	};
+	
+	struct Position
+	{
+		float xPosition;
+		float yPosition;
+		float zPosition;
+		float xAngle;
+		float yAngle;
+		float zAngle;
+	};
 
 	/// <summary>Abstract Renderer containing all functions every renderer should have.</summary>
 	class Renderer
@@ -23,6 +33,7 @@ namespace Division
 		virtual void setIndexBuffer(void* indexBuffer, int indexes) = 0;
 		virtual void setHandle(void*) = 0;
 		virtual void setTexture(void*) = 0;
+		virtual void setWorldMatrix(Position*) = 0;
 		virtual void* getDevice() = 0;
 	};
 }

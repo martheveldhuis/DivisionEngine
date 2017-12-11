@@ -64,7 +64,11 @@ namespace Division
 		}
 
 				
+		Entity* entity2 = new Model(resourceManager_, 5.0f, 5.0f, 5.0f); // TODO: fix
+		entity2->addMesh("tiger.x");
 
+		theScene->addEntity("t", DivisionEntity(entity, win));
+		theScene->addEntity("t2", DivisionEntity(entity2, win2));
 
 		Entity* terrain = d3D9Repository_->parseHeightmap(heightmap, resourceManager_);
 		theScene->addEntity("terrain2", DivisionEntity(terrain, win));

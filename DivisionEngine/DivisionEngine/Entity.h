@@ -9,16 +9,6 @@
 
 namespace Division
 {
-	struct Position
-	{
-		float xPosition;
-		float yPosition;
-		float zPosition;
-		float xAngle;
-		float yAngle;
-		float zAngle;
-	};
-
 	class Entity
 	{
 	public:
