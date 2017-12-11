@@ -2,6 +2,9 @@
 #define DIVISION_SCENE_H
 
 #include <map>
+#include <list>
+#include <string>
+#include <d3dx9.h>
 
 #include "Entity.h"
 #include "Renderer.h"

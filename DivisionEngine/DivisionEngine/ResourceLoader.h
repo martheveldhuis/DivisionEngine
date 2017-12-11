@@ -7,11 +7,20 @@
 
 namespace Division
 {
+	/**
+		Interface for every type of resource loader for use by the resource
+		manager.
+	*/
 	class ResourceLoader
 	{
 	public:
 		virtual ~ResourceLoader() {};
-		virtual Resource* getResource(std::string) = 0;
+		/**
+			Creates a resource object from data in the specified file.
+			@param resourceName The file from which to create the resource.
+			@returns A resource object based on the given file.
+		*/
+		virtual Resource* getResource(std::string resourceName) = 0;
 	};
 }
 

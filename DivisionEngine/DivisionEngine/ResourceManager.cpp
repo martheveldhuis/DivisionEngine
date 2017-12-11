@@ -1,14 +1,16 @@
 #include "ResourceManager.h"
+#include "LoggerPool.h"
 
 namespace Division
 {
 	ResourceManager::ResourceManager(ResourceLoader* textureLoader,
-		ResourceLoader* meshLoader) :
+									 ResourceLoader* meshLoader) : 
 		textureLoader_(textureLoader), meshLoader_(meshLoader)
 	{
 		LoggerPool::getInstance()->getLogger("resourceManager")
 			->logInfo("Created ResourceManager");
 	}
+
 
 
 	ResourceManager::~ResourceManager()
@@ -33,7 +35,6 @@ namespace Division
 		LoggerPool::getInstance()->getLogger("resourceManager")
 			->logInfo("Destroyed ResourceManager");
 	}
-
 
 
 
