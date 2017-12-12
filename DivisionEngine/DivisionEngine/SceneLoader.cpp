@@ -1,6 +1,9 @@
 #include "SceneLoader.h"
-#include "json.hpp"
+
 #include <string>
+#include <fstream>
+
+#include "json.hpp"
 
 namespace Division
 {
@@ -50,14 +53,13 @@ namespace Division
 				resourceManager_, pos["x"], pos["y"], pos["z"],
 				angle["x"], angle["y"], angle["z"]);
 
+			newEntity->setMesh((*it)["mesh"]);
 
-			newEntity->addMesh((*it)["mesh"]);
 			if (entity.find("texture") != entity.end()) {
 				std::string customTexture = entity["texture"];
 
 				if (!customTexture.empty()) {
-					std::map<std::string, Resource*> texture;
-					texture[customTexture] = newEntity->getTexture(customTexture);
+					newEntity->setTexture(customTexture);
 				}
 			}
 
