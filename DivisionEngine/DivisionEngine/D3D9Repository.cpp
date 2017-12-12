@@ -31,6 +31,8 @@ namespace Division
 		}
 	}
 
+
+
 	ResourceLoader* D3D9Repository::getTextureLoader()
 	{
 		return new D3D9TextureLoader(direct3DDevice_);
@@ -44,10 +46,10 @@ namespace Division
 	}
 
 
+
 	Entity* D3D9Repository::parseHeightmap(std::string filename, ResourceManager* rm) {
 		Logger* logger = LoggerPool::getInstance()->getLogger("heightmap");
 		logger->logInfo("Loading heightmap");
-		int i;
 		FILE *f;
 		errno_t err = fopen_s(&f, filename.c_str(), "rb");
 		if (err != 0) return nullptr;
@@ -79,9 +81,7 @@ namespace Division
 
 		DivisionVertex* vertices = new DivisionVertex[width * height];
 
-
 		int index = 0, currentColumn, currentRow;
-
 
 		fread(data, 1, dataSizeCalculated, f);
 		for (int i = 0; i < width*height; i++) {
@@ -111,8 +111,6 @@ namespace Division
 		logger->logInfo("Successfully finished loading heightmap");
 
 		return new Terrain(rm, vertices, width, height);
-
-	
 	}
 	
 
@@ -122,15 +120,20 @@ namespace Division
 		return new D3D9Renderer(direct3DDevice_);
 	}
 
+
+
 	Window* D3D9Repository::getWindow(std::string title)
 	{
 		return new Win32Window(title);
 	}
 
 
+
 	D3D9Repository::~D3D9Repository()
 	{
 	}
+
+
 
 	void* D3D9Repository::getFrameworkInterface()
 	{

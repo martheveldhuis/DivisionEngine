@@ -37,7 +37,6 @@ namespace Division
 		std::map<std::string, Renderer*>::iterator it;
 		it = renderers_.find(str);
 		if (it != renderers_.end()) {
-			it->second->cleanup();
 			renderers_.erase(it);
 		}
 	}
