@@ -1,14 +1,12 @@
 #include "WindowsInputManager.h"
 #include "Keyboard.h"
 #include "Mouse.h"
+#include "LoggerPool.h"
 
 namespace Division
 {
-	WindowsInputManager::WindowsInputManager(HWND* windowHandle) : windowHandle_(windowHandle)
+	WindowsInputManager::WindowsInputManager()
 	{
-		keyboard_ = NULL;
-		mouse_ = NULL;
-
 		initializeDirectInput();
 		initializeInputDevices();
 	}
@@ -17,19 +15,30 @@ namespace Division
 
 	WindowsInputManager::~WindowsInputManager()
 	{
-		releaseDirectInput();
+		if (directInput_) {
+			directInput_->Release();
+			directInput_ = NULL;
+		}
 
-		delete keyboard_;
-		delete mouse_;
+		if (keyboard_) {
+			delete keyboard_;
+			keyboard_ = NULL;
+		}
+
+		if (mouse_) {
+			delete mouse_;
+			mouse_ = NULL;
+		}
 	}
 
 
 
-	WindowsInputManager& WindowsInputManager::getInstance(HWND *windowHandle)
+	void WindowsInputManager::setWindowHandle(void* windowHandle)
 	{
-		static WindowsInputManager instance(windowHandle);
-		return instance;
+		windowHandle_ = static_cast<HWND*>(windowHandle);
 	}
+
+
 
 
 
@@ -43,16 +52,6 @@ namespace Division
 											NULL);
 		if FAILED(result) {
 			// TODO: log that this failed
-		}
-	}
-
-
-
-	void WindowsInputManager::releaseDirectInput()
-	{
-		if (directInput_) {
-			directInput_->Release();
-			directInput_ = NULL;
 		}
 	}
 

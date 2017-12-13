@@ -5,28 +5,26 @@
 #include <dinput.h>
 
 #include "InputDevice.h"
+#include "InputManager.h"
 
 namespace Division
 {
-	class WindowsInputManager
+	class WindowsInputManager : public InputManager
 	{
 	public:
-		static WindowsInputManager& getInstance(HWND*);
-		void initializeDirectInput();
-		void releaseDirectInput();
-		static BOOL CALLBACK enumDevicesCallback(LPCDIDEVICEINSTANCE, LPVOID);
-		void initializeInputDevices();
-		InputStates getInput();
-	private:
-		HWND* windowHandle_;
-		IDirectInput8* directInput_;
-		// We only use keyboard and mouse, so no container for these
-		InputDevice* keyboard_;
-		InputDevice* mouse_;
-
-		WindowsInputManager(HWND*); // TODO: maybe change
+		WindowsInputManager();
 		~WindowsInputManager();
+		void setWindowHandle(void*);
+		InputStates getInput();
+		static BOOL CALLBACK enumDevicesCallback(LPCDIDEVICEINSTANCE, LPVOID);
+	private:
+		void initializeDirectInput();
+		void initializeInputDevices();
 		BOOL enumDevices(LPCDIDEVICEINSTANCE);
+		HWND* windowHandle_ = NULL;
+		IDirectInput8* directInput_ = NULL;
+		InputDevice* keyboard_ = NULL;
+		InputDevice* mouse_ = NULL;
 	};
 }
 

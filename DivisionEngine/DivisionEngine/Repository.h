@@ -7,6 +7,7 @@
 #include "Renderer.h"
 #include "Entity.h"
 #include "Window.h"
+#include "InputManager.h"
 
 /**
 	Generates framework specific objects. On instianciation one framework
@@ -49,6 +50,11 @@ namespace Division
 			@returns Window*
 		*/
 		virtual Window* getWindow(std::string) = 0;
+		/**
+			Creates a framework specific input manager for handling input.
+			@returns An input manager
+		*/
+		virtual InputManager* getInputManager() = 0;
 	};
 }
 

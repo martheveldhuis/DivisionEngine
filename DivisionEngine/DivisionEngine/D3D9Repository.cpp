@@ -1,8 +1,8 @@
 #include "D3D9Repository.h"
+#include "LoggerPool.h"
 
 namespace Division
 {
-	LPDIRECT3D9 direct3D_ = NULL;
 	D3D9Repository::D3D9Repository()
 	{
 		if (NULL == (direct3D_ = Direct3DCreate9(D3D_SDK_VERSION))) {
@@ -19,16 +19,22 @@ namespace Division
 		direct3DParams.EnableAutoDepthStencil = true;
 		direct3DParams.AutoDepthStencilFormat = D3DFMT_D16;
 
-		HWND windowHandle_ = CreateWindowA("STATIC", "dummy", NULL, 100, 100, 800, 600,
+		HWND windowHandle = CreateWindowA("STATIC", "dummy", NULL, 100, 100, 800, 600,
 			NULL, NULL, NULL, NULL);
 
 		HRESULT result = direct3D_->CreateDevice(D3DADAPTER_DEFAULT, D3DDEVTYPE_HAL,
-			windowHandle_, D3DCREATE_SOFTWARE_VERTEXPROCESSING, &direct3DParams, &direct3DDevice_);
+			windowHandle, D3DCREATE_SOFTWARE_VERTEXPROCESSING, &direct3DParams, &direct3DDevice_);
 		if (FAILED(result)) {
 			LoggerPool::getInstance()->getLogger("D3DRepository")
 				->logError("Failed to create Direct3D device, " + result);
 			return;
 		}
+	}
+
+
+
+	D3D9Repository::~D3D9Repository()
+	{
 	}
 
 
@@ -127,12 +133,11 @@ namespace Division
 		return new Win32Window(title);
 	}
 
-
-
-	D3D9Repository::~D3D9Repository()
+	InputManager * D3D9Repository::getInputManager()
 	{
+		return new WindowsInputManager();
 	}
-
+	
 
 
 	void* D3D9Repository::getFrameworkInterface()

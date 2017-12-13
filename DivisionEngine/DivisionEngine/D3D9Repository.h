@@ -3,15 +3,13 @@
 
 #include <string>
 
-#include "ResourceLoader.h"
-#include "Renderer.h"
-#include "Terrain.h"
 #include "Repository.h"
 #include "D3D9TextureLoader.h"
 #include "D3D9MeshLoader.h"
 #include "D3D9Renderer.h"
-#include "LoggerPool.h"
 #include "Win32Window.h"
+#include "Terrain.h"
+#include "WindowsInputManager.h"
 
 namespace Division
 {
@@ -26,10 +24,10 @@ namespace Division
 		Entity* parseHeightmap(std::string, ResourceManager*);
 		Renderer* getRenderer();
 		Window* getWindow(std::string);
+		InputManager* getInputManager();
 	private:
 		LPDIRECT3D9 direct3D_ = NULL;
 		LPDIRECT3DDEVICE9 direct3DDevice_ = NULL;
-		HWND windowHandle_ = NULL;
 	};
 }
 
