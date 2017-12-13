@@ -8,7 +8,7 @@ namespace Division
 		float x, y, z;
 		unsigned int color;
 	};
-	
+
 	struct Position
 	{
 		float xPosition;
@@ -67,6 +67,11 @@ namespace Division
 			@returns void* Pointer to the device.
 		*/
 		virtual void* getDevice() = 0;
+
+		virtual void clear() = 0;
+		virtual void beginScene() = 0;
+		virtual void endScene() = 0;
+		virtual void present(void*) = 0;
 	};
 }
 #endif

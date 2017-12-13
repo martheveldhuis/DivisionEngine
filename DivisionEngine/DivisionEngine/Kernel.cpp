@@ -1,5 +1,4 @@
 #include "Kernel.h"
-#include <map>
 
 namespace Division
 {
@@ -20,7 +19,6 @@ namespace Division
 
 	void Kernel::run()
 	{
-
 		MSG msg;
 		ZeroMemory(&msg, sizeof(msg));
 
@@ -32,10 +30,8 @@ namespace Division
 				DispatchMessage(&msg);
 			}
 			else {
-
 				sceneManager_->renderScenes();
 			}
-
 		}
 	}
 	SceneManager * Kernel::getSceneManager()

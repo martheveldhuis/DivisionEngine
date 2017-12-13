@@ -113,7 +113,7 @@
     },
     {
       "name": "Window3",
-      "window_title": "TheThrrWindow",
+      "window_title": "TheThirdWindow",
       "renderer": "DXrenderer"
     }
   ]

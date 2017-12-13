@@ -2,9 +2,7 @@
 #define DIVISION_SCENE_H
 
 #include <map>
-#include <list>
 #include <string>
-#include <d3dx9.h>
 
 #include "Entity.h"
 #include "Renderer.h"
@@ -26,8 +24,8 @@ namespace Division
 		Entity* getEntity(std::string);
 		void removeEntity(std::string);
 	private:
-		ResourceManager* resourceManager_; 
-		std::map<std::string,Entity*> entities_;
+		ResourceManager* resourceManager_;
+		std::map<std::string, Entity*> entities_;
 		std::map<std::string, Window*> windows_;
 		std::map<Window*, Renderer*> rendererToWindow_;
 	};

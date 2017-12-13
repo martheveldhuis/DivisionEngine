@@ -45,6 +45,12 @@ namespace Division
 		*/
 		void setIndexBuffer(void* vertices, int indexes);
 		void* getDevice() { return direct3DDevice_; }
+
+		void clear();
+		void beginScene();
+		void endScene();
+		void present(void*);
+
 		void setWorldMatrix(Position*);
 		void setTexture(void*);
 		void setHandle(void*);
