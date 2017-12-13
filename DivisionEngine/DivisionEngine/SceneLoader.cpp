@@ -10,7 +10,7 @@ namespace Division
 
 	SceneLoader::SceneLoader(SceneManager* sceneManager,
 		Repository* d3D9Repository, ResourceManager* resourceManager) 
-	: d3D9Repository_(d3D9Repository), sceneManager_(sceneManager),
+	: repository_(d3D9Repository), sceneManager_(sceneManager),
 	resourceManager_(resourceManager)
 	{
 
@@ -21,23 +21,30 @@ namespace Division
 	{
 	}
 
-	void SceneLoader::loadScene(std::string scene) {
+	Scene* SceneLoader::loadScene(std::string scene, std::string filename) {
 
-		std::ifstream i("scenefile.json");
+		std::ifstream i(filename);
 		nlohmann::json sceneJson;
 		i >> sceneJson;
 		
 		std::string heightmap = sceneJson["terrain"]["heightmap"];
 
-		Renderer* renderer = d3D9Repository_->getRenderer();
+		Renderer* renderer = sceneManager_->getRenderer("test");
+		if (!renderer) {
+			renderer = repository_->getRenderer();
+			renderer->setup();
+			sceneManager_->addRenderer("test", renderer);
+		}
 
-		Window* win = d3D9Repository_->getWindow("Division");
+		
 
-		renderer->setHandle(win->getWindowHandle());
-		renderer->setup();
+		Window* win = repository_->getWindow(scene + ".1");
+
+		Window* win2 = repository_->getWindow(scene + ".2");
 
 		Scene* theScene = sceneManager_->createScene(scene, renderer);
-		theScene->addWindow("Window title", win, renderer);
+		theScene->addWindow(scene + ".1" + "Window", win, renderer);
+		theScene->addWindow(scene + ".2" + "Window", win2, renderer);
 
 		nlohmann::json objectJson = sceneJson["game_objects"];
 
@@ -49,7 +56,7 @@ namespace Division
 			nlohmann::json pos = entity["pos"];
 			nlohmann::json angle = entity["angle"];
 
-			Entity* newEntity = new Model(
+			Entity* newEntity = new Entity(
 				resourceManager_, pos["x"], pos["y"], pos["z"],
 				angle["x"], angle["y"], angle["z"]);
 
@@ -66,12 +73,14 @@ namespace Division
 			entitylist1.push_back(newEntity);
 		}
 
-		Entity* terrain = d3D9Repository_->parseHeightmap(heightmap, resourceManager_);
+		Entity* terrain = repository_->parseHeightmap(heightmap, resourceManager_);
 
 		entitylist1.push_back(terrain);
 
 		theScene->addEntityList("entityList1", entitylist1, win);
-		
+		theScene->addEntityList("entityList1", entitylist1, win2);
+
+		return theScene;
 
 	}
 }

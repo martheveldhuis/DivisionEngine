@@ -23,7 +23,8 @@ namespace Division
 
 		sceneManager_ = new SceneManager(resourceManager_, repository_);
 
-		Scene* scene = sceneManager_->loadScene("tst");
+		Scene* scene = sceneManager_->loadScene("scene1", "scenefile.json");
+		Scene* scene2 = sceneManager_->loadScene("scene2", "scenefile2.json");
 
 		MSG msg;
 		ZeroMemory(&msg, sizeof(msg));
@@ -37,7 +38,7 @@ namespace Division
 			}
 			else {
 
-				scene->render();
+				sceneManager_->renderScenes();
 			}
 
 		}

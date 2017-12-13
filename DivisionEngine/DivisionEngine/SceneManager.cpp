@@ -48,12 +48,12 @@ namespace Division
 		return createdScene;
 	}
 
-	Scene* SceneManager::loadScene(std::string sceneFile)
+	Scene* SceneManager::loadScene(std::string scene,std::string filename)
 	{
-		SceneLoader* loader = new SceneLoader(this, repository_, resourceManager_);
-		loader->loadScene(sceneFile);
-
-		return getScene(sceneFile);
+		if (sceneLoader_ == NULL) {
+			sceneLoader_ = new SceneLoader(this, repository_, resourceManager_);
+		}		
+		return sceneLoader_->loadScene(scene, filename);
 	}
 
 	Scene* SceneManager::getScene(std::string str)

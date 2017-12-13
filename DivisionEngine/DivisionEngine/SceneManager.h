@@ -10,6 +10,7 @@
 #include <map>
 namespace Division
 {
+	class SceneLoader;
 	class SceneManager
 	{
 	public:
@@ -20,7 +21,7 @@ namespace Division
 		Renderer* getRenderer(std::string);
 		void removeRenderer(std::string);
 		Scene* createScene(std::string, Renderer*);
-		Scene* loadScene(std::string);
+		Scene* loadScene(std::string, std::string);
 		Scene* getScene(std::string);
 		void removeScene(std::string);
 	private:
@@ -28,6 +29,7 @@ namespace Division
 		std::map<std::string, Scene*> scenes_;
 		ResourceManager* resourceManager_;
 		Repository* repository_;
+		SceneLoader* sceneLoader_;
 	};
 }
 

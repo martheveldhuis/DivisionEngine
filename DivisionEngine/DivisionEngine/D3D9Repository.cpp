@@ -90,7 +90,7 @@ namespace Division
 
 
 			int heightmapIndex;// = currentColumn + currentRow * size;
-			heightmapIndex = (height - currentRow) * size + currentColumn;
+			heightmapIndex = (height - (currentRow+1)) * size + currentColumn;
 
 			int y = data[heightmapIndex * (bitCount / 8)];
 			DWORD grayValB = y;
