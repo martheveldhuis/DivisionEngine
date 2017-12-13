@@ -20,7 +20,7 @@ namespace Division
 		void addRenderer(std::string, Renderer*);
 		Renderer* getRenderer(std::string);
 		void removeRenderer(std::string);
-		Scene* createScene(std::string, Renderer*);
+		Scene* createScene(std::string);
 		Scene* loadScene(std::string, std::string);
 		Scene* getScene(std::string);
 		void removeScene(std::string);

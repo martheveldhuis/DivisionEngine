@@ -4,14 +4,14 @@
 #include "ResourceManager.h"
 #include "SceneManager.h"
 #include "WindowsInputManager.h"
-#include "D3D9Repository.h"
+
 
 namespace Division
 {
 	class Kernel
 	{
 	public:
-		Kernel();
+		Kernel(Repository*);
 		~Kernel();
 		void run();
 		SceneManager* getSceneManager();

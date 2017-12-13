@@ -41,7 +41,7 @@ namespace Division
 		}
 	}
 
-	Scene* SceneManager::createScene(std::string str, Renderer* renderer)
+	Scene* SceneManager::createScene(std::string str)
 	{
 		Scene* createdScene = new Scene(resourceManager_);
 		scenes_[str] = createdScene;

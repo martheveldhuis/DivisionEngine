@@ -1,8 +1,16 @@
 {
-  "terrain": {
-    "heightmap": "heightmap.bmp",
-    "texture": ""
+  "scene":{
+    "name": "TheBestScene",
+    "terrain": {
+      "heightmap": "heightmap.bmp",
+      "texture": ""
+    }
   },
+  "renderers":[
+    {
+      "name": "DXrenderer"
+    }
+  ],
   "game_objects": [
     {
       "name": "tiger",
@@ -35,7 +43,7 @@
       }
     },
     {
-      "name": "tigedr",
+      "name": "tigedr2",
       "mesh": "tiger.x",
       "texture": "banana.bmp",
       "pos": {
@@ -90,6 +98,23 @@
         "y": 0,
         "z": 0
       }
+    }
+  ],
+  "windows":[
+    {
+      "name": "Window1",
+      "window_title": "TheFirstWindow",
+      "renderer": "DXrenderer"
+    },
+    {
+      "name": "Window2",
+      "window_title": "TheSecondWindow",
+      "renderer": "DXrenderer"
+    },
+    {
+      "name": "Window3",
+      "window_title": "TheThrrWindow",
+      "renderer": "DXrenderer"
     }
   ]
 }

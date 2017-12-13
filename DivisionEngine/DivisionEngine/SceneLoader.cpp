@@ -1,9 +1,5 @@
 #include "SceneLoader.h"
 
-#include <string>
-#include <fstream>
-
-#include "json.hpp"
 
 namespace Division
 {
@@ -27,30 +23,36 @@ namespace Division
 		nlohmann::json sceneJson;
 		i >> sceneJson;
 		
-		std::string heightmap = sceneJson["terrain"]["heightmap"];
+		std::string sceneName = sceneJson["scene"]["name"];
+		std::string heightmap = sceneJson["scene"]["terrain"]["heightmap"];
 
-		Renderer* renderer = sceneManager_->getRenderer("test");
-		if (!renderer) {
-			renderer = repository_->getRenderer();
-			renderer->setup();
-			sceneManager_->addRenderer("test", renderer);
+
+		Scene* theScene = sceneManager_->createScene(scene);
+
+
+		nlohmann::json renderersJson = sceneJson["renderers"];
+		for (nlohmann::json::iterator it = renderersJson.begin(); it != renderersJson.end(); ++it) {
+			nlohmann::json rendererJson = (*it);
+			std::string name = rendererJson["name"];
+			Renderer* renderer = sceneManager_->getRenderer(name);
+			if (!renderer) {
+				renderer = repository_->getRenderer();
+				renderer->setup();
+				sceneManager_->addRenderer(name, renderer);
+			}
 		}
 
-		
-
-		Window* win = repository_->getWindow(scene + ".1");
-
-		Window* win2 = repository_->getWindow(scene + ".2");
-
-		Scene* theScene = sceneManager_->createScene(scene, renderer);
-		theScene->addWindow(scene + ".1" + "Window", win, renderer);
-		theScene->addWindow(scene + ".2" + "Window", win2, renderer);
+		nlohmann::json windowsJson = sceneJson["windows"];
+		for (nlohmann::json::iterator it = windowsJson.begin(); it != windowsJson.end(); ++it) {
+			nlohmann::json windowJson = (*it);
+			std::string name = windowJson["name"];
+			std::string windowTitle = windowJson["window_title"];
+			std::string renderer = windowJson["renderer"];
+			Window* win = repository_->getWindow(windowTitle);
+			theScene->addWindow(name, win, sceneManager_->getRenderer(renderer));
+		}
 
 		nlohmann::json objectJson = sceneJson["game_objects"];
-
-		std::list<Entity*> entitylist1;
-
-		int objectCount = 0;
 		for (nlohmann::json::iterator it = objectJson.begin(); it != objectJson.end(); ++it) {
 			nlohmann::json entity = (*it);
 			nlohmann::json pos = entity["pos"];
@@ -60,7 +62,7 @@ namespace Division
 				resourceManager_, pos["x"], pos["y"], pos["z"],
 				angle["x"], angle["y"], angle["z"]);
 
-			newEntity->setMesh((*it)["mesh"]);
+			newEntity->setMesh(entity["mesh"]);
 
 			if (entity.find("texture") != entity.end()) {
 				std::string customTexture = entity["texture"];
@@ -70,15 +72,12 @@ namespace Division
 				}
 			}
 
-			entitylist1.push_back(newEntity);
+			theScene->addEntity(entity["name"], newEntity);
 		}
 
 		Entity* terrain = repository_->parseHeightmap(heightmap, resourceManager_);
 
-		entitylist1.push_back(terrain);
-
-		theScene->addEntityList("entityList1", entitylist1, win);
-		theScene->addEntityList("entityList1", entitylist1, win2);
+		theScene->addEntity("terrain", terrain);
 
 		return theScene;
 
