@@ -26,8 +26,9 @@ namespace Division
 		std::ifstream i("scenefile.json");
 		nlohmann::json sceneJson;
 		i >> sceneJson;
-		
+
 		std::string heightmap = sceneJson["terrain"]["heightmap"];
+		std::string heightmapTexture = sceneJson["terrain"]["texture"];
 
 		Renderer* renderer = d3D9Repository_->getRenderer();
 
@@ -66,8 +67,8 @@ namespace Division
 			entitylist1.push_back(newEntity);
 		}
 
-		Entity* terrain = d3D9Repository_->parseHeightmap(heightmap, resourceManager_);
-
+		Entity* terrain = d3D9Repository_->getTerrain(heightmap, resourceManager_, heightmapTexture);
+		terrain->setTexture(heightmapTexture);
 		entitylist1.push_back(terrain);
 
 		theScene->addEntityList("entityList1", entitylist1, win);

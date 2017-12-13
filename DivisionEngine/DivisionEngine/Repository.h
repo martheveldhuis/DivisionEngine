@@ -43,7 +43,7 @@ namespace Division
 			Parses a heightmap and stores the data in a Terrain.
 			@returns Entity*
 		*/
-		virtual Entity* parseHeightmap(std::string, ResourceManager*) = 0;
+		virtual Entity* getTerrain(std::string, ResourceManager*, std::string) = 0;
 		/**
 			Creates a window from a string.
 			@returns Window*

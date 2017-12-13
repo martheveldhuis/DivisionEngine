@@ -2,7 +2,7 @@
 #include "D3D9Texture.h"
 #include <d3dx9.h>
 
-#define D3DFVF_CUSTOMVERTEX (D3DFVF_XYZ|D3DFVF_DIFFUSE)
+#define D3DFVF_CUSTOMVERTEX (D3DFVF_XYZ  | D3DFVF_TEX1)
 
 namespace Division
 {
@@ -38,8 +38,8 @@ namespace Division
 
 	void D3D9Renderer::setupMatrices()
 	{
-		D3DXVECTOR3 viewPointStart(0.0f, 8.0f, -5.0f);
-		D3DXVECTOR3 viewLookAt(0.0f, 0.0f, 0.0f);
+		D3DXVECTOR3 viewPointStart(5.0f, 1.0f, -1.0f);
+		D3DXVECTOR3 viewLookAt(0.0f, -10.0f, 0.0f);
 		D3DXVECTOR3 upVector(0.0f, 1.0f, 0.0f);
 		D3DXMATRIXA16 viewMatrix;
 		D3DXMatrixLookAtLH(&viewMatrix, &viewPointStart, &viewLookAt, &upVector);
@@ -56,9 +56,11 @@ namespace Division
 	{
 		D3DXMATRIX rotation;
 		D3DXMATRIX translation;
+		D3DXMATRIX scale;
 
 		D3DXMatrixRotationYawPitchRoll(&rotation, position->yAngle, position->xAngle, position->zAngle);
 		D3DXMatrixTranslation(&translation, position->xPosition, position->yPosition, position->zPosition);
+		D3DXMatrixScaling(&scale, .5, .5, .5);
 
 		direct3DDevice_->SetTransform(D3DTS_WORLD, &(rotation * translation));
 	}
@@ -112,6 +114,8 @@ namespace Division
 	{
 		D3D9Texture* texture = static_cast<D3D9Texture*>(resource);
 		direct3DDevice_->SetTexture(0, texture->getTextureData());
+		direct3DDevice_->SetTextureStageState(0, D3DTSS_COLORARG1, D3DTA_TEXTURE);
+		direct3DDevice_->SetTextureStageState(0, D3DTSS_COLOROP, D3DTOP_SELECTARG1);
 	}
 
 

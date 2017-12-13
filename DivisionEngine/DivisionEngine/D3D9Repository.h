@@ -10,7 +10,6 @@
 #include "D3D9TextureLoader.h"
 #include "D3D9MeshLoader.h"
 #include "D3D9Renderer.h"
-#include "LoggerPool.h"
 #include "Win32Window.h"
 
 namespace Division
@@ -23,7 +22,7 @@ namespace Division
 		void* getFrameworkInterface();
 		ResourceLoader* getTextureLoader();
 		ResourceLoader* getMeshLoader();
-		Entity* parseHeightmap(std::string, ResourceManager*);
+		Entity* getTerrain(std::string, ResourceManager*, std::string);
 		Renderer* getRenderer();
 		Window* getWindow(std::string);
 	private:

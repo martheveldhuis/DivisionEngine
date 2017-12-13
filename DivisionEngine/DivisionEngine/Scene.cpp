@@ -28,7 +28,7 @@ namespace Division
 				rendererIt->second->setupMatrices();
 
 			LPDIRECT3DDEVICE9 renderDevice = static_cast<LPDIRECT3DDEVICE9>(rendererIt->second->getDevice());
-			renderDevice->Clear(0, NULL, D3DCLEAR_TARGET | D3DCLEAR_ZBUFFER, D3DCOLOR_XRGB(0, 0xff, 0xff), 1.0f, 0);
+			renderDevice->Clear(0, NULL, D3DCLEAR_TARGET | D3DCLEAR_ZBUFFER, D3DCOLOR_XRGB(0x79, 0xda, 0x33), 1.0f, 0);
 
 			renderDevice->BeginScene();
 

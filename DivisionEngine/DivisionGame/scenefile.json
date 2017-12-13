@@ -1,7 +1,7 @@
 {
   "terrain": {
-    "heightmap": "heightmap.bmp",
-    "texture": ""
+    "heightmap": "terrainhm.bmp",
+    "texture": "terrain.bmp"
   },
   "game_objects": [
     {

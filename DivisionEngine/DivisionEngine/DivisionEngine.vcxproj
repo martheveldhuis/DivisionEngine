@@ -131,6 +131,7 @@
   <ItemGroup>
     <ClCompile Include="D3D9Renderer.cpp" />
     <ClCompile Include="D3D9Repository.cpp" />
+    <ClCompile Include="FileLoader.cpp" />
     <ClCompile Include="Kernel.cpp" />
     <ClCompile Include="Entity.cpp" />
     <ClCompile Include="Model.cpp" />
@@ -153,6 +154,7 @@
   <ItemGroup>
     <ClInclude Include="D3D9Renderer.h" />
     <ClInclude Include="D3D9Repository.h" />
+    <ClInclude Include="FileLoader.h" />
     <ClInclude Include="json.hpp" />
     <ClInclude Include="Kernel.h" />
     <ClInclude Include="Mesh.h" />

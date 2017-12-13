@@ -78,6 +78,9 @@
     <ClCompile Include="Kernel.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="FileLoader.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ResourceManager.h">
@@ -166,6 +169,9 @@
     </ClInclude>
     <ClInclude Include="json.hpp">
       <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="FileLoader.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

@@ -6,7 +6,8 @@ namespace Division
 	struct DivisionVertex
 	{
 		float x, y, z;
-		unsigned int color;
+		//unsigned int color;
+		float u, v;
 	};
 	
 	struct Position

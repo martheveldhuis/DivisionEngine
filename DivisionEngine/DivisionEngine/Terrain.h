@@ -3,7 +3,7 @@
 
 #include "D3D9Mesh.h"
 #include "Renderer.h"
-#include "D3D9Texture.h"
+#include "Resource.h"
 #include "Entity.h"
 
 namespace Division
@@ -15,8 +15,9 @@ namespace Division
 		~Terrain();
 		void render(Renderer* renderer);
 		int generateIndices(int** ppIndices, int verticesAlongWidth, int verticesAlongLength);
+		void setTexture(std::string textureFile);
 	private:
-		D3D9Texture* texture_ = NULL; // texture
+		Resource* texture_ = NULL; // texture
 		DivisionVertex* vertices_;
 		int vertexCount_ = 0;
 		int* indices_ = NULL;
