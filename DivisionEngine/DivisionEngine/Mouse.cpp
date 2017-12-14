@@ -1,4 +1,5 @@
 #include "Mouse.h"
+#include "LoggerPool.h"
 
 namespace Division 
 {
@@ -21,23 +22,29 @@ namespace Division
 	{
 		HRESULT result;
 
-		result = directInput_->CreateDevice(GUID_SysMouse, &directInputMouse_, NULL);
+		result = directInput_->CreateDevice(GUID_SysMouse, &directInputMouse_,
+											NULL);
 		if (FAILED(result)) {
-			// log that this failed
+			LoggerPool::getInstance()->getLogger("mouse")
+				->logError("Couldn't create device, " + result);
 			return;
 		}
 
 		result = directInputMouse_->SetDataFormat(&c_dfDIMouse);
 		if FAILED(result)
 		{
-			// log that this failed
+			LoggerPool::getInstance()->getLogger("mouse")
+				->logError("Couldn't set data format, " + result);
 			return;
 		}
 
-		result = directInputMouse_->SetCooperativeLevel(*windowHandle_, DISCL_EXCLUSIVE | DISCL_FOREGROUND);
+		result = directInputMouse_->SetCooperativeLevel(*windowHandle_, 
+														DISCL_EXCLUSIVE | 
+														DISCL_FOREGROUND);
 		if FAILED(result)
 		{
-			// log that this failed
+			LoggerPool::getInstance()->getLogger("mouse")
+				->logError("Couldn't set coorperative level, " + result);
 			return;
 		}
 
@@ -47,19 +54,16 @@ namespace Division
 		properties.diph.dwObj = 0;
 		properties.diph.dwHow = DIPH_DEVICE;
 
-		result = directInputMouse_->SetProperty(DIPROP_BUFFERSIZE, &properties.diph);
+		result = directInputMouse_->SetProperty(DIPROP_BUFFERSIZE,
+												&properties.diph);
 		if (FAILED(result))
 		{
-			// log that this failed
+			LoggerPool::getInstance()->getLogger("mouse")
+				->logError("Couldn't set properties, " + result);
 			return;
 		}
 
-		result = directInputMouse_->Acquire();
-		if (FAILED(result))
-		{
-			// log that this failed
-			return;
-		}
+		doAcquire();
 	}
 
 
@@ -77,16 +81,32 @@ namespace Division
 
 
 
+	void Mouse::doAcquire()
+	{
+		HRESULT result;
+
+		for (int i = 0; i < 5; ++i) {
+
+			result = directInputMouse_->Acquire();
+			if (SUCCEEDED(result))
+				return;
+		}
+	}
+
+
+
 	void Mouse::getInput()
 	{
 		DWORD bufferItemsToRead = 1;
 		ZeroMemory(&buttonsAndAxes_, sizeof(buttonsAndAxes_));
 
-		HRESULT res = directInputMouse_->GetDeviceData(sizeof(DIDEVICEOBJECTDATA), &buttonsAndAxes_, &bufferItemsToRead, 0);
-		if (FAILED(res)) {
-			if (res == DIERR_INPUTLOST || res == DIERR_NOTACQUIRED) {
-				directInputMouse_->Acquire();
-			}
+		HRESULT result;
+		result = directInputMouse_->GetDeviceData(sizeof(DIDEVICEOBJECTDATA),
+												  &buttonsAndAxes_,
+												  &bufferItemsToRead, 0);
+		if (FAILED(result)) {
+			if (result == DIERR_INPUTLOST || result == DIERR_NOTACQUIRED)
+				doAcquire();
 		}
 	}
 

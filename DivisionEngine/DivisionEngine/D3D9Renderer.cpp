@@ -1,6 +1,7 @@
 #include "D3D9Renderer.h"
 #include "D3D9Texture.h"
 #include <d3dx9.h>
+#include "Camera.h"
 
 #define D3DFVF_CUSTOMVERTEX (D3DFVF_XYZ|D3DFVF_DIFFUSE)
 
@@ -56,9 +57,13 @@ namespace Division
 	{
 		D3DXMATRIX rotation;
 		D3DXMATRIX translation;
+		Position cameraPosition = camera_->getCameraPosition();
 
-		D3DXMatrixRotationYawPitchRoll(&rotation, position->yAngle, position->xAngle, position->zAngle);
-		D3DXMatrixTranslation(&translation, position->xPosition, position->yPosition, position->zPosition);
+		// TODO: fix camera rotation
+		D3DXMatrixRotationYawPitchRoll(&rotation, position->yAngle - cameraPosition.yAngle, position->xAngle - cameraPosition.xAngle, position->zAngle);
+		D3DXMatrixTranslation(&translation, position->xPosition - cameraPosition.xPosition, position->yPosition - cameraPosition.yPosition, position->zPosition - cameraPosition.zPosition);
+
+
 
 		direct3DDevice_->SetTransform(D3DTS_WORLD, &(rotation * translation));
 	}
@@ -119,5 +124,9 @@ namespace Division
 	void D3D9Renderer::setHandle(void* handle)
 	{
 		windowHandle_ = static_cast<HWND>(handle);
+	}
+	void D3D9Renderer::setCamera(Camera *camera)
+	{
+		camera_ = camera;
 	}
 }

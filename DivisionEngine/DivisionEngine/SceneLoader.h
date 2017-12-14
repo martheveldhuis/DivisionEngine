@@ -4,10 +4,10 @@
 #include <string>
 
 #include "Repository.h"
-#include "SceneManager.h"
 #include "ResourceManager.h"
 #include "Win32Window.h"
 #include "Model.h"
+#include "Camera.h"
 
 namespace Division
 {

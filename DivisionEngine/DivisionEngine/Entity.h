@@ -5,10 +5,11 @@
 
 #include "Mesh.h"
 #include "ResourceManager.h"
-#include "Renderer.h"
+
 
 namespace Division
 {
+	class Renderer;
 	class Entity
 	{
 	public:

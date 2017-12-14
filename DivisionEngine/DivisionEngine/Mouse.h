@@ -14,6 +14,7 @@ namespace Division
 		virtual ~Mouse();
 		virtual void initialize();
 		virtual void release();
+		virtual void doAcquire();
 		virtual void getInput();
 		virtual void storeInputStates(InputStates*);
 	private:

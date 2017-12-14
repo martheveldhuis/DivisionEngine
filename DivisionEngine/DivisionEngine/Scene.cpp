@@ -2,9 +2,11 @@
 #include "Model.h"
 #include "Win32Window.h"
 
+#include "Camera.h"
+
 namespace Division
 {
-	Scene::Scene(ResourceManager* rm) : resourceManager_(rm)
+	Scene::Scene(ResourceManager* rm, InputManager* im) : resourceManager_(rm), inputManager_(im)
 	{
 	}
 
@@ -40,7 +42,17 @@ namespace Division
 				std::list<Entity*>::const_iterator entityIt;
 
 				for (entityIt = entityList.begin(); entityIt != entityList.end(); ++entityIt) {
+					
+					inputManager_->setWindowHandle(windowIt->first->getWindowHandle());
+					InputStates i = inputManager_->getInput();
+
+					Camera* cam = cameraToWindow_[windowIt->first];
+					cam->updateCameraPosition(&i);
+
+					(rendererIt->second)->setCamera(cam);
+
 					(*entityIt)->render(rendererIt->second);
+					
 				}
 			}
 
@@ -54,10 +66,11 @@ namespace Division
 
 
 
-	void Scene::addWindow(std::string windowName, Window* window, Renderer* renderer)
+	void Scene::addWindow(std::string windowName, Window* window, Renderer* renderer, Camera* camera)
 	{
 		windows_[windowName] = window;
 		rendererToWindow_[window] = renderer;
+		cameraToWindow_[window] = camera; // TODO: delete this one when destroying scene
 
 	}
 

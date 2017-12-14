@@ -6,6 +6,7 @@
 #include "SceneLoader.h"
 #include "ResourceManager.h"
 #include "Repository.h"
+#include "InputManager.h"
 
 #include <map>
 namespace Division
@@ -27,6 +28,7 @@ namespace Division
 		std::map<std::string, Renderer*> renderers_;
 		std::map<std::string, Scene*> scenes_;
 		ResourceManager* resourceManager_;
+		InputManager* inputManager_;
 		Repository* repository_;
 	};
 }

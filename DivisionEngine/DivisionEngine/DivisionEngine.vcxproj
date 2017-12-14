@@ -129,6 +129,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Camera.cpp" />
     <ClCompile Include="D3D9Renderer.cpp" />
     <ClCompile Include="D3D9Repository.cpp" />
     <ClCompile Include="Kernel.cpp" />
@@ -151,6 +152,7 @@
     <ClCompile Include="WindowsInputManager.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Camera.h" />
     <ClInclude Include="D3D9Renderer.h" />
     <ClInclude Include="D3D9Repository.h" />
     <ClInclude Include="InputManager.h" />

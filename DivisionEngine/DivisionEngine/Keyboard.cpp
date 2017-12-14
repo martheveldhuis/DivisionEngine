@@ -1,4 +1,5 @@
 #include "Keyboard.h"
+#include "LoggerPool.h"
 
 #include <dinput.h>
 #include <iostream>
@@ -24,16 +25,19 @@ namespace Division
 	{
 		HRESULT result;
 
-		result = directInput_->CreateDevice(GUID_SysKeyboard, &directInputKeyboard_, NULL);
+		result = directInput_->CreateDevice(GUID_SysKeyboard, &directInputKeyboard_, 
+											NULL);
 		if FAILED(result) {
-			// log that this failed
+			LoggerPool::getInstance()->getLogger("keyboard")
+				->logError("Couldn't create device, " + result);
 			return;
 		}
 
 		result = directInputKeyboard_->SetDataFormat(&c_dfDIKeyboard);
 		if FAILED(result)
 		{
-			// log that this failed
+			LoggerPool::getInstance()->getLogger("keyboard")
+				->logError("Couldn't set data format, " + result);
 			release();
 			return;
 		}
@@ -43,17 +47,13 @@ namespace Division
 															DISCL_FOREGROUND);
 		if FAILED(result)
 		{
-			// log that this failed
+			LoggerPool::getInstance()->getLogger("keyboard")
+				->logError("Couldn't set coorperative level, " + result);
 			release();
 			return;
 		}
 
-		result = directInputKeyboard_->Acquire();
-		if (FAILED(result))
-		{
-			// log that this failed
-			return;
-		}
+		doAcquire();
 	}
 
 
@@ -70,6 +70,20 @@ namespace Division
 
 
 
+	void Keyboard::doAcquire()
+	{
+		HRESULT result;
+
+		for (int i = 0; i < 5; ++i) {
+
+			result = directInputKeyboard_->Acquire();
+			if (SUCCEEDED(result))
+				return;
+		}
+	}
+
+
+
 	void Keyboard::getInput()
 	{
 		ZeroMemory(&keys_, sizeof(keys_));
@@ -77,7 +91,7 @@ namespace Division
 		HRESULT stateResult = directInputKeyboard_->GetDeviceState(sizeof(keys_), (void*)keys_);
 		if (FAILED(stateResult)) {
 			if (stateResult == DIERR_INPUTLOST || stateResult == DIERR_NOTACQUIRED)
-				directInputKeyboard_->Acquire();
+				doAcquire();
 		}
 	}
 

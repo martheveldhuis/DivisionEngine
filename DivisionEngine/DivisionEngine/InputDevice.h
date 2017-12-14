@@ -20,6 +20,7 @@ namespace Division
 		virtual ~InputDevice() = 0 {};
 		virtual void initialize() = 0;
 		virtual void release() = 0;
+		virtual void doAcquire() = 0;
 		virtual void storeInputStates(InputStates*) = 0;
 	};
 }

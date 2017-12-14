@@ -8,7 +8,6 @@ namespace Division
 	WindowsInputManager::WindowsInputManager()
 	{
 		initializeDirectInput();
-		initializeInputDevices();
 	}
 
 
@@ -35,23 +34,23 @@ namespace Division
 
 	void WindowsInputManager::setWindowHandle(void* windowHandle)
 	{
-		windowHandle_ = static_cast<HWND*>(windowHandle);
+		windowHandle_ = static_cast<HWND>(windowHandle);
+		initializeInputDevices();
 	}
 
 
 
 
-
-	// TODO: remove this to a general location for sharing
 	void WindowsInputManager::initializeDirectInput()
 	{
-		HRESULT result = DirectInput8Create(GetModuleHandle(NULL), // TODO:  hisntance?
+		HRESULT result = DirectInput8Create(GetModuleHandle(NULL),
 											DIRECTINPUT_VERSION,
 											IID_IDirectInput8,
 											(void**)&directInput_,
 											NULL);
 		if FAILED(result) {
-			// TODO: log that this failed
+			LoggerPool::getInstance()->getLogger("windowsInputManager")
+				->logError("Failed to create Direct Input, " + result);
 		}
 	}
 
@@ -71,15 +70,17 @@ namespace Division
 		switch (device->dwDevType & 0x000000ff) {
 			case DI8DEVTYPE_KEYBOARD:
 				if (!keyboard_)
-					keyboard_ = new Keyboard(windowHandle_, directInput_);
+					keyboard_ = new Keyboard(&windowHandle_, directInput_);
 					break;
 			case DI8DEVTYPE_MOUSE:
 				if (!mouse_)
-					mouse_ = new Mouse(windowHandle_, directInput_);
+					mouse_ = new Mouse(&windowHandle_, directInput_);
 					break;
 			default:
+				LoggerPool::getInstance()->getLogger("windowsInputManager")
+					->logInfo("The device type is not supported, " 
+							  + (device->dwDevType & 0x000000ff));
 				break;
-			// TODO: log that input is not supported
 		}
 
 		return true;
@@ -92,7 +93,8 @@ namespace Division
 		HRESULT result = directInput_->EnumDevices(DI8DEVCLASS_ALL, enumDevicesCallback, 
 												   this, DIEDFL_ATTACHEDONLY);
 		if FAILED (result) {
-			// TODO: log that this failed
+			LoggerPool::getInstance()->getLogger("windowsInputManager")
+				->logError("Failed to enumerate devices, " + result);
 		}
 
 	}

@@ -1,8 +1,10 @@
 #ifndef DIVISION_RENDERER_H
 #define DIVISION_RENDERER_H
 
+
 namespace Division
 {
+	class Camera;
 	struct DivisionVertex
 	{
 		float x, y, z;
@@ -66,6 +68,7 @@ namespace Division
 			Retrieve the framework specific render device.
 			@returns void* Pointer to the device.
 		*/
+		virtual void setCamera(Camera*) = 0;
 		virtual void* getDevice() = 0;
 	};
 }

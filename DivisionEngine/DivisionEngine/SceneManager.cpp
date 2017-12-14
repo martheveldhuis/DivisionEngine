@@ -4,6 +4,7 @@ namespace Division
 	SceneManager::SceneManager(ResourceManager* rm, Repository* repository_)
 		: resourceManager_(rm), repository_(repository_)
 	{
+		inputManager_ = repository_->getInputManager();
 	}
 
 	SceneManager::~SceneManager()
@@ -43,7 +44,7 @@ namespace Division
 
 	Scene* SceneManager::createScene(std::string str, Renderer* renderer)
 	{
-		Scene* createdScene = new Scene(resourceManager_);
+		Scene* createdScene = new Scene(resourceManager_, inputManager_);
 		scenes_[str] = createdScene;
 		return createdScene;
 	}

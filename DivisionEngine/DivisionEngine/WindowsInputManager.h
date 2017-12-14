@@ -21,7 +21,7 @@ namespace Division
 		void initializeDirectInput();
 		void initializeInputDevices();
 		BOOL enumDevices(LPCDIDEVICEINSTANCE);
-		HWND* windowHandle_ = NULL;
+		HWND windowHandle_ = NULL;
 		IDirectInput8* directInput_ = NULL;
 		InputDevice* keyboard_ = NULL;
 		InputDevice* mouse_ = NULL;

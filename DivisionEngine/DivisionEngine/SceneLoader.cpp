@@ -1,4 +1,6 @@
 #include "SceneLoader.h"
+#include "Camera.h"
+#include "SceneManager.h"
 
 #include <string>
 #include <fstream>
@@ -36,8 +38,10 @@ namespace Division
 		renderer->setHandle(win->getWindowHandle());
 		renderer->setup();
 
+		Camera* camera = new Camera(resourceManager_);
+
 		Scene* theScene = sceneManager_->createScene(scene, renderer);
-		theScene->addWindow("Window title", win, renderer);
+		theScene->addWindow("Window title", win, renderer, camera);
 
 		nlohmann::json objectJson = sceneJson["game_objects"];
 
@@ -65,6 +69,7 @@ namespace Division
 
 			entitylist1.push_back(newEntity);
 		}
+
 
 		Entity* terrain = d3D9Repository_->parseHeightmap(heightmap, resourceManager_);
 
