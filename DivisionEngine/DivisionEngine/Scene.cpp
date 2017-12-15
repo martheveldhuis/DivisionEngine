@@ -1,6 +1,4 @@
 #include "Scene.h"
-#include "Model.h"
-#include "Win32Window.h"
 
 #include "Camera.h"
 
@@ -10,57 +8,25 @@ namespace Division
 	{
 	}
 
-
-
 	Scene::~Scene()
 	{
 	}
 
-
-
 	void Scene::render()
 	{
-		std::map<Window*, std::string>::const_iterator windowIt;
-
-		for (windowIt = entityListToWindow_.begin(); windowIt != entityListToWindow_.end(); windowIt++)
+		std::map<std::string, Window*>::const_iterator windowIt;
+		for (windowIt = windows_.begin(); windowIt != windows_.end(); windowIt++)
 		{
-			std::map<Window*, Renderer*>::const_iterator rendererIt = rendererToWindow_.find(windowIt->first);
-
-			if (rendererIt != rendererToWindow_.end())
-				rendererIt->second->setupMatrices();
-
-			LPDIRECT3DDEVICE9 renderDevice = static_cast<LPDIRECT3DDEVICE9>(rendererIt->second->getDevice());
-			renderDevice->Clear(0, NULL, D3DCLEAR_TARGET | D3DCLEAR_ZBUFFER, D3DCOLOR_XRGB(0, 0xff, 0xff), 1.0f, 0);
-
-			renderDevice->BeginScene();
-
-			std::map<Window*, std::string>::const_iterator entityListIt;
-			entityListIt = entityListToWindow_.find(windowIt->first);
-			
-			if (entityListIt != entityListToWindow_.end()) {
-				std::list<Entity*> entityList = getEntityList(entityListIt->second);
-				std::list<Entity*>::const_iterator entityIt;
-
-				for (entityIt = entityList.begin(); entityIt != entityList.end(); ++entityIt) {
-					
-					inputManager_->setWindowHandle(windowIt->first->getWindowHandle());
-					InputStates i = inputManager_->getInput();
-
-					Camera* cam = cameraToWindow_[windowIt->first];
-					cam->updateCameraPosition(&i);
-
-					(rendererIt->second)->setCamera(cam);
-
-					(*entityIt)->render(rendererIt->second);
-					
-				}
+			std::map<Window*, Renderer*>::const_iterator rendererIt = rendererToWindow_.find(windowIt->second);
+			rendererIt->second->clear();
+			rendererIt->second->beginScene();
+			std::map<std::string, Entity*>::const_iterator enitityIt;
+			for (enitityIt = entities_.begin(); enitityIt != entities_.end(); enitityIt++)
+			{
+				enitityIt->second->render(rendererIt->second);
 			}
-
-			renderDevice->EndScene();
-
-			HWND win = static_cast<HWND>(windowIt->first->getWindowHandle());
-
-			renderDevice->Present(NULL, NULL, win, NULL);
+			rendererIt->second->endScene();
+			rendererIt->second->present(windowIt->second->getWindowHandle());
 		}
 	}
 
@@ -74,84 +40,55 @@ namespace Division
 
 	}
 
-
-
-	Window* Scene::getWindow(std::string str)
+	Window* Scene::getWindow(std::string windowName)
 	{
 		std::map<std::string, Window*>::iterator it;
-		it = windows_.find(str);
+		it = windows_.find(windowName);
 		if (it != windows_.end())
 			return (it->second);
 		else
 			return nullptr;
 	}
 
-
-
-	void Scene::removeWindow(std::string str)
+	void Scene::removeWindow(std::string windowName)
 	{
 		std::map<std::string, Window*>::const_iterator window;
-		window = windows_.find(str);
+		window = windows_.find(windowName);
 		if (window != windows_.end())
 		{
-			std::map<Window*, std::string>::const_iterator entityRelations;
 			std::map<Window*, Renderer*>::const_iterator rendererRelations;
-
-			entityRelations = entityListToWindow_.find(window->second);
 			rendererRelations = rendererToWindow_.find(window->second);
-
-			if (entityRelations != entityListToWindow_.end()) {
-				// TODO: clean up entityListToWindow_
-			}
-
 			if (rendererRelations != rendererToWindow_.end()) {
-				// TODO: clean up rendererToWindow_
+				//rendererRelations->second.decreaseRefrenceCount(); // TODO: clean up renderer by counter
+				rendererToWindow_.erase(rendererRelations);
 			}
-
-			// TODO: clean up windows_
+			delete window->second;
+			windows_.erase(window);
 		}
 	}
 
-
-
-	void Scene::addEntityList(std::string entityListName, std::list<Entity*> entityList, Window* window)
+	void Scene::addEntity(std::string entityName, Entity* entity)
 	{
-		entityLists_[entityListName] = entityList;
-		entityListToWindow_[window] = entityListName;
+		entities_[entityName] = entity;
 	}
 
-
-
-	std::list<Entity*> Scene::getEntityList(std::string entityListName)
+	Entity* Scene::getEntity(std::string entityName)
 	{
-		std::map<std::string, std::list<Entity*>>::const_iterator entityLists;
-		entityLists = entityLists_.find(entityListName);
-
-		if (entityLists != entityLists_.end())
-			return entityLists->second;
-
-		return std::list<Entity*>();
+		std::map<std::string, Entity*>::iterator it;
+		it = entities_.find(entityName);
+		if (it != entities_.end())
+			return (it->second);
+		else
+			return nullptr;
 	}
 
-
-
-	void Scene::removeEntityList(std::string entityListName)
+	void Scene::removeEntity(std::string entityName)
 	{
-		std::map<std::string, std::list<Entity*>>::const_iterator entityList;
-		entityList = entityLists_.find(entityListName);
-		if (entityList != entityLists_.end()) {
-
-			std::map<Window*, std::string>::const_iterator windowsToEntityListIt;
-			windowsToEntityListIt = entityListToWindow_.begin();
-
-			while (windowsToEntityListIt != entityListToWindow_.end()) {
-				if (windowsToEntityListIt->second == entityListName) {
-					// TODO: cleanup entityListToWindow_
-				}
-			}
-
-			// TODO: cleanup entityLists_
+		std::map<std::string, Entity*>::iterator it;
+		it = entities_.find(entityName);
+		if (it != entities_.end()) {
+			delete it->second;
+			entities_.erase(it);
 		}
-
 	}
 }

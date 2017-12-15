@@ -28,22 +28,7 @@
       }
     },
     {
-      "name": "tigedr",
-      "mesh": "tiger.x",
-      "texture": "banana.bmp",
-      "pos": {
-        "x": -0.75,
-        "y": 0,
-        "z": 4
-      },
-      "angle": {
-        "x": -1,
-        "y": 1,
-        "z": 0
-      }
-    },
-    {
-      "name": "tigedr2",
+      "name": "tiger",
       "mesh": "tiger.x",
       "texture": "banana.bmp",
       "pos": {
@@ -104,16 +89,6 @@
     {
       "name": "Window1",
       "window_title": "TheFirstWindow",
-      "renderer": "DXrenderer"
-    },
-    {
-      "name": "Window2",
-      "window_title": "TheSecondWindow",
-      "renderer": "DXrenderer"
-    },
-    {
-      "name": "Window3",
-      "window_title": "TheThirdWindow",
       "renderer": "DXrenderer"
     }
   ]

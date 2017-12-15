@@ -2,9 +2,7 @@
 #define DIVISION_SCENE_H
 
 #include <map>
-#include <list>
 #include <string>
-#include <d3dx9.h>
 
 #include "Entity.h"
 #include "Renderer.h"
@@ -24,14 +22,13 @@ namespace Division
 		void addWindow(std::string, Window*, Renderer*, Camera*);
 		Window* getWindow(std::string);
 		void removeWindow(std::string);
-		void addEntityList(std::string, std::list<Entity*>, Window*);
-		std::list<Entity*> getEntityList(std::string);
-		void removeEntityList(std::string);
+		void addEntity(std::string, Entity*);
+		Entity* getEntity(std::string);
+		void removeEntity(std::string);
 	private:
-		ResourceManager* resourceManager_; 
-		std::map<std::string, std::list<Entity*>> entityLists_;
+		ResourceManager* resourceManager_;
+		std::map<std::string, Entity*> entities_;
 		std::map<std::string, Window*> windows_;
-		std::map<Window*, std::string> entityListToWindow_;
 		std::map<Window*, Renderer*> rendererToWindow_;
 		InputManager* inputManager_;
 		std::map<Window*, Camera*> cameraToWindow_;

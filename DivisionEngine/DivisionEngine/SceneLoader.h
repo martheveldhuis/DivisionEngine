@@ -2,12 +2,14 @@
 #define DIVISION_SCENELOADER_H
 
 #include <string>
+#include <fstream>
+
+#include "json.hpp"
 
 #include "Repository.h"
 #include "ResourceManager.h"
 #include "Win32Window.h"
 #include "Model.h"
-#include "Camera.h"
 
 namespace Division
 {
@@ -17,9 +19,9 @@ namespace Division
 	public:
 		SceneLoader(SceneManager*, Repository*, ResourceManager*);
 		~SceneLoader();
-		void loadScene(std::string scene);
+		Scene* loadScene(std::string scene, std::string filename);
 	private:
-		Repository* d3D9Repository_;
+		Repository* repository_;
 		ResourceManager* resourceManager_;
 		SceneManager* sceneManager_;
 	};

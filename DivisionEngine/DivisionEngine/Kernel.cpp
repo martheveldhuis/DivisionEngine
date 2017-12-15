@@ -1,10 +1,13 @@
 #include "Kernel.h"
-#include <map>
 
 namespace Division
 {
-	Kernel::Kernel()
+	Kernel::Kernel(Repository* repo) : repository_(repo)
 	{
+		resourceManager_ = new ResourceManager(repository_->getTextureLoader(),
+			repository_->getMeshLoader());
+
+		sceneManager_ = new SceneManager(resourceManager_, repository_);
 	}
 
 	Kernel::~Kernel()
@@ -16,15 +19,6 @@ namespace Division
 
 	void Kernel::run()
 	{
-		repository_ = new D3D9Repository();
-
-		resourceManager_ = new ResourceManager(repository_->getTextureLoader(),
-			repository_->getMeshLoader());
-
-		sceneManager_ = new SceneManager(resourceManager_, repository_);
-
-		Scene* scene = sceneManager_->loadScene("tst");
-
 		MSG msg;
 		ZeroMemory(&msg, sizeof(msg));
 
@@ -36,10 +30,12 @@ namespace Division
 				DispatchMessage(&msg);
 			}
 			else {
-
-				scene->render();
+				sceneManager_->renderScenes();
 			}
-
 		}
+	}
+	SceneManager * Kernel::getSceneManager()
+	{
+		return sceneManager_;
 	}
 }

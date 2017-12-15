@@ -2,17 +2,13 @@
 #include "Camera.h"
 #include "SceneManager.h"
 
-#include <string>
-#include <fstream>
-
-#include "json.hpp"
 
 namespace Division
 {
 
 	SceneLoader::SceneLoader(SceneManager* sceneManager,
 		Repository* d3D9Repository, ResourceManager* resourceManager) 
-	: d3D9Repository_(d3D9Repository), sceneManager_(sceneManager),
+	: repository_(d3D9Repository), sceneManager_(sceneManager),
 	resourceManager_(resourceManager)
 	{
 
@@ -23,41 +19,56 @@ namespace Division
 	{
 	}
 
-	void SceneLoader::loadScene(std::string scene) {
+	Scene* SceneLoader::loadScene(std::string scene, std::string filename) {
 
-		std::ifstream i("scenefile.json");
+		std::ifstream i(filename);
 		nlohmann::json sceneJson;
 		i >> sceneJson;
 		
-		std::string heightmap = sceneJson["terrain"]["heightmap"];
+		std::string sceneName = sceneJson["scene"]["name"];
+		std::string heightmap = sceneJson["scene"]["terrain"]["heightmap"];
 
-		Renderer* renderer = d3D9Repository_->getRenderer();
 
-		Window* win = d3D9Repository_->getWindow("Division");
+		Scene* theScene = sceneManager_->createScene(scene);
 
-		renderer->setHandle(win->getWindowHandle());
-		renderer->setup();
 
+		nlohmann::json renderersJson = sceneJson["renderers"];
+		for (nlohmann::json::iterator it = renderersJson.begin(); it != renderersJson.end(); ++it) {
+			nlohmann::json rendererJson = (*it);
+			std::string name = rendererJson["name"];
+			Renderer* renderer = sceneManager_->getRenderer(name);
+			if (!renderer) {
+				renderer = repository_->getRenderer();
+				renderer->setup();
+				sceneManager_->addRenderer(name, renderer);
+			}
+		}
+
+		nlohmann::json windowsJson = sceneJson["windows"];
+		for (nlohmann::json::iterator it = windowsJson.begin(); it != windowsJson.end(); ++it) {
+			nlohmann::json windowJson = (*it);
+			std::string name = windowJson["name"];
+			std::string windowTitle = windowJson["window_title"];
+			std::string renderer = windowJson["renderer"];
+			Window* win = repository_->getWindow(windowTitle);
+			theScene->addWindow(name, win, sceneManager_->getRenderer(renderer));
+		}
 		Camera* camera = new Camera(resourceManager_);
 
 		Scene* theScene = sceneManager_->createScene(scene, renderer);
 		theScene->addWindow("Window title", win, renderer, camera);
 
 		nlohmann::json objectJson = sceneJson["game_objects"];
-
-		std::list<Entity*> entitylist1;
-
-		int objectCount = 0;
 		for (nlohmann::json::iterator it = objectJson.begin(); it != objectJson.end(); ++it) {
 			nlohmann::json entity = (*it);
 			nlohmann::json pos = entity["pos"];
 			nlohmann::json angle = entity["angle"];
 
-			Entity* newEntity = new Model(
+			Entity* newEntity = new Entity(
 				resourceManager_, pos["x"], pos["y"], pos["z"],
 				angle["x"], angle["y"], angle["z"]);
 
-			newEntity->setMesh((*it)["mesh"]);
+			newEntity->setMesh(entity["mesh"]);
 
 			if (entity.find("texture") != entity.end()) {
 				std::string customTexture = entity["texture"];
@@ -67,16 +78,14 @@ namespace Division
 				}
 			}
 
-			entitylist1.push_back(newEntity);
+			theScene->addEntity(entity["name"], newEntity);
 		}
 
+		Entity* terrain = repository_->parseHeightmap(heightmap, resourceManager_);
 
-		Entity* terrain = d3D9Repository_->parseHeightmap(heightmap, resourceManager_);
+		theScene->addEntity("terrain", terrain);
 
-		entitylist1.push_back(terrain);
-
-		theScene->addEntityList("entityList1", entitylist1, win);
-		
+		return theScene;
 
 	}
 }
