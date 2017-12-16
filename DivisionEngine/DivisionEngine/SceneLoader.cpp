@@ -1,7 +1,10 @@
 #include "SceneLoader.h"
 #include "Camera.h"
 #include "SceneManager.h"
+#include "Model.h"
 
+#include "json.hpp"
+#include <fstream>
 
 namespace Division
 {
@@ -28,9 +31,7 @@ namespace Division
 		std::string sceneName = sceneJson["scene"]["name"];
 		std::string heightmap = sceneJson["scene"]["terrain"]["heightmap"];
 
-
 		Scene* theScene = sceneManager_->createScene(scene);
-
 
 		nlohmann::json renderersJson = sceneJson["renderers"];
 		for (nlohmann::json::iterator it = renderersJson.begin(); it != renderersJson.end(); ++it) {
@@ -50,13 +51,10 @@ namespace Division
 			std::string name = windowJson["name"];
 			std::string windowTitle = windowJson["window_title"];
 			std::string renderer = windowJson["renderer"];
+			Camera* camera = new Camera(resourceManager_);
 			Window* win = repository_->getWindow(windowTitle);
-			theScene->addWindow(name, win, sceneManager_->getRenderer(renderer));
+			theScene->addWindow(name, win, (sceneManager_->getRenderer(renderer)), camera);
 		}
-		Camera* camera = new Camera(resourceManager_);
-
-		Scene* theScene = sceneManager_->createScene(scene, renderer);
-		theScene->addWindow("Window title", win, renderer, camera);
 
 		nlohmann::json objectJson = sceneJson["game_objects"];
 		for (nlohmann::json::iterator it = objectJson.begin(); it != objectJson.end(); ++it) {

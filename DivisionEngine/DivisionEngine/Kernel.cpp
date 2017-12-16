@@ -17,6 +17,11 @@ namespace Division
 		delete sceneManager_;
 	}
 
+	void Kernel::loadScene(std::string scene, std::string fileName)
+	{
+		sceneManager_->loadScene(scene, fileName);
+	}
+
 	void Kernel::run()
 	{
 		MSG msg;
@@ -34,8 +39,14 @@ namespace Division
 			}
 		}
 	}
-	SceneManager * Kernel::getSceneManager()
+
+	SceneManager* Kernel::getSceneManager()
 	{
 		return sceneManager_;
+	}
+
+	ResourceManager * Kernel::getResourceManager()
+	{
+		return resourceManager_;
 	}
 }

@@ -1,4 +1,6 @@
 #include "SceneManager.h"
+#include "SceneLoader.h"
+
 namespace Division
 {
 	SceneManager::SceneManager(ResourceManager* rm, Repository* repository_)

@@ -41,14 +41,14 @@ namespace Division
 
 	ResourceLoader* D3D9Repository::getTextureLoader()
 	{
-		return new D3D9TextureLoader(direct3DDevice_);
+		return new D3D9TextureLoader(direct3DDevice_); // TODO: create members of these
 	}
 
 
 
 	ResourceLoader* D3D9Repository::getMeshLoader()
 	{
-		return new D3D9MeshLoader(direct3DDevice_);
+		return new D3D9MeshLoader(direct3DDevice_); // TODO: create members of these
 	}
 
 

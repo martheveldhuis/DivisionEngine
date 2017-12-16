@@ -116,21 +116,22 @@ namespace Division
 	{
 		getInput();
 
-		switch (buttonsAndAxes_.dwOfs) {
+		// TODO: check if this works(without converting to long, then also put in keyboard.
+		DWORD deviceDataOffset = buttonsAndAxes_.dwOfs;
+
+		switch (deviceDataOffset) {
 			case DIMOFS_X: {
-				long xDelta = static_cast<long>(buttonsAndAxes_.dwData);
-				if (xDelta > 0)
-					inputStates->turnRight = xDelta;
+				if (deviceDataOffset > 0)
+					inputStates->turnRight = deviceDataOffset;
 				else {
-					inputStates->turnLeft = xDelta;
+					inputStates->turnLeft = deviceDataOffset;
 				}
 				break;
 			}
 				
 
 			case DIMOFS_BUTTON0: {// left button
-				long leftButton = static_cast<long>(buttonsAndAxes_.dwData);
-				if (leftButton > 0)
+				if (deviceDataOffset > 0)
 					inputStates->action = true;
 				break;
 			}

@@ -1,14 +1,14 @@
 #ifndef DIVISION_SCENEMANAGER_H
 #define DIVISION_SCENEMANAGER_H
 
+#include <map>
+
 #include "Renderer.h"
 #include "Scene.h"
-#include "SceneLoader.h"
 #include "ResourceManager.h"
 #include "Repository.h"
 #include "InputManager.h"
 
-#include <map>
 namespace Division
 {
 	class SceneLoader;

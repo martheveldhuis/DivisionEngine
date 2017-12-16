@@ -27,10 +27,10 @@ namespace Division
 		void removeEntity(std::string);
 	private:
 		ResourceManager* resourceManager_;
+		InputManager* inputManager_;
 		std::map<std::string, Entity*> entities_;
 		std::map<std::string, Window*> windows_;
 		std::map<Window*, Renderer*> rendererToWindow_;
-		InputManager* inputManager_;
 		std::map<Window*, Camera*> cameraToWindow_;
 	};
 }

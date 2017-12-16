@@ -1,10 +1,12 @@
 #ifndef DIVISION_KERNEL_H
 #define DIVISION_KERNEL_H
 
-#include "ResourceManager.h"
-#include "SceneManager.h"
-#include "WindowsInputManager.h"
+#include <string>
 
+#include "ResourceManager.h"
+#include "WindowsInputManager.h"
+#include "Repository.h"
+#include "SceneManager.h"
 
 namespace Division
 {
@@ -13,9 +15,11 @@ namespace Division
 	public:
 		Kernel(Repository*);
 		~Kernel();
+		void loadScene(std::string, std::string);
 		void run();
 		SceneManager* getSceneManager();
 		ResourceManager* getResourceManager();
+		
 
 	private:
 		Repository* repository_;

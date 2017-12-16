@@ -1,6 +1,7 @@
 #include "Scene.h"
 
 #include "Camera.h"
+#include "LoggerPool.h"
 
 namespace Division
 {
@@ -14,17 +15,29 @@ namespace Division
 
 	void Scene::render()
 	{
-		std::map<std::string, Window*>::const_iterator windowIt;
-		for (windowIt = windows_.begin(); windowIt != windows_.end(); windowIt++)
-		{
-			std::map<Window*, Renderer*>::const_iterator rendererIt = rendererToWindow_.find(windowIt->second);
+		std::map<std::string, Window*>::const_iterator windowIt = windows_.begin();
+		std::map<std::string, Window*>::const_iterator windowsEnd = windows_.end();
+
+		for (; windowIt != windowsEnd; ++windowIt) {
+			std::map<Window*, Renderer*>::const_iterator rendererIt;
+			rendererIt = rendererToWindow_.find(windowIt->second);
+
+			if (rendererIt == rendererToWindow_.end()) {
+				LoggerPool::getInstance()->getLogger("scene")
+					->logError("No renderers found while trying to render");
+				return;
+			}
+
 			rendererIt->second->clear();
 			rendererIt->second->beginScene();
-			std::map<std::string, Entity*>::const_iterator enitityIt;
-			for (enitityIt = entities_.begin(); enitityIt != entities_.end(); enitityIt++)
-			{
+
+			std::map<std::string, Entity*>::const_iterator enitityIt = entities_.begin();
+			std::map<std::string, Entity*>::const_iterator enititiesEnd = entities_.end();
+
+			for (; enitityIt != enititiesEnd; enitityIt++) {
 				enitityIt->second->render(rendererIt->second);
 			}
+
 			rendererIt->second->endScene();
 			rendererIt->second->present(windowIt->second->getWindowHandle());
 		}
