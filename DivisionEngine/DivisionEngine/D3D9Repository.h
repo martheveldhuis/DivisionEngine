@@ -4,7 +4,6 @@
 #include <string>
 
 #include "ResourceLoader.h"
-#include "Renderer.h"
 #include "Terrain.h"
 #include "Repository.h"
 #include "D3D9TextureLoader.h"
@@ -21,7 +20,7 @@ namespace Division
 		~D3D9Repository();
 		void* getFrameworkInterface();
 		ResourceLoader* getTextureLoader();
-		ResourceLoader* getMeshLoader();
+		MeshLoader* getMeshLoader();
 		Entity* getTerrain(std::string, ResourceManager*, std::string);
 		Renderer* getRenderer();
 		Window* getWindow(std::string);

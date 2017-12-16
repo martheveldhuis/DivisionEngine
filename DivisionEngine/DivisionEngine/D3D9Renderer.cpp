@@ -2,7 +2,7 @@
 #include "D3D9Texture.h"
 #include <d3dx9.h>
 
-#define D3DFVF_CUSTOMVERTEX (D3DFVF_XYZ  | D3DFVF_TEX1)
+#define D3DFVF_CUSTOMVERTEX (D3DFVF_XYZ  | D3DFVF_DIFFUSE)
 
 namespace Division
 {

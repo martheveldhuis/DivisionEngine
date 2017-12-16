@@ -71,6 +71,11 @@ namespace Division
 		terrain->setTexture(heightmapTexture);
 		entitylist1.push_back(terrain);
 
+
+		Mesh* skyMesh = resourceManager_->getSkyBoxMesh("sky1");
+		SkyBox* sky = new SkyBox(resourceManager_, skyMesh,0,-10);
+		entitylist1.push_back(sky);
+
 		theScene->addEntityList("entityList1", entitylist1, win);
 		
 

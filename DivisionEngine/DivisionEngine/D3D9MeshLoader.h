@@ -1,11 +1,12 @@
-#ifndef DIVISION_MESHLOADER_H
-#define DIVISION_MESHLOADER_H
+#ifndef DIVISION_D3D9MESHLOADER_H
+#define DIVISION_D3D9MESHLOADER_H
 
 #include <d3d9.h>
 #include <string>
 
-#include "ResourceLoader.h"
+#include "MeshLoader.h"
 #include "Mesh.h"
+#include "D3D9Mesh.h"
 
 namespace Division
 {
@@ -14,7 +15,7 @@ namespace Division
 		d3d9 mesh objects as resources. Should be created by the d3d9
 		repository.
 	*/
-	class D3D9MeshLoader : public ResourceLoader
+	class D3D9MeshLoader : public MeshLoader
 	{
 	public:
 		/**
@@ -24,9 +25,10 @@ namespace Division
 		D3D9MeshLoader(LPDIRECT3DDEVICE9 direct3DDevice);
 		~D3D9MeshLoader();
 		Mesh* getResource(std::string resourceName);
+		Mesh* getSkyBox();
 	private:
 		LPDIRECT3DDEVICE9 direct3DDevice_ = NULL;
 	};
 }
 
-#endif // !DIVISION_MESHLOADER_H
+#endif // !DIVISION_D3D9MESHLOADER_H

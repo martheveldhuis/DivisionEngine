@@ -1,6 +1,8 @@
 #include "D3D9Repository.h"
 #include "LoggerPool.h"
 #include "FileLoader.h"
+#include "D3D9MeshLoader.h"
+#include "D3D9Mesh.h"
 
 namespace Division
 {
@@ -42,7 +44,7 @@ namespace Division
 
 
 
-	ResourceLoader* D3D9Repository::getMeshLoader()
+	MeshLoader* D3D9Repository::getMeshLoader()
 	{
 		return new D3D9MeshLoader(direct3DDevice_);
 	}

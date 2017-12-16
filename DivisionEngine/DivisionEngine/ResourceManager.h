@@ -4,7 +4,7 @@
 #include <map>
 #include <string>
 
-#include "ResourceLoader.h"
+#include "MeshLoader.h"
 #include "Resource.h"
 #include "Mesh.h"
 
@@ -23,7 +23,7 @@ namespace Division
 			@param meshLoader The resource loader to create mesh objects.   
 		*/
 		ResourceManager(ResourceLoader* textureLoader, 
-						ResourceLoader* meshLoader);
+						MeshLoader* meshLoader);
 		~ResourceManager();
 		/**
 			Gets a texture object from the textures map, based on the 
@@ -48,16 +48,21 @@ namespace Division
 		*/
 		void removeTexture(std::string textureFile);
 		/**
-			Removes a mesh object from the mesh map, based on the mesh's file 
-			name.
-			@param meshFile The file name of the mesh.
+		Removes a mesh object from the mesh map, based on the mesh's file
+		name.
+		@param meshFile The file name of the mesh.
 		*/
 		void removeMesh(std::string meshFile);
+		/**
+		..
+		@param meshFile The file name of the mesh.
+		*/
+		Mesh* getSkyBoxMesh(std::string meshFile);
 	private:
 		Resource* addNewTexture(std::string);
 		Resource* addNewMesh(std::string);
 		ResourceLoader* textureLoader_;
-		ResourceLoader* meshLoader_;
+		MeshLoader* meshLoader_;
 		std::map<std::string, Resource*> textures_;
 		std::map<std::string, Resource*> meshes_;
 	};

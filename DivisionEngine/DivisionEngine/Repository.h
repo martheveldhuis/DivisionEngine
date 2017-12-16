@@ -3,10 +3,11 @@
 
 #include <string>
 
-#include "ResourceLoader.h"
+#include "MeshLoader.h"
 #include "Renderer.h"
 #include "Entity.h"
 #include "Window.h"
+#include "SkyBox.h"
 
 /**
 	Generates framework specific objects. On instianciation one framework
@@ -20,20 +21,19 @@ namespace Division
 		~Repository() {};
 		/**
 			Gets the core framework object to instanciate classes.
-			@returns void*
 		*/
 		virtual void* getFrameworkInterface() = 0;
 		/**
 			Creates a texture loader to convert files to generic Texture
 			classes.
-			@returns ResourceLoader*
+			@returns A reference to a new TextureLoader
 		*/
 		virtual ResourceLoader* getTextureLoader() = 0;
 		/**
 			Creates a mesh loader to convert files to generic Mesh classes.
 			@returns ResourceLoader*
 		*/
-		virtual ResourceLoader* getMeshLoader() = 0;
+		virtual MeshLoader* getMeshLoader() = 0;
 		/**
 			Creates a renderer to communicate the device.
 			@returns Renderer*
@@ -46,7 +46,7 @@ namespace Division
 		virtual Entity* getTerrain(std::string, ResourceManager*, std::string) = 0;
 		/**
 			Creates a window from a string.
-			@returns Window*
+			@returns A Window object with default options.
 		*/
 		virtual Window* getWindow(std::string) = 0;
 	};
