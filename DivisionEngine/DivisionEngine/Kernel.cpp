@@ -1,9 +1,17 @@
 #include "Kernel.h"
 
+#include "D3D9Repository.h"
+
+#include "ResourceManager.h"
+#include "Repository.h"
+#include "SceneManager.h"
+
 namespace Division
 {
-	Kernel::Kernel(Repository* repo) : repository_(repo)
+	Kernel::Kernel()
 	{
+		repository_ = new D3D9Repository();
+
 		resourceManager_ = new ResourceManager(repository_->getTextureLoader(),
 			repository_->getMeshLoader());
 
