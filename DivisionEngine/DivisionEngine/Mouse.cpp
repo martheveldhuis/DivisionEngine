@@ -26,7 +26,7 @@ namespace Division
 											NULL);
 		if (FAILED(result)) {
 			LoggerPool::getInstance()->getLogger("mouse")
-				->logError("Couldn't create device, " + result);
+				->logError("Couldn't create device");
 			return;
 		}
 
@@ -34,7 +34,7 @@ namespace Division
 		if FAILED(result)
 		{
 			LoggerPool::getInstance()->getLogger("mouse")
-				->logError("Couldn't set data format, " + result);
+				->logError("Couldn't set data format");
 			return;
 		}
 
@@ -44,7 +44,7 @@ namespace Division
 		if FAILED(result)
 		{
 			LoggerPool::getInstance()->getLogger("mouse")
-				->logError("Couldn't set coorperative level, " + result);
+				->logError("Couldn't set coorperative level");
 			return;
 		}
 
@@ -59,7 +59,7 @@ namespace Division
 		if (FAILED(result))
 		{
 			LoggerPool::getInstance()->getLogger("mouse")
-				->logError("Couldn't set properties, " + result);
+				->logError("Couldn't set properties");
 			return;
 		}
 
@@ -88,6 +88,7 @@ namespace Division
 		for (int i = 0; i < 5; ++i) {
 
 			result = directInputMouse_->Acquire();
+
 			if (SUCCEEDED(result))
 				return;
 		}
@@ -116,22 +117,21 @@ namespace Division
 	{
 		getInput();
 
-		// TODO: check if this works(without converting to long, then also put in keyboard.
-		DWORD deviceDataOffset = buttonsAndAxes_.dwOfs;
-
-		switch (deviceDataOffset) {
+		switch (buttonsAndAxes_.dwOfs) {
 			case DIMOFS_X: {
-				if (deviceDataOffset > 0)
-					inputStates->turnRight = deviceDataOffset;
+				long xDelta = static_cast<long>(buttonsAndAxes_.dwData);
+				if (xDelta > 0)
+					inputStates->turnRight = xDelta;
 				else {
-					inputStates->turnLeft = deviceDataOffset;
+					inputStates->turnLeft = -(xDelta);
 				}
 				break;
 			}
-				
+
 
 			case DIMOFS_BUTTON0: {// left button
-				if (deviceDataOffset > 0)
+				long leftButton = static_cast<long>(buttonsAndAxes_.dwData);
+				if (leftButton > 0)
 					inputStates->action = true;
 				break;
 			}

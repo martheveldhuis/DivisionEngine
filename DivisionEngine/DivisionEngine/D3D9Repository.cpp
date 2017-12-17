@@ -53,7 +53,8 @@ namespace Division
 
 
 
-	Entity* D3D9Repository::parseHeightmap(std::string filename, ResourceManager* rm) {
+	Entity* D3D9Repository::parseHeightmap(std::string filename, ResourceManager* rm) 
+	{
 		Logger* logger = LoggerPool::getInstance()->getLogger("heightmap");
 		logger->logInfo("Loading heightmap");
 		FILE *f;
@@ -105,7 +106,7 @@ namespace Division
 			int grayColor = grayValR + grayValG + grayValB;
 			int z = width / -2 + currentColumn;
 			int x = height / -2 + currentRow;
-			vertices[i] = { static_cast<float>(x),y / 10.0f - 52.5f, static_cast<float>(z), 0xff000000 + grayColor };
+			vertices[i] = { static_cast<float>(x),y / 10.0f - 15.0f, static_cast<float>(z), 0xff000000 + grayColor };
 		}
 
 

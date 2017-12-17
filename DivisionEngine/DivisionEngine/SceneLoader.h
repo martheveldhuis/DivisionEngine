@@ -5,6 +5,7 @@
 
 #include "Repository.h"
 #include "ResourceManager.h"
+#include "Scene.h"
 
 namespace Division
 {

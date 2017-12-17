@@ -26,10 +26,10 @@ namespace Division
 			position.xPosition -= 0.08f;
 		}
 		if (inputStates->turnRight) {
-			position.xAngle += 0.08f;
+			position.yAngle += (inputStates->turnRight)/100.0f;
 		}
 		if (inputStates->turnLeft) {
-			position.yAngle -= 0.08f;
+			position.yAngle -= (inputStates->turnLeft)/100.0f;
 		}
 	}
 

@@ -35,6 +35,8 @@ namespace Division
 			std::map<std::string, Entity*>::const_iterator enititiesEnd = entities_.end();
 
 			for (; enitityIt != enititiesEnd; enitityIt++) {
+				InputStates i = inputManager_->getInput();
+				cameraToWindow_[windowIt->second]->updateCameraPosition(&i);
 				enitityIt->second->render(rendererIt->second);
 			}
 
@@ -50,6 +52,9 @@ namespace Division
 		windows_[windowName] = window;
 		rendererToWindow_[window] = renderer;
 		cameraToWindow_[window] = camera; // TODO: delete this one when destroying scene
+
+		renderer->setCamera(camera);
+		inputManager_->setWindowHandle(window->getWindowHandle());
 
 	}
 

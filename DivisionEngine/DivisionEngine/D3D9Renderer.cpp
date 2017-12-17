@@ -1,6 +1,7 @@
 #include "D3D9Renderer.h"
 #include "D3D9Texture.h"
 #include <d3dx9.h>
+#include <math.h>
 #include "Camera.h"
 
 #define D3DFVF_CUSTOMVERTEX (D3DFVF_XYZ|D3DFVF_DIFFUSE)
@@ -31,8 +32,8 @@ namespace Division
 
 	void D3D9Renderer::setupMatrices()
 	{
-		D3DXVECTOR3 viewPointStart(0.0f, 8.0f, -5.0f);
-		D3DXVECTOR3 viewLookAt(0.0f, 0.0f, 0.0f);
+		D3DXVECTOR3 viewPointStart(0.0f, 0.0f, 0.0f);
+		D3DXVECTOR3 viewLookAt(0.0f, 1.0f, 5.0f);
 		D3DXVECTOR3 upVector(0.0f, 1.0f, 0.0f);
 		D3DXMATRIXA16 viewMatrix;
 		D3DXMatrixLookAtLH(&viewMatrix, &viewPointStart, &viewLookAt, &upVector);
@@ -49,10 +50,30 @@ namespace Division
 		D3DXMATRIX translation;
 		Position cameraPosition = camera_->getCameraPosition();
 
-		// TODO: fix camera rotation
-		D3DXMatrixRotationYawPitchRoll(&rotation, position->yAngle - cameraPosition.yAngle, position->xAngle - cameraPosition.xAngle, position->zAngle);
-		D3DXMatrixTranslation(&translation, position->xPosition - cameraPosition.xPosition, position->yPosition - cameraPosition.yPosition, position->zPosition - cameraPosition.zPosition);
+		float newX = position->xPosition - cameraPosition.xPosition;
+		float newZ = position->zPosition - cameraPosition.zPosition;
 
+		float dist = sqrt(pow(newX, 2.0f) + pow(newZ, 2.0f));
+		float angle = cameraPosition.yAngle + D3DX_PI / 2;
+		if (newX < 0) {
+
+			newX = -dist * cos(angle);
+		}
+		else {
+			newX = dist * cos(angle);
+		}
+
+		if (newZ < 0) {
+
+			newZ = -dist * sin(angle);
+		}
+		else {
+			newZ = dist * sin(angle);
+		}
+		
+
+		D3DXMatrixRotationYawPitchRoll(&rotation, position->yAngle - cameraPosition.yAngle, position->xAngle, position->zAngle);
+		D3DXMatrixTranslation(&translation, newX, (position->yPosition - cameraPosition.yPosition), newZ);
 
 
 		direct3DDevice_->SetTransform(D3DTS_WORLD, &(rotation * translation));
