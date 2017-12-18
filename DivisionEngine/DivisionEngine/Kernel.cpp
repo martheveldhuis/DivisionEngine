@@ -1,6 +1,9 @@
 #include "Kernel.h"
 #include <map>
 
+#include "Clock.h"
+#include "LoggerPool.h"
+
 namespace Division
 {
 	Kernel::Kernel()
@@ -27,7 +30,13 @@ namespace Division
 
 		MSG msg;
 		ZeroMemory(&msg, sizeof(msg));
+		Clock clock;
+		
+		Logger* kernelLog = LoggerPool::getInstance()->getLogger("clock");
 
+		clock.start();
+		int frames = 0;
+		int lastSec = 0;
 		while (msg.message != WM_QUIT)
 		{
 			if (PeekMessage(&msg, NULL, 0U, 0U, PM_REMOVE))
@@ -36,7 +45,12 @@ namespace Division
 				DispatchMessage(&msg);
 			}
 			else {
-
+				frames++;
+				if (clock.getRuntime() / 1000 != lastSec) {
+					lastSec = (int) clock.getRuntime() / 1000;
+					kernelLog->logInfo(frames);
+					frames = 0;
+				}
 				scene->render();
 			}
 
