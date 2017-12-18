@@ -1,12 +1,10 @@
-#include "Keyboard.h"
+#include "DirectInputKeyboard.h"
 #include "LoggerPool.h"
-
-#include <dinput.h>
-#include <iostream>
 
 namespace Division
 {
-	Keyboard::Keyboard(HWND* windowHandle, IDirectInput8* directInput) : 
+	DirectInputKeyboard::DirectInputKeyboard(HWND windowHandle, 
+											 IDirectInput8* directInput) :
 		directInput_(directInput), windowHandle_(windowHandle)
 	{
 		initialize();
@@ -14,18 +12,19 @@ namespace Division
 
 
 
-	Keyboard::~Keyboard()
+	DirectInputKeyboard::~DirectInputKeyboard()
 	{
 		release();
 	}
 
 
 
-	void Keyboard::initialize()
+	void DirectInputKeyboard::initialize()
 	{
 		HRESULT result;
 
-		result = directInput_->CreateDevice(GUID_SysKeyboard, &directInputKeyboard_, 
+		result = directInput_->CreateDevice(GUID_SysKeyboard, 
+											&directInputKeyboard_,
 											NULL);
 		if FAILED(result) {
 			LoggerPool::getInstance()->getLogger("keyboard")
@@ -34,19 +33,17 @@ namespace Division
 		}
 
 		result = directInputKeyboard_->SetDataFormat(&c_dfDIKeyboard);
-		if FAILED(result)
-		{
+		if FAILED(result) {
 			LoggerPool::getInstance()->getLogger("keyboard")
 				->logError("Couldn't set data format, " + result);
 			release();
 			return;
 		}
 
-		result = directInputKeyboard_->SetCooperativeLevel(*windowHandle_, 
+		result = directInputKeyboard_->SetCooperativeLevel(windowHandle_, 
 															DISCL_EXCLUSIVE | 
 															DISCL_FOREGROUND);
-		if FAILED(result)
-		{
+		if FAILED(result) {
 			LoggerPool::getInstance()->getLogger("keyboard")
 				->logError("Couldn't set coorperative level, " + result);
 			release();
@@ -57,7 +54,8 @@ namespace Division
 	}
 
 
-	void Keyboard::release()
+
+	void DirectInputKeyboard::release()
 	{
 		directInput_ = NULL;
 
@@ -70,34 +68,33 @@ namespace Division
 
 
 
-	void Keyboard::doAcquire()
+	void DirectInputKeyboard::doAcquire()
 	{
-		HRESULT result;
-
+		// Wait our turn (after higher prio programs) to gain access.
 		for (int i = 0; i < 5; ++i) {
-
-			result = directInputKeyboard_->Acquire();
-			if (SUCCEEDED(result))
+			if (SUCCEEDED(directInputKeyboard_->Acquire()))
 				return;
 		}
 	}
 
 
 
-	void Keyboard::getInput()
+	void DirectInputKeyboard::getInput()
 	{
 		ZeroMemory(&keys_, sizeof(keys_));
 
-		HRESULT stateResult = directInputKeyboard_->GetDeviceState(sizeof(keys_), (void*)keys_);
-		if (FAILED(stateResult)) {
-			if (stateResult == DIERR_INPUTLOST || stateResult == DIERR_NOTACQUIRED)
+		HRESULT result = directInputKeyboard_->GetDeviceState(sizeof(keys_), 
+															  (void*)keys_);
+		if (FAILED(result)) {
+			// In these cases, new acquires are useful.
+			if (result == DIERR_INPUTLOST || result == DIERR_NOTACQUIRED)
 				doAcquire();
 		}
 	}
 
 
 
-	void Keyboard::storeInputStates(InputStates* inputStates)
+	void DirectInputKeyboard::storeInputStates(InputStates* inputStates)
 	{
 		getInput();
 

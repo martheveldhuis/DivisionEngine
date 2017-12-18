@@ -9,7 +9,7 @@
 #include "D3D9Renderer.h"
 #include "Win32Window.h"
 #include "Terrain.h"
-#include "WindowsInputManager.h"
+#include "DirectInputManager.h"
 
 namespace Division
 {

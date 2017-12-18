@@ -1,9 +1,9 @@
-#include "Mouse.h"
+#include "DirectInputMouse.h"
 #include "LoggerPool.h"
 
 namespace Division 
 {
-	Mouse::Mouse(HWND* windowHandle, IDirectInput8 * directInput) :
+	DirectInputMouse::DirectInputMouse(HWND windowHandle, IDirectInput8 * directInput) :
 		directInput_(directInput), windowHandle_(windowHandle)
 	{
 		initialize();
@@ -11,14 +11,14 @@ namespace Division
 
 
 
-	Mouse::~Mouse()
+	DirectInputMouse::~DirectInputMouse()
 	{
 		release();
 	}
 
 
 
-	void Mouse::initialize()
+	void DirectInputMouse::initialize()
 	{
 		HRESULT result;
 
@@ -31,18 +31,16 @@ namespace Division
 		}
 
 		result = directInputMouse_->SetDataFormat(&c_dfDIMouse);
-		if FAILED(result)
-		{
+		if FAILED(result) {
 			LoggerPool::getInstance()->getLogger("mouse")
 				->logError("Couldn't set data format");
 			return;
 		}
 
-		result = directInputMouse_->SetCooperativeLevel(*windowHandle_, 
+		result = directInputMouse_->SetCooperativeLevel(windowHandle_, 
 														DISCL_EXCLUSIVE | 
 														DISCL_FOREGROUND);
-		if FAILED(result)
-		{
+		if FAILED(result) {
 			LoggerPool::getInstance()->getLogger("mouse")
 				->logError("Couldn't set coorperative level");
 			return;
@@ -56,8 +54,7 @@ namespace Division
 
 		result = directInputMouse_->SetProperty(DIPROP_BUFFERSIZE,
 												&properties.diph);
-		if (FAILED(result))
-		{
+		if (FAILED(result)) {
 			LoggerPool::getInstance()->getLogger("mouse")
 				->logError("Couldn't set properties");
 			return;
@@ -68,7 +65,7 @@ namespace Division
 
 
 
-	void Mouse::release()
+	void DirectInputMouse::release()
 	{
 		directInput_ = NULL;
 
@@ -81,61 +78,68 @@ namespace Division
 
 
 
-	void Mouse::doAcquire()
+	void DirectInputMouse::doAcquire()
 	{
-		HRESULT result;
-
+		// Wait our turn (after higher prio programs) to gain access.
 		for (int i = 0; i < 5; ++i) {
-
-			result = directInputMouse_->Acquire();
-
-			if (SUCCEEDED(result))
+			if (SUCCEEDED(directInputMouse_->Acquire()))
 				return;
 		}
 	}
 
 
 
-	void Mouse::getInput()
+	void DirectInputMouse::getInput()
 	{
-		DWORD bufferItemsToRead = 1;
+		bufferItemsToRead_ = INFINITE;
 		ZeroMemory(&buttonsAndAxes_, sizeof(buttonsAndAxes_));
 
 		HRESULT result;
+
+		// Peek to check the amount of buffer items to read, put in variable.
 		result = directInputMouse_->GetDeviceData(sizeof(DIDEVICEOBJECTDATA),
-												  &buttonsAndAxes_,
-												  &bufferItemsToRead, 0);
+												  NULL, &bufferItemsToRead_,
+												  DIGDD_PEEK);
 		if (FAILED(result)) {
+			// In these cases, new acquires are useful.
 			if (result == DIERR_INPUTLOST || result == DIERR_NOTACQUIRED)
 				doAcquire();
+			// If it fails, do not read any items.
+			bufferItemsToRead_ = 0;
+		}
+		else {
+			buttonsAndAxes_ = new DIDEVICEOBJECTDATA[bufferItemsToRead_];
+			result = directInputMouse_->GetDeviceData(sizeof(DIDEVICEOBJECTDATA),
+													  buttonsAndAxes_,
+													  &bufferItemsToRead_, 0);
 		}
 	}
 
 
 
-	void Mouse::storeInputStates(InputStates* inputStates)
+	void DirectInputMouse::storeInputStates(InputStates* inputStates)
 	{
 		getInput();
 
-		switch (buttonsAndAxes_.dwOfs) {
-			case DIMOFS_X: {
-				long xDelta = static_cast<long>(buttonsAndAxes_.dwData);
-				if (xDelta > 0)
-					inputStates->turnRight = xDelta;
-				else {
-					inputStates->turnLeft = -(xDelta);
+		for (int i = 0; i < bufferItemsToRead_; ++i) {
+			switch (buttonsAndAxes_[i].dwOfs) {
+				case DIMOFS_X: {
+					long xDelta = static_cast<long>(buttonsAndAxes_[i].dwData);
+					if (xDelta > 0)
+						inputStates->turnRight += xDelta;
+					else {
+						inputStates->turnLeft += -(xDelta);
+					}
+					break;
 				}
-				break;
-			}
-
-
-			case DIMOFS_BUTTON0: {// left button
-				long leftButton = static_cast<long>(buttonsAndAxes_.dwData);
-				if (leftButton > 0)
-					inputStates->action = true;
-				break;
+				// Left mouse button.
+				case DIMOFS_BUTTON0: {
+					long leftButton = static_cast<long>(buttonsAndAxes_[i].dwData);
+					if (leftButton > 0)
+						inputStates->action = true;
+					break;
+				}
 			}
 		}
 	}
-
 }

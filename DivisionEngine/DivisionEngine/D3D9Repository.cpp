@@ -136,7 +136,7 @@ namespace Division
 
 	InputManager * D3D9Repository::getInputManager()
 	{
-		return new WindowsInputManager();
+		return new DirectInputManager();
 	}
 	
 

@@ -1,18 +1,18 @@
-#include "WindowsInputManager.h"
-#include "Keyboard.h"
-#include "Mouse.h"
+#include "DirectInputManager.h"
+#include "DirectInputKeyboard.h"
+#include "DirectInputMouse.h"
 #include "LoggerPool.h"
 
 namespace Division
 {
-	WindowsInputManager::WindowsInputManager()
+	DirectInputManager::DirectInputManager()
 	{
 		initializeDirectInput();
 	}
 
 
 
-	WindowsInputManager::~WindowsInputManager()
+	DirectInputManager::~DirectInputManager()
 	{
 		if (directInput_) {
 			directInput_->Release();
@@ -32,7 +32,7 @@ namespace Division
 
 
 
-	void WindowsInputManager::setWindowHandle(void* windowHandle)
+	void DirectInputManager::setWindowHandle(void* windowHandle)
 	{
 		windowHandle_ = static_cast<HWND>(windowHandle);
 		initializeInputDevices();
@@ -41,7 +41,7 @@ namespace Division
 
 
 
-	void WindowsInputManager::initializeDirectInput()
+	void DirectInputManager::initializeDirectInput()
 	{
 		HRESULT result = DirectInput8Create(GetModuleHandle(NULL),
 											DIRECTINPUT_VERSION,
@@ -50,31 +50,34 @@ namespace Division
 											NULL);
 		if FAILED(result) {
 			LoggerPool::getInstance()->getLogger("windowsInputManager")
-				->logError("Failed to create Direct Input, " + result);
+				->logError("Failed to create Direct Input");
 		}
 	}
 
 
 
-	BOOL WindowsInputManager::enumDevicesCallback(LPCDIDEVICEINSTANCE device, LPVOID context)
+	BOOL DirectInputManager::enumDevicesCallback(LPCDIDEVICEINSTANCE device,
+												 LPVOID context)
 	{
-		// necessary to be able to use our class' members without 'static'
-		WindowsInputManager* thisContext = static_cast<WindowsInputManager*>(context);
+		// Necessary to be able to use our class' members without 'static'.
+		DirectInputManager* thisContext;
+		thisContext = static_cast<DirectInputManager*>(context);
 		return thisContext->enumDevices(device);
 	}
 
 
 
-	BOOL WindowsInputManager::enumDevices(LPCDIDEVICEINSTANCE device)
+	BOOL DirectInputManager::enumDevices(LPCDIDEVICEINSTANCE device)
 	{
 		switch (device->dwDevType & 0x000000ff) {
 			case DI8DEVTYPE_KEYBOARD:
 				if (!keyboard_)
-					keyboard_ = new Keyboard(&windowHandle_, directInput_);
+					keyboard_ = new DirectInputKeyboard(windowHandle_, 
+														directInput_);
 					break;
 			case DI8DEVTYPE_MOUSE:
 				if (!mouse_)
-					mouse_ = new Mouse(&windowHandle_, directInput_);
+					mouse_ = new DirectInputMouse(windowHandle_, directInput_);
 					break;
 			default:
 				LoggerPool::getInstance()->getLogger("windowsInputManager")
@@ -88,19 +91,20 @@ namespace Division
 
 
 
-	void WindowsInputManager::initializeInputDevices()
+	void DirectInputManager::initializeInputDevices()
 	{
-		HRESULT result = directInput_->EnumDevices(DI8DEVCLASS_ALL, enumDevicesCallback, 
+		HRESULT result = directInput_->EnumDevices(DI8DEVCLASS_ALL,
+												   enumDevicesCallback, 
 												   this, DIEDFL_ATTACHEDONLY);
 		if FAILED (result) {
 			LoggerPool::getInstance()->getLogger("windowsInputManager")
-				->logError("Failed to enumerate devices, " + result);
+				->logError("Failed to enumerate devices");
 		}
 
 	}
 
 	
-	InputStates WindowsInputManager::getInput()
+	InputStates DirectInputManager::getInput()
 	{
 		InputStates inputStates;
 		ZeroMemory(&inputStates, sizeof(InputStates));

@@ -55,22 +55,10 @@ namespace Division
 
 		float dist = sqrt(pow(newX, 2.0f) + pow(newZ, 2.0f));
 		float angle = cameraPosition.yAngle + D3DX_PI / 2;
-		if (newX < 0) {
-
-			newX = -dist * cos(angle);
-		}
-		else {
-			newX = dist * cos(angle);
-		}
-
-		if (newZ < 0) {
-
-			newZ = -dist * sin(angle);
-		}
-		else {
-			newZ = dist * sin(angle);
-		}
 		
+		newX = (newX < 0) ? -dist * cos(angle) : dist * cos(angle);
+		newZ = (newZ < 0) ? -dist * sin(angle) : dist * sin(angle);
+				
 
 		D3DXMatrixRotationYawPitchRoll(&rotation, position->yAngle - cameraPosition.yAngle, position->xAngle, position->zAngle);
 		D3DXMatrixTranslation(&translation, newX, (position->yPosition - cameraPosition.yPosition), newZ);
