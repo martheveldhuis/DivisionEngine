@@ -46,17 +46,15 @@ namespace Division
 		}
 	}
 
-
-
 	void Scene::addWindow(std::string windowName, Window* window, Renderer* renderer, Camera* camera)
 	{
 		windows_[windowName] = window;
 		rendererToWindow_[window] = renderer;
+		renderer->increaseReferenceCount();
 		cameraToWindow_[window] = camera; // TODO: delete this one when destroying scene
 
 		renderer->setCamera(camera);
 		inputManager_->setWindowHandle(window->getWindowHandle());
-
 	}
 
 	Window* Scene::getWindow(std::string windowName)
@@ -78,9 +76,7 @@ namespace Division
 			std::map<Window*, Renderer*>::const_iterator rendererRelations;
 			rendererRelations = rendererToWindow_.find(window->second);
 			if (rendererRelations != rendererToWindow_.end()) {
-				if (rendererRelations->second->decreaseReferenceCount() == 0) {
-
-				}
+				rendererRelations->second->decreaseReferenceCount();
 				//rendererRelations->second.decreaseRefrenceCount(); // TODO: clean up renderer by counter
 				rendererToWindow_.erase(rendererRelations);
 			}

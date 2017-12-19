@@ -51,11 +51,11 @@ namespace Division
 		return createdScene;
 	}
 
-	Scene* SceneManager::loadScene(std::string scene,std::string filename)
+	Scene* SceneManager::loadScene(std::string scene, std::string filename)
 	{
 		if (sceneLoader_ == NULL) {
 			sceneLoader_ = new SceneLoader(this, repository_, resourceManager_);
-		}		
+		}
 		return sceneLoader_->loadScene(scene, filename);
 	}
 
@@ -75,6 +75,15 @@ namespace Division
 		if (it != scenes_.end()) {
 			delete it->second;
 			scenes_.erase(it);
+		}
+
+		// Check if renderers are not in use anymore\
+		// TODO : Find better solution
+		for (std::map<std::string, Renderer*>::iterator it2 = renderers_.begin(); it2 != renderers_.end(); ++it2) {
+			if (it2->second->getReferenceCount() == 0) {
+				delete it2->second;
+				renderers_.erase(it2);
+			}
 		}
 	}
 }

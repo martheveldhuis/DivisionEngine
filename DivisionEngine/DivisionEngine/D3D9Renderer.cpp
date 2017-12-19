@@ -55,14 +55,12 @@ namespace Division
 
 		float dist = sqrt(pow(newX, 2.0f) + pow(newZ, 2.0f));
 		float angle = cameraPosition.yAngle + D3DX_PI / 2;
-		
+
 		newX = (newX < 0) ? -dist * cos(angle) : dist * cos(angle);
 		newZ = (newZ < 0) ? -dist * sin(angle) : dist * sin(angle);
-				
 
 		D3DXMatrixRotationYawPitchRoll(&rotation, position->yAngle - cameraPosition.yAngle, position->xAngle, position->zAngle);
 		D3DXMatrixTranslation(&translation, newX, (position->yPosition - cameraPosition.yPosition), newZ);
-
 
 		direct3DDevice_->SetTransform(D3DTS_WORLD, &(rotation * translation));
 	}
@@ -104,12 +102,6 @@ namespace Division
 		memcpy(pData, indexBuffer, sizeof(DWORD)* indexes);
 		vertexBuffer_->Unlock();
 		direct3DDevice_->SetIndices(indexBuffer_);
-	}
-
-	short D3D9Renderer::decreaseReferenceCount()
-	{
-		referenceCount_--;
-		return referenceCount_;
 	}
 
 	void D3D9Renderer::clear()

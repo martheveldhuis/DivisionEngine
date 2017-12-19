@@ -5,7 +5,6 @@
 #include <Windows.h>
 #include <d3d9.h>
 
-
 namespace Division
 {
 	/**
@@ -46,7 +45,10 @@ namespace Division
 		*/
 		void setIndexBuffer(void* vertices, int indexes);
 		void* getDevice() { return direct3DDevice_; }
-		short decreaseReferenceCount();
+
+		void increaseReferenceCount() { referenceCount_++; };
+		void decreaseReferenceCount() { referenceCount_--; };
+		short getReferenceCount() { return referenceCount_; };
 
 		void clear();
 		void beginScene();
