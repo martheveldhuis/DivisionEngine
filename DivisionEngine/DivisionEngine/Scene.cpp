@@ -18,7 +18,10 @@ namespace Division
 		std::map<std::string, Window*>::const_iterator windowIt = windows_.begin();
 		std::map<std::string, Window*>::const_iterator windowsEnd = windows_.end();
 
+		InputStates i = inputManager_->getInput();
+
 		for (; windowIt != windowsEnd; ++windowIt) {
+			cameraToWindow_[windowIt->second]->updateCameraPosition(&i);
 			std::map<Window*, Renderer*>::const_iterator rendererIt;
 			rendererIt = rendererToWindow_.find(windowIt->second);
 
@@ -35,8 +38,6 @@ namespace Division
 			std::map<std::string, Entity*>::const_iterator enititiesEnd = entities_.end();
 
 			for (; enitityIt != enititiesEnd; enitityIt++) {
-				InputStates i = inputManager_->getInput();
-				cameraToWindow_[windowIt->second]->updateCameraPosition(&i);
 				enitityIt->second->render(rendererIt->second);
 			}
 
