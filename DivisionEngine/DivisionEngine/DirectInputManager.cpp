@@ -80,9 +80,7 @@ namespace Division
 					mouse_ = new DirectInputMouse(windowHandle_, directInput_);
 					break;
 			default:
-				LoggerPool::getInstance()->getLogger("windowsInputManager")
-					->logInfo("The device type is not supported, " 
-							  + (device->dwDevType & 0x000000ff));
+				// The device type is not supported.
 				break;
 		}
 
