@@ -46,6 +46,7 @@ namespace Division
 		*/
 		void setIndexBuffer(void* vertices, int indexes);
 		void* getDevice() { return direct3DDevice_; }
+		short decreaseReferenceCount();
 
 		void clear();
 		void beginScene();
@@ -62,6 +63,7 @@ namespace Division
 		LPDIRECT3DINDEXBUFFER9  indexBuffer_ = NULL; // Buffer to hold indices
 		HWND windowHandle_;
 		Camera* camera_ = NULL;
+		short referenceCount_;
 	};
 }
 

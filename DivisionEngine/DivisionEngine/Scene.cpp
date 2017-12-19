@@ -78,6 +78,9 @@ namespace Division
 			std::map<Window*, Renderer*>::const_iterator rendererRelations;
 			rendererRelations = rendererToWindow_.find(window->second);
 			if (rendererRelations != rendererToWindow_.end()) {
+				if (rendererRelations->second->decreaseReferenceCount() == 0) {
+
+				}
 				//rendererRelations->second.decreaseRefrenceCount(); // TODO: clean up renderer by counter
 				rendererToWindow_.erase(rendererRelations);
 			}

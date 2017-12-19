@@ -67,9 +67,10 @@ namespace Division
 		/**
 			Retrieve the framework specific render device.
 			@returns void* Pointer to the device.
-		*/
-		virtual void setCamera(Camera*) = 0;
+		*/		
 		virtual void* getDevice() = 0;
+		virtual void setCamera(Camera*) = 0;
+		virtual short decreaseReferenceCount() = 0;
 
 		virtual void clear() = 0;
 		virtual void beginScene() = 0;
