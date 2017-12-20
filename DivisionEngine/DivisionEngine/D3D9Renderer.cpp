@@ -3,6 +3,7 @@
 #include <d3dx9.h>
 #include <math.h>
 #include "Camera.h"
+#include "LoggerPool.h"
 
 #define D3DFVF_CUSTOMVERTEX (D3DFVF_XYZ|D3DFVF_DIFFUSE)
 
@@ -46,25 +47,25 @@ namespace Division
 
 	void D3D9Renderer::setWorldMatrix(Position* position)
 	{
-		D3DXMATRIX rotation;
-		D3DXMATRIX translation;
 		Position cameraPosition = camera_->getCameraPosition();
-
-		float newX = position->xPosition - cameraPosition.xPosition;
-		float newZ = position->zPosition - cameraPosition.zPosition;
-
-		float dist = sqrt(pow(newX, 2.0f) + pow(newZ, 2.0f));
-		float angle = cameraPosition.yAngle + D3DX_PI / 2;
 		
-		newX = (newX < 0) ? -dist * cos(angle) : dist * cos(angle);
-		newZ = (newZ < 0) ? -dist * sin(angle) : dist * sin(angle);
-				
+		D3DXMATRIX translationCamera;
+		D3DXMATRIX rotationCamera;
+		D3DXMATRIX worldCamera;
 
-		D3DXMatrixRotationYawPitchRoll(&rotation, position->yAngle - cameraPosition.yAngle, position->xAngle, position->zAngle);
-		D3DXMatrixTranslation(&translation, newX, (position->yPosition - cameraPosition.yPosition), newZ);
+		D3DXMATRIX translationEntity;
+		D3DXMATRIX rotationEntity;
+		D3DXMATRIX worldEntity;
+		
+		D3DXMatrixTranslation(&translationCamera, -cameraPosition.xPosition, -cameraPosition.yPosition, -cameraPosition.zPosition);
+		D3DXMatrixRotationYawPitchRoll(&rotationCamera, -cameraPosition.yAngle, 0, 0);
+		D3DXMatrixMultiply(&worldCamera, &translationCamera, &rotationCamera);
 
+		D3DXMatrixTranslation(&translationEntity, position->xPosition, position->yPosition, position->zPosition);
+		D3DXMatrixRotationYawPitchRoll(&rotationEntity, position->yAngle, position->xAngle, position->zAngle);
+		D3DXMatrixMultiply(&worldEntity, &rotationEntity, &translationEntity);
 
-		direct3DDevice_->SetTransform(D3DTS_WORLD, &(rotation * translation));
+		direct3DDevice_->SetTransform(D3DTS_WORLD, &(worldEntity * worldCamera));
 	}
 
 	void D3D9Renderer::setVertexBuffer(DivisionVertex* vertexBuffer, int verts)
