@@ -1,7 +1,6 @@
 #ifndef DIVISION_RENDERER_H
 #define DIVISION_RENDERER_H
 
-
 namespace Division
 {
 	class Camera;
@@ -68,8 +67,11 @@ namespace Division
 			Retrieve the framework specific render device.
 			@returns void* Pointer to the device.
 		*/
-		virtual void setCamera(Camera*) = 0;
 		virtual void* getDevice() = 0;
+		virtual void setCamera(Camera*) = 0;
+		virtual void increaseReferenceCount() = 0;
+		virtual void decreaseReferenceCount() = 0;
+		virtual short getReferenceCount() = 0;
 
 		virtual void clear() = 0;
 		virtual void beginScene() = 0;

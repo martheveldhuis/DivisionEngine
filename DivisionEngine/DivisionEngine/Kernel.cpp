@@ -2,18 +2,24 @@
 
 #include "Clock.h"
 #include "LoggerPool.h"
-
 #include "D3D9Repository.h"
-
-#include "ResourceManager.h"
-#include "Repository.h"
-#include "SceneManager.h"
 
 namespace Division
 {
-	Kernel::Kernel()
+	Kernel::Kernel(repositoryType repoType)
 	{
-		repository_ = new D3D9Repository();
+		switch (repoType)
+		{
+		case D3D9:
+			repository_ = new D3D9Repository();
+			break;
+		case OPENGL:
+
+			break;
+		default:
+
+			break;
+		}		
 
 		resourceManager_ = new ResourceManager(repository_->getTextureLoader(),
 			repository_->getMeshLoader());

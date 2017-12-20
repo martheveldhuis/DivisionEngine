@@ -5,7 +5,6 @@
 #include <Windows.h>
 #include <d3d9.h>
 
-
 namespace Division
 {
 	/**
@@ -47,6 +46,10 @@ namespace Division
 		void setIndexBuffer(void* vertices, int indexes);
 		void* getDevice() { return direct3DDevice_; }
 
+		void increaseReferenceCount() { referenceCount_++; };
+		void decreaseReferenceCount() { referenceCount_--; };
+		short getReferenceCount() { return referenceCount_; };
+
 		void clear();
 		void beginScene();
 		void endScene();
@@ -62,6 +65,7 @@ namespace Division
 		LPDIRECT3DINDEXBUFFER9  indexBuffer_ = NULL; // Buffer to hold indices
 		HWND windowHandle_;
 		Camera* camera_ = NULL;
+		short referenceCount_;
 	};
 }
 

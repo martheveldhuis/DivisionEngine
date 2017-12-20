@@ -3,16 +3,18 @@
 
 #include <string>
 
+#include "ResourceManager.h"
+#include "Repository.h"
+#include "SceneManager.h"
 
 namespace Division
 {
-	class ResourceManager;
-	class Repository;
-	class SceneManager;
+	enum repositoryType{D3D9,OPENGL};
+
 	class Kernel
 	{
 	public:
-		Kernel();
+		Kernel(repositoryType);
 		~Kernel();
 		void loadScene(std::string, std::string);
 		void run();
