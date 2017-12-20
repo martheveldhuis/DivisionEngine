@@ -3,7 +3,7 @@
     "name": "TheBestScene",
     "terrain": {
       "heightmap": "heightmap.bmp",
-      "texture": ""
+      "texture": "terrain.bmp"
     }
   },
   "renderers":[

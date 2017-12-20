@@ -133,6 +133,7 @@
     <ClCompile Include="Camera.cpp" />
     <ClCompile Include="D3D9Renderer.cpp" />
     <ClCompile Include="D3D9Repository.cpp" />
+    <ClCompile Include="FileLoader.cpp" />
     <ClCompile Include="Kernel.cpp" />
     <ClCompile Include="Entity.cpp" />
     <ClCompile Include="Model.cpp" />
@@ -146,6 +147,7 @@
     <ClCompile Include="Scene.cpp" />
     <ClCompile Include="SceneLoader.cpp" />
     <ClCompile Include="SceneManager.cpp" />
+    <ClCompile Include="SkyBox.cpp" />
     <ClCompile Include="Terrain.cpp" />
     <ClCompile Include="D3D9Texture.cpp" />
     <ClCompile Include="D3D9TextureLoader.cpp" />
@@ -157,6 +159,8 @@
     <ClInclude Include="Camera.h" />
     <ClInclude Include="D3D9Renderer.h" />
     <ClInclude Include="D3D9Repository.h" />
+    <ClInclude Include="MeshLoader.h" />
+    <ClInclude Include="FileLoader.h" />
     <ClInclude Include="InputManager.h" />
     <ClInclude Include="json.hpp" />
     <ClInclude Include="Kernel.h" />
@@ -180,6 +184,7 @@
     <ClInclude Include="SceneLoader.h" />
     <ClInclude Include="SceneManager.h" />
     <ClInclude Include="D3D9TextureLoader.h" />
+    <ClInclude Include="SkyBox.h" />
     <ClInclude Include="Terrain.h" />
     <ClInclude Include="D3D9Texture.h" />
     <ClInclude Include="Window.h" />

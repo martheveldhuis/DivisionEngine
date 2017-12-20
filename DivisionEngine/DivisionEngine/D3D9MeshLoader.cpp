@@ -1,6 +1,7 @@
 #include "D3D9MeshLoader.h"
 #include "LoggerPool.h"
 #include "D3D9Mesh.h"
+#include "SkyBox.h"
 
 #include <d3dx9.h>
 

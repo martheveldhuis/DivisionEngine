@@ -1,11 +1,12 @@
-#ifndef DIVISION_MESHLOADER_H
-#define DIVISION_MESHLOADER_H
+#ifndef DIVISION_D3D9MESHLOADER_H
+#define DIVISION_D3D9MESHLOADER_H
 
 #include <d3d9.h>
 #include <string>
 
 #include "ResourceLoader.h"
 #include "Mesh.h"
+#include "D3D9Mesh.h"
 
 namespace Division
 {
@@ -29,4 +30,4 @@ namespace Division
 	};
 }
 
-#endif // !DIVISION_MESHLOADER_H
+#endif // !DIVISION_D3D9MESHLOADER_H

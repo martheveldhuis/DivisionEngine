@@ -3,10 +3,17 @@
 namespace Division
 {
 	D3D9Mesh::D3D9Mesh(LPD3DXMESH meshData, D3DMATERIAL9* meshMaterials,
-			   DWORD numberOfMaterials, std::vector<std::string> textureFileNames)
+		DWORD numberOfMaterials, std::vector<std::string> textureFileNames)
 		: meshData_(meshData), meshMaterials_(meshMaterials),
-		  numberOfMaterials_(numberOfMaterials), textureFileNames_(textureFileNames)
+		numberOfMaterials_(numberOfMaterials), textureFileNames_(textureFileNames)
 	{
+	}
+
+	D3D9Mesh::D3D9Mesh(LPD3DXMESH meshData, std::string texture)
+		: meshData_(meshData),
+		numberOfMaterials_(1)
+	{
+		textureFileNames_ = { texture };
 	}
 
 
@@ -67,9 +74,10 @@ namespace Division
 			textureIterator = customTextures.begin();
 			textureEnd = customTextures.end();
 		}
-			
+
 
 		for (DWORD i = 0; i < numberOfMaterials_; i++) {
+			if (meshMaterials_)
 			renderDevice->SetMaterial(&meshMaterials_[i]);
 
 			if (textureIterator != textureEnd) {

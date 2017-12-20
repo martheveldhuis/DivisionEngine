@@ -8,6 +8,7 @@
 #include "Entity.h"
 #include "Window.h"
 #include "InputManager.h"
+#include "SkyBox.h"
 
 /**
 	Generates framework specific objects. On instianciation one framework
@@ -21,13 +22,12 @@ namespace Division
 		~Repository() {};
 		/**
 			Gets the core framework object to instanciate classes.
-			@returns void*
 		*/
 		virtual void* getFrameworkInterface() = 0;
 		/**
 			Creates a texture loader to convert files to generic Texture
 			classes.
-			@returns ResourceLoader*
+			@returns A reference to a new TextureLoader
 		*/
 		virtual ResourceLoader* getTextureLoader() = 0;
 		/**
@@ -42,12 +42,15 @@ namespace Division
 		virtual Renderer* getRenderer() = 0;
 		/**
 			Parses a heightmap and stores the data in a Terrain.
-			@returns Entity*
+			@param filename The file to retrieve the heightmap data from.
+			@param rm ResourceManager to be passed to the class for texture loading.
+			@returns A Terrain object which can be renderered.
 		*/
-		virtual Entity* parseHeightmap(std::string, ResourceManager*) = 0;
+		virtual Entity* getTerrain(std::string, ResourceManager*, std::string) = 0;
 		/**
 			Creates a window from a string.
-			@returns Window*
+			@param title The window title.
+			@returns A Window object with requested options.
 		*/
 		virtual Window* getWindow(std::string) = 0;
 		/**
@@ -55,6 +58,12 @@ namespace Division
 			@returns An input manager
 		*/
 		virtual InputManager* getInputManager() = 0;
+		/**
+			Creates a sky box with a 1x1x1 dimension.
+			@param rm ResourceManager to be passed to the class for texture loading.
+			@return The created sky box.
+		*/
+		virtual Entity* getSkyBox(ResourceManager* rm) = 0;
 	};
 }
 

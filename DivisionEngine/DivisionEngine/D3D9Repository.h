@@ -3,6 +3,8 @@
 
 #include <string>
 
+#include "ResourceLoader.h"
+#include "Terrain.h"
 #include "Repository.h"
 #include "D3D9TextureLoader.h"
 #include "D3D9MeshLoader.h"
@@ -21,10 +23,11 @@ namespace Division
 		void* getFrameworkInterface();
 		ResourceLoader* getTextureLoader();
 		ResourceLoader* getMeshLoader();
-		Entity* parseHeightmap(std::string, ResourceManager*);
+		Entity* getTerrain(std::string, ResourceManager*, std::string);
 		Renderer* getRenderer();
 		Window* getWindow(std::string);
 		InputManager* getInputManager();
+		Entity* getSkyBox(ResourceManager*);
 	private:
 		LPDIRECT3D9 direct3D_ = NULL;
 		LPDIRECT3DDEVICE9 direct3DDevice_ = NULL;

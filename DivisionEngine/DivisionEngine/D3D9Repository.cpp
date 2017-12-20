@@ -1,5 +1,9 @@
 #include "D3D9Repository.h"
 #include "LoggerPool.h"
+#include "FileLoader.h"
+#include "D3D9MeshLoader.h"
+#include "D3D9Mesh.h"
+#include "SkyBox.h"
 
 namespace Division
 {
@@ -53,73 +57,79 @@ namespace Division
 
 
 
-	Entity* D3D9Repository::parseHeightmap(std::string filename, ResourceManager* rm) 
-	{
-		Logger* logger = LoggerPool::getInstance()->getLogger("heightmap");
-		logger->logInfo("Loading heightmap");
-		FILE *f;
-		errno_t err = fopen_s(&f, filename.c_str(), "rb");
-		if (err != 0) return nullptr;
-		unsigned char info[54];
-		fread(info, sizeof(unsigned char), 54, f);
-		const int fileSize = *(int*)&info[0x2];
-		const int dataOffset = *(int*)(&info[0x0A]);
-		const int width = *(int*)&info[0x12];
-		const int height = *(int*)&info[0x16];
-		const int bitCount = *(int*)&info[0x1C];
-		const int dataSizeHeader = fileSize - dataOffset;
+	Entity* D3D9Repository::getTerrain(std::string filename, ResourceManager* rm, std::string texturefile = "") {
+		
+		bool useTexture = texturefile != "";
 
-		int pad = 0;
+		int index = 0, currentColumn, currentRow, heightmapIndex;
 
-		if ((width * (bitCount / 8)) % 4 != 0)
-			pad = 4 - ((width * (bitCount / 8)) % 4);
+		FileData heightmapData, textureFileData;
 
-		long size = width * (bitCount / 8) + pad;
+		textureFileData = FileLoader::parseBmp(texturefile);
+		heightmapData = FileLoader::parseBmp(filename);
+		
+		DivisionVertex* vertices = new DivisionVertex[heightmapData.width *
+													  heightmapData.height];
 
-		const int dataSizeCalculated = size*height;
+		unsigned char* heightData = heightmapData.rawData;
+		unsigned int* textureColorData = textureFileData.colorData;
 
-		if (dataSizeCalculated != dataSizeHeader) {
-			logger->logInfo("Expected data size not equal to calculated data size");
+		for (int i = 0; i < heightmapData.width * heightmapData.height; i++) {
+			currentColumn = floor(i / heightmapData.height);
+			currentRow = i % heightmapData.height;
+
+			// convert vertices index to the corresponding heightmap pixel
+			heightmapIndex = (heightmapData.height - (currentRow + 1)) *
+							  heightmapData.rowByteCount + currentColumn * heightmapData.byteCount;
+
+			int y = heightData[heightmapIndex];
+			unsigned int vertexColor = 0xff000000;
+
+			if (useTexture) {
+				int colorIndex = (textureFileData.height - currentRow) + currentColumn *
+								  textureFileData.rowByteCount;
+
+				colorIndex *= textureFileData.byteCount;
+				// Get colors from texture
+
+				vertexColor += textureColorData[i];
+			}
+
+			int z = heightmapData.width / -2 + currentColumn;
+			int x = heightmapData.height / -2 + currentRow;
+
+			float textureX = currentColumn / (heightmapData.width - 1.0f);
+			float textureY = currentRow / (heightmapData.height - 1.0f);
+			vertices[i] = { static_cast<float>(x ),y / 30.0f - 6.5f, static_cast<float>(z ),
+				textureX , textureY };
 		}
 
-		unsigned char* data = new unsigned char[dataSizeCalculated];
-		if (dataOffset > 0)
-			fseek(f, (long int)(dataOffset)-54, SEEK_CUR);
-
-		DivisionVertex* vertices = new DivisionVertex[width * height];
-
-		int index = 0, currentColumn, currentRow;
-
-		fread(data, 1, dataSizeCalculated, f);
-		for (int i = 0; i < width*height; i++) {
-			currentColumn = floor(i / height);
-			currentRow = i % height;
-
-
-			int heightmapIndex;// = currentColumn + currentRow * size;
-			heightmapIndex = (height - (currentRow+1)) * size + currentColumn;
-
-			int y = data[heightmapIndex * (bitCount / 8)];
-			DWORD grayValB = y;
-			DWORD grayValG = y << 8;
-			DWORD grayValR = y << 16;
-			int grayColor = grayValR + grayValG + grayValB;
-			int z = width / -2 + currentColumn;
-			int x = height / -2 + currentRow;
-			vertices[i] = { static_cast<float>(x),y / 10.0f - 15.0f, static_cast<float>(z), 0xff000000 + grayColor };
-		}
-
-
-
-		fclose(f);
-
-		delete[] data;
-
-		logger->logInfo("Successfully finished loading heightmap");
-
-		return new Terrain(rm, vertices, width, height);
+		return new Terrain(rm, vertices, heightmapData.width, heightmapData.height);
 	}
 	
+
+
+	Entity* D3D9Repository::getSkyBox(ResourceManager* rm)
+	{
+		float side = 1.0f;
+		float texture = 0.125f;
+		int i = 0;
+
+		DivisionVertex* vertices = new DivisionVertex[8];
+		
+		vertices[0] = { -side, side, -side, 0,0 };    // vertex 0
+		vertices[1] = { side, side, -side, 1,0};     // vertex 1
+		vertices[2] = { -side, -side, -side,1,1};   // 2
+		vertices[3] = { side, -side, -side, 0,1};  // 3
+		vertices[4] = { -side, side, side, 1,0};     // ...
+		vertices[5] = { side, side, side, 0,0 };
+		vertices[6] = { -side, -side, side, 0,1};
+		vertices[7] = { side, -side, side, 1,1};
+		
+
+		return new SkyBox(rm, vertices);
+
+	}
 
 
 	Renderer* D3D9Repository::getRenderer()

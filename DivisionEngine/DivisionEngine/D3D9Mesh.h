@@ -16,6 +16,7 @@ namespace Division
 	class D3D9Mesh : public Mesh
 	{
 	public:
+		D3D9Mesh(LPD3DXMESH, std::string);
 		D3D9Mesh(LPD3DXMESH, D3DMATERIAL9*, DWORD, std::vector<std::string>);
 		~D3D9Mesh();
 		std::vector<std::string> getTextureFileNames();

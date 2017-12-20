@@ -1,26 +1,25 @@
-#ifndef DIVISION_TERRAIN_H
-#define DIVISION_TERRAIN_H
+#ifndef DIVISION_SKYBOX_H
+#define DIVISION_SKYBOX_H
 
 #include "D3D9Mesh.h"
 #include "Renderer.h"
-#include "Resource.h"
+#include "D3D9Texture.h"
 #include "Entity.h"
 
 namespace Division
 {
-	class Terrain : public Entity
+	class SkyBox : public Entity
 	{
 	public:
-		Terrain(ResourceManager*, DivisionVertex vertices[], int, int);
-		~Terrain();
+		SkyBox(ResourceManager*, DivisionVertex vertices[]);
+		~SkyBox();
 		void render(Renderer* renderer);
-		int generateIndices(int** ppIndices, int verticesAlongWidth, int verticesAlongLength);
-		void setTexture(std::string textureFile);
+		void setTexture(std::string);
 	private:
 		Resource* texture_ = NULL; // texture
 		DivisionVertex* vertices_;
 		int vertexCount_ = 0;
-		int* indices_ = NULL;
+		int* indices_;
 		DWORD indexCount_ = 0;
 		LPDIRECT3DDEVICE9 direct3Ddevice_ = NULL; // device
 		LPDIRECT3DVERTEXBUFFER9 vertexBuffer_ = NULL; // buffer

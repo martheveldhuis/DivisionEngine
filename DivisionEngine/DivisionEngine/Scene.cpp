@@ -39,7 +39,11 @@ namespace Division
 
 			rendererIt->second->clear();
 			rendererIt->second->beginScene();
-
+			Position pos = cameraToWindow_[windowIt->second]->getCameraPosition();
+			pos.xAngle = 0;
+			pos.yAngle = 0;
+			pos.zAngle = 0;
+			rendererIt->second->setWorldMatrix(&pos);
 			std::map<std::string, Entity*>::const_iterator enitityIt = entities_.begin();
 			std::map<std::string, Entity*>::const_iterator enititiesEnd = entities_.end();
 

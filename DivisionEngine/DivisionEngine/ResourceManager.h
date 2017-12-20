@@ -23,7 +23,7 @@ namespace Division
 			@param meshLoader The resource loader to create mesh objects.   
 		*/
 		ResourceManager(ResourceLoader* textureLoader, 
-						ResourceLoader* meshLoader);
+			ResourceLoader* meshLoader);
 		~ResourceManager();
 		/**
 			Gets a texture object from the textures map, based on the 
@@ -48,9 +48,9 @@ namespace Division
 		*/
 		void removeTexture(std::string textureFile);
 		/**
-			Removes a mesh object from the mesh map, based on the mesh's file 
-			name.
-			@param meshFile The file name of the mesh.
+		Removes a mesh object from the mesh map, based on the mesh's file
+		name.
+		@param meshFile The file name of the mesh.
 		*/
 		void removeMesh(std::string meshFile);
 	private:

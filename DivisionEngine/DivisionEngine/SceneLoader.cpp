@@ -30,8 +30,13 @@ namespace Division
 		
 		std::string sceneName = sceneJson["scene"]["name"];
 		std::string heightmap = sceneJson["scene"]["terrain"]["heightmap"];
+		std::string heightmapTexture = sceneJson["scene"]["terrain"]["texture"];
 
 		Scene* theScene = sceneManager_->createScene(scene);
+
+		Entity* skyBox = repository_->getSkyBox(resourceManager_);
+		skyBox->setTexture("cubemaplayout.png");
+		theScene->addEntity("skybox", skyBox);
 
 		nlohmann::json renderersJson = sceneJson["renderers"];
 		for (nlohmann::json::iterator it = renderersJson.begin(); it != renderersJson.end(); ++it) {
@@ -79,7 +84,8 @@ namespace Division
 			theScene->addEntity(entity["name"], newEntity);
 		}
 
-		Entity* terrain = repository_->parseHeightmap(heightmap, resourceManager_);
+		Entity* terrain = repository_->getTerrain(heightmap, resourceManager_, heightmapTexture);
+		terrain->setTexture(heightmapTexture);
 
 		theScene->addEntity("terrain", terrain);
 
