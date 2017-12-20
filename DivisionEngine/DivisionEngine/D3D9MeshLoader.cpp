@@ -74,17 +74,5 @@ namespace Division
 							textureFileNames);
 	}
 
-	Mesh* D3D9MeshLoader::getSkyBox()
-	{
-
-		LPD3DXMESH d3Mesh = NULL;
-		LPD3DXBUFFER buffer = NULL;
-		D3DXCreateBox(direct3DDevice_, 3, 3, 3, &d3Mesh, NULL);
-
-		D3D9Mesh* m = new D3D9Mesh(d3Mesh, "banana.bmp");
-
-		return m;
-	}
-
 
 }

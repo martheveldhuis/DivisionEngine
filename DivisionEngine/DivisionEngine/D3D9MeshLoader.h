@@ -25,7 +25,6 @@ namespace Division
 		D3D9MeshLoader(LPDIRECT3DDEVICE9 direct3DDevice);
 		~D3D9MeshLoader();
 		Mesh* getResource(std::string resourceName);
-		Mesh* getSkyBox();
 	private:
 		LPDIRECT3DDEVICE9 direct3DDevice_ = NULL;
 	};

@@ -55,21 +55,24 @@ namespace Division
 		virtual void setIndexBuffer(void* indexBuffer, int) = 0;
 		/**
 			Set the handle of the window to render on next frame.
+			@param handle The handle of the window. HWND on Windows.
 		*/
-		virtual void setHandle(void*) = 0;
+		virtual void setHandle(void* handle) = 0;
 		/**
 			Set the texture of mesh or vertexBuffer to be drawn.
+			@param handle The handle of the window. HWND on Windows.
 		*/
 		virtual void setTexture(void*) = 0;
 		/**
 			Sets the world transform matrix in the pipeline.
+			@param position Angle and position coordinates of the object to render.
 		*/
-		virtual void setWorldMatrix(Position*) = 0;
+		virtual void setWorldMatrix(Position* position) = 0;
+		virtual void setCamera(Camera*) = 0;
 		/**
 			Retrieve the framework specific render device.
 			@returns void* Pointer to the device.
 		*/
-		virtual void setCamera(Camera*) = 0;
 		virtual void* getDevice() = 0;
 
 		virtual void clear() = 0;
