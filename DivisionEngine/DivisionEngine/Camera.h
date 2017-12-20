@@ -14,7 +14,6 @@ namespace Division
 		void updateCameraPosition(InputStates* inputStates);
 		Position* getCameraPosition();
 	private:
-		Position position_ = { 0, 0, 0, 0, 0, 0 };
 		float nearClip = 1.0f;
 		float farClip = 2000.0f;
 	};

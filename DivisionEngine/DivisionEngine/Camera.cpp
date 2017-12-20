@@ -1,4 +1,6 @@
 #include "Camera.h"
+#define _USE_MATH_DEFINES
+#include <math.h>
 
 namespace Division
 {
@@ -13,23 +15,33 @@ namespace Division
 
 	void Camera::updateCameraPosition(InputStates* inputStates)
 	{
-		if (inputStates->moveForward) {
-			position_.zPosition += 0.08f;
-		}
-		if (inputStates->moveBackward) {
-			position_.zPosition -= 0.08f;
-		}
-		if (inputStates->moveRight) {
-			position_.xPosition += 0.08f;
-		}
-		if (inputStates->moveLeft) {
-			position_.xPosition -= 0.08f;
-		}
 		if (inputStates->turnRight) {
-			position_.yAngle += (inputStates->turnRight)/100.0f;
+			position_.yAngle += (inputStates->turnRight) / 100.0f;
 		}
 		if (inputStates->turnLeft) {
-			position_.yAngle -= (inputStates->turnLeft)/100.0f;
+			position_.yAngle -= (inputStates->turnLeft) / 100.0f;
+		}
+		if (inputStates->turnUp) {
+			position_.xAngle += (inputStates->turnUp) / 100.0f;
+		}
+		if (inputStates->turnDown) {
+			position_.xAngle -= (inputStates->turnDown) / 100.0f;
+		}
+		if (inputStates->moveForward) {
+			position_.zPosition += cos(position_.yAngle) * 0.1f;
+			position_.xPosition += sin(position_.yAngle) * 0.1f;
+		}
+		if (inputStates->moveBackward) {
+			position_.zPosition -= cos(position_.yAngle) * 0.1f;
+			position_.xPosition -= sin(position_.yAngle) * 0.1f;
+		}
+		if (inputStates->moveRight) {
+			position_.zPosition += cos(position_.yAngle + M_PI / 2) * 0.1f;
+			position_.xPosition += sin(position_.yAngle + M_PI / 2) * 0.1f;
+		}
+		if (inputStates->moveLeft) {
+			position_.zPosition -= cos(position_.yAngle + M_PI / 2) * 0.1f;
+			position_.xPosition -= sin(position_.yAngle + M_PI / 2) * 0.1f;
 		}
 	}
 
