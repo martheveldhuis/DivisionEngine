@@ -48,19 +48,18 @@ namespace Division
 	{
 		D3DXMATRIX rotation;
 		D3DXMATRIX translation;
-		Position cameraPosition = camera_->getCameraPosition();
 
-		float newX = position->xPosition - cameraPosition.xPosition;
-		float newZ = position->zPosition - cameraPosition.zPosition;
+		float newX = position->xPosition - cameraPosition_->xPosition;
+		float newZ = position->zPosition - cameraPosition_->zPosition;
 
 		float dist = sqrt(pow(newX, 2.0f) + pow(newZ, 2.0f));
-		float angle = cameraPosition.yAngle + D3DX_PI / 2;
+		float angle = cameraPosition_->yAngle + D3DX_PI / 2;
 
 		newX = (newX < 0) ? -dist * cos(angle) : dist * cos(angle);
 		newZ = (newZ < 0) ? -dist * sin(angle) : dist * sin(angle);
 
-		D3DXMatrixRotationYawPitchRoll(&rotation, position->yAngle - cameraPosition.yAngle, position->xAngle, position->zAngle);
-		D3DXMatrixTranslation(&translation, newX, (position->yPosition - cameraPosition.yPosition), newZ);
+		D3DXMatrixRotationYawPitchRoll(&rotation, position->yAngle - cameraPosition_->yAngle, position->xAngle, position->zAngle);
+		D3DXMatrixTranslation(&translation, newX, (position->yPosition - cameraPosition_->yPosition), newZ);
 
 		direct3DDevice_->SetTransform(D3DTS_WORLD, &(rotation * translation));
 	}
@@ -135,8 +134,12 @@ namespace Division
 	{
 		windowHandle_ = static_cast<HWND>(handle);
 	}
-	void D3D9Renderer::setCamera(Camera *camera)
+	Position * D3D9Renderer::getCameraPosition()
 	{
-		camera_ = camera;
+		return cameraPosition_;
+	}
+	void D3D9Renderer::setCameraPosition(Position *pos)
+	{
+		cameraPosition_ = pos;
 	}
 }

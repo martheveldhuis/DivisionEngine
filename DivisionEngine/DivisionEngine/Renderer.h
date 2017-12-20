@@ -68,7 +68,8 @@ namespace Division
 			@returns void* Pointer to the device.
 		*/
 		virtual void* getDevice() = 0;
-		virtual void setCamera(Camera*) = 0;
+		virtual void setCameraPosition(Position*) = 0;
+		virtual Position* getCameraPosition() = 0;
 		virtual void increaseReferenceCount() = 0;
 		virtual void decreaseReferenceCount() = 0;
 		virtual short getReferenceCount() = 0;

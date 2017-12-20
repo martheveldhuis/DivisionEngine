@@ -1,5 +1,5 @@
 #include "Kernel.h"
-
+#include <iostream>
 #include "Clock.h"
 #include "LoggerPool.h"
 #include "D3D9Repository.h"
@@ -43,13 +43,14 @@ namespace Division
 	{
 		MSG msg;
 		ZeroMemory(&msg, sizeof(msg));
+
 		Clock clock;
-		
 		Logger* kernelLog = LoggerPool::getInstance()->getLogger("clock");
 
 		clock.start();
 		int frames = 0;
 		int lastSec = 0;
+
 		while (msg.message != WM_QUIT)
 		{
 			if (PeekMessage(&msg, NULL, 0U, 0U, PM_REMOVE))
@@ -63,6 +64,11 @@ namespace Division
 					lastSec = clock.getRuntime() / 1000;
 					kernelLog->logInfo(frames);
 					frames = 0;
+				}
+				std::cout << msg.message << std::endl;
+				HWND win = GetForegroundWindow();
+				if (win != sceneManager_->getInputHandle()) {// Set foregroundwindow handle
+					sceneManager_->setInputHandle(win);
 				}
 				sceneManager_->renderScenes();
 			}
