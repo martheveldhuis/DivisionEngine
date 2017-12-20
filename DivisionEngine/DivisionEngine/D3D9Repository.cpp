@@ -3,10 +3,10 @@
 #include "FileLoader.h"
 #include "D3D9MeshLoader.h"
 #include "D3D9Mesh.h"
+#include "SkyBox.h"
 
 namespace Division
 {
-	LPDIRECT3D9 direct3D_ = NULL;
 	D3D9Repository::D3D9Repository()
 	{
 		if (NULL == (direct3D_ = Direct3DCreate9(D3D_SDK_VERSION))) {
@@ -23,11 +23,11 @@ namespace Division
 		direct3DParams.EnableAutoDepthStencil = true;
 		direct3DParams.AutoDepthStencilFormat = D3DFMT_D16;
 
-		HWND windowHandle_ = CreateWindowA("STATIC", "dummy", NULL, 100, 100, 800, 600,
+		HWND windowHandle = CreateWindowA("STATIC", "dummy", NULL, 100, 100, 800, 600,
 			NULL, NULL, NULL, NULL);
 
 		HRESULT result = direct3D_->CreateDevice(D3DADAPTER_DEFAULT, D3DDEVTYPE_HAL,
-			windowHandle_, D3DCREATE_SOFTWARE_VERTEXPROCESSING, &direct3DParams, &direct3DDevice_);
+			windowHandle, D3DCREATE_SOFTWARE_VERTEXPROCESSING, &direct3DParams, &direct3DDevice_);
 		if (FAILED(result)) {
 			LoggerPool::getInstance()->getLogger("D3DRepository")
 				->logError("Failed to create Direct3D device, " + result);
@@ -37,16 +37,22 @@ namespace Division
 
 
 
-	ResourceLoader* D3D9Repository::getTextureLoader()
+	D3D9Repository::~D3D9Repository()
 	{
-		return new D3D9TextureLoader(direct3DDevice_);
 	}
 
 
 
-	MeshLoader* D3D9Repository::getMeshLoader()
+	ResourceLoader* D3D9Repository::getTextureLoader()
 	{
-		return new D3D9MeshLoader(direct3DDevice_);
+		return new D3D9TextureLoader(direct3DDevice_); // TODO: create members of these
+	}
+
+
+
+	ResourceLoader* D3D9Repository::getMeshLoader()
+	{
+		return new D3D9MeshLoader(direct3DDevice_); // TODO: create members of these
 	}
 
 
@@ -103,6 +109,27 @@ namespace Division
 	
 
 
+	Entity* D3D9Repository::getSkyBox(ResourceManager* rm)
+	{
+		int side = 1.0f;
+		float texture = 0.125f;
+		int i = 0;
+		SkyBoxVertex vertices[] = {
+			{ -side, side, -side, texture * i,texture * i++ },    // vertex 0
+			{ side, side, -side, texture * i,texture * i++ },     // vertex 1
+			{ -side, -side, -side, texture * i,texture * i++ },   // 2
+			{ side, -side, -side, texture * i,texture * i++ },  // 3
+			{ -side, side, side, texture * i,texture * i++ },     // ...
+			{ side, side, side, texture * i,texture * i++ },
+			{ -side, -side, side, texture * i,texture * i++ },
+			{ side, -side, side, texture * i,texture * i++ },
+		};
+
+		return new SkyBox(rm, vertices);
+
+	}
+
+
 	Renderer* D3D9Repository::getRenderer()
 	{
 		return new D3D9Renderer(direct3DDevice_);
@@ -115,12 +142,11 @@ namespace Division
 		return new Win32Window(title);
 	}
 
-
-
-	D3D9Repository::~D3D9Repository()
+	InputManager * D3D9Repository::getInputManager()
 	{
+		return new DirectInputManager();
 	}
-
+	
 
 
 	void* D3D9Repository::getFrameworkInterface()

@@ -5,6 +5,7 @@
 #include <Windows.h>
 #include <d3d9.h>
 
+
 namespace Division
 {
 	/**
@@ -24,14 +25,22 @@ namespace Division
 		void setVertexBuffer(struct DivisionVertex* vertices, int verts);
 		void setIndexBuffer(void* vertices, int indexes);
 		void* getDevice() { return direct3DDevice_; }
+
+		void clear();
+		void beginScene();
+		void endScene();
+		void present(void*);
+
 		void setWorldMatrix(Position*);
 		void setTexture(void*);
 		void setHandle(void*);
+		void setCamera(Camera*);
 	private:
 		LPDIRECT3DDEVICE9 direct3DDevice_; // Device to render with
 		LPDIRECT3DVERTEXBUFFER9 vertexBuffer_ = NULL; // Buffer to hold vertices
 		LPDIRECT3DINDEXBUFFER9  indexBuffer_ = NULL; // Buffer to hold indices
 		HWND windowHandle_;
+		Camera* camera_ = NULL;
 	};
 }
 

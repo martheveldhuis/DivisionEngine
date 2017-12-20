@@ -1,9 +1,12 @@
 #include "SceneManager.h"
+#include "SceneLoader.h"
+
 namespace Division
 {
 	SceneManager::SceneManager(ResourceManager* rm, Repository* repository_)
 		: resourceManager_(rm), repository_(repository_)
 	{
+		inputManager_ = repository_->getInputManager();
 	}
 
 	SceneManager::~SceneManager()
@@ -41,19 +44,19 @@ namespace Division
 		}
 	}
 
-	Scene* SceneManager::createScene(std::string str, Renderer* renderer)
+	Scene* SceneManager::createScene(std::string str)
 	{
-		Scene* createdScene = new Scene(resourceManager_);
+		Scene* createdScene = new Scene(resourceManager_, inputManager_);
 		scenes_[str] = createdScene;
 		return createdScene;
 	}
 
-	Scene* SceneManager::loadScene(std::string sceneFile)
+	Scene* SceneManager::loadScene(std::string scene,std::string filename)
 	{
-		SceneLoader* loader = new SceneLoader(this, repository_, resourceManager_);
-		loader->loadScene(sceneFile);
-
-		return getScene(sceneFile);
+		if (sceneLoader_ == NULL) {
+			sceneLoader_ = new SceneLoader(this, repository_, resourceManager_);
+		}		
+		return sceneLoader_->loadScene(scene, filename);
 	}
 
 	Scene* SceneManager::getScene(std::string str)

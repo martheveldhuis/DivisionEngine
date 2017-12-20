@@ -1,8 +1,10 @@
 #include "D3D9Renderer.h"
 #include "D3D9Texture.h"
 #include <d3dx9.h>
+#include <math.h>
+#include "Camera.h"
 
-#define D3DFVF_CUSTOMVERTEX (D3DFVF_XYZ  | D3DFVF_DIFFUSE)
+#define D3DFVF_CUSTOMVERTEX (D3DFVF_XYZ|D3DFVF_TEX1)
 
 namespace Division
 {
@@ -11,13 +13,9 @@ namespace Division
 	{
 	}
 
-
-
 	D3D9Renderer::~D3D9Renderer()
 	{
 	}
-
-
 
 	void D3D9Renderer::setup()
 	{
@@ -25,21 +23,17 @@ namespace Division
 		setupMatrices();
 	}
 
-
-
 	void D3D9Renderer::initializeGraphics()
 	{
-		//direct3DDevice_->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE);
+		direct3DDevice_->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE);
 		direct3DDevice_->SetRenderState(D3DRS_LIGHTING, FALSE);
 		//direct3Ddevice_->SetRenderState(D3DRS_FILLMODE, D3DFILL_WIREFRAME);
 	}
 
-
-
 	void D3D9Renderer::setupMatrices()
 	{
-		D3DXVECTOR3 viewPointStart(5.0f, 1.0f, -1.0f);
-		D3DXVECTOR3 viewLookAt(0.0f, -10.0f, 0.0f);
+		D3DXVECTOR3 viewPointStart(0.0f, 0.0f, -10.0f);
+		D3DXVECTOR3 viewLookAt(0.0f, 1.0f, 5.0f);
 		D3DXVECTOR3 upVector(0.0f, 1.0f, 0.0f);
 		D3DXMATRIXA16 viewMatrix;
 		D3DXMatrixLookAtLH(&viewMatrix, &viewPointStart, &viewLookAt, &upVector);
@@ -50,27 +44,33 @@ namespace Division
 		direct3DDevice_->SetTransform(D3DTS_PROJECTION, &projectionMatrix);
 	}
 
-
-
 	void D3D9Renderer::setWorldMatrix(Position* position)
 	{
 		D3DXMATRIX rotation;
 		D3DXMATRIX translation;
-		D3DXMATRIX scale;
+		Position cameraPosition = camera_->getCameraPosition();
 
-		D3DXMatrixRotationYawPitchRoll(&rotation, position->yAngle, position->xAngle, position->zAngle);
-		D3DXMatrixTranslation(&translation, position->xPosition, position->yPosition, position->zPosition);
-		D3DXMatrixScaling(&scale, .5, .5, .5);
+		float newX = position->xPosition - cameraPosition.xPosition;
+		float newZ = position->zPosition - cameraPosition.zPosition;
+
+		float dist = sqrt(pow(newX, 2.0f) + pow(newZ, 2.0f));
+		float angle = cameraPosition.yAngle + D3DX_PI / 2;
+		
+		newX = (newX < 0) ? -dist * cos(angle) : dist * cos(angle);
+		newZ = (newZ < 0) ? -dist * sin(angle) : dist * sin(angle);
+				
+
+		D3DXMatrixRotationYawPitchRoll(&rotation, position->yAngle - cameraPosition.yAngle, position->xAngle, position->zAngle);
+		D3DXMatrixTranslation(&translation, newX, (position->yPosition - cameraPosition.yPosition), newZ);
+
 
 		direct3DDevice_->SetTransform(D3DTS_WORLD, &(rotation * translation));
 	}
 
-
-
 	void D3D9Renderer::setVertexBuffer(DivisionVertex* vertexBuffer, int verts)
 	{
 		// Create the vertex buffer.
-		if (!vertexBuffer_ && FAILED(direct3DDevice_->CreateVertexBuffer(verts* sizeof(DivisionVertex),
+		if (FAILED(direct3DDevice_->CreateVertexBuffer(verts * sizeof(DivisionVertex),
 			0, D3DFVF_CUSTOMVERTEX,
 			D3DPOOL_DEFAULT, &vertexBuffer_, NULL)))
 		{
@@ -84,14 +84,13 @@ namespace Division
 		memcpy(pVertices, vertexBuffer, sizeof(DivisionVertex)* verts);
 		vertexBuffer_->Unlock();
 		direct3DDevice_->SetStreamSource(0, vertexBuffer_, 0, sizeof(DivisionVertex));
+		vertexBuffer_->Release();
 	}
-
-
 
 	void D3D9Renderer::setIndexBuffer(void* indexBuffer, int indexes)
 	{
 		// Create the vertex buffer.
-		if (!indexBuffer_ && FAILED(direct3DDevice_->CreateIndexBuffer(indexes* sizeof(DWORD),
+		if (FAILED(direct3DDevice_->CreateIndexBuffer(indexes * sizeof(DWORD),
 			D3DUSAGE_WRITEONLY | D3DUSAGE_DYNAMIC,
 			D3DFMT_INDEX32,
 			D3DPOOL_DEFAULT, &indexBuffer_, NULL)))
@@ -104,11 +103,31 @@ namespace Division
 		if (FAILED(indexBuffer_->Lock(0, sizeof(DWORD)* indexes, (void**)&pData, 0)))
 			;
 		memcpy(pData, indexBuffer, sizeof(DWORD)* indexes);
-		vertexBuffer_->Unlock();
+		indexBuffer_->Unlock();
 		direct3DDevice_->SetIndices(indexBuffer_);
+		indexBuffer_->Release();
 	}
-	
 
+	void D3D9Renderer::clear()
+	{
+		direct3DDevice_->Clear(0, NULL, D3DCLEAR_TARGET | D3DCLEAR_ZBUFFER, D3DCOLOR_XRGB(0, 0xff, 0xff), 1.0f, 0);
+	}
+
+	void D3D9Renderer::beginScene()
+	{
+		direct3DDevice_->BeginScene();
+	}
+
+	void D3D9Renderer::endScene()
+	{
+		direct3DDevice_->EndScene();
+	}
+
+	void D3D9Renderer::present(void* window)
+	{
+		HWND win = static_cast<HWND>(window);
+		direct3DDevice_->Present(NULL, NULL, win, NULL);
+	}
 
 	void D3D9Renderer::setTexture(void* resource)
 	{
@@ -118,10 +137,12 @@ namespace Division
 		direct3DDevice_->SetTextureStageState(0, D3DTSS_COLOROP, D3DTOP_SELECTARG1);
 	}
 
-
-
 	void D3D9Renderer::setHandle(void* handle)
 	{
 		windowHandle_ = static_cast<HWND>(handle);
+	}
+	void D3D9Renderer::setCamera(Camera *camera)
+	{
+		camera_ = camera;
 	}
 }

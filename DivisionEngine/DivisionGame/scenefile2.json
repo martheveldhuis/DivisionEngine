@@ -17,39 +17,24 @@
       "mesh": "tiger.x",
       "texture": "banana.bmp",
       "pos": {
+        "x": 6,
+        "y": 0,
+        "z": 10
+      },
+      "angle": {
         "x": 0,
         "y": 0,
-        "z": 4
-      },
-      "angle": {
-        "x": -1,
-        "y": 0,
         "z": 0
       }
     },
     {
-      "name": "tigedr",
+      "name": "tiger",
       "mesh": "tiger.x",
       "texture": "banana.bmp",
       "pos": {
-        "x": -0.75,
+        "x": 7,
         "y": 0,
-        "z": 4
-      },
-      "angle": {
-        "x": -1,
-        "y": 1,
         "z": 0
-      }
-    },
-    {
-      "name": "tigedr2",
-      "mesh": "tiger.x",
-      "texture": "banana.bmp",
-      "pos": {
-        "x": 0.75,
-        "y": 0,
-        "z": 4
       },
       "angle": {
         "x": -1,
@@ -61,12 +46,12 @@
       "name": "tiger2",
       "mesh": "tiger.x",
       "pos": {
-        "x": 2.75,
+        "x": 11,
         "y": 0,
-        "z": -3.8
+        "z": 5
       },
       "angle": {
-        "x": 1.8,
+        "x": 0,
         "y": -0.9,
         "z": -0.5
       }
@@ -75,9 +60,9 @@
       "name": "tiger3",
       "mesh": "tiger.x",
       "pos": {
-        "x": -2.75,
+        "x": 5,
         "y": 0,
-        "z": -3.8
+        "z": 2
       },
       "angle": {
         "x": 1.8,
@@ -89,9 +74,9 @@
       "name": "t4",
       "mesh": "tiger.x",
       "pos": {
-        "x": 0,
+        "x": 8,
         "y": 0,
-        "z": -4
+        "z": 15
       },
       "angle": {
         "x": 2,
@@ -104,16 +89,6 @@
     {
       "name": "Window1",
       "window_title": "TheFirstWindow",
-      "renderer": "DXrenderer"
-    },
-    {
-      "name": "Window2",
-      "window_title": "TheSecondWindow",
-      "renderer": "DXrenderer"
-    },
-    {
-      "name": "Window3",
-      "window_title": "TheThirdWindow",
       "renderer": "DXrenderer"
     }
   ]

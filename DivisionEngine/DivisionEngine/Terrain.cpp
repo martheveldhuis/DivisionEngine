@@ -22,11 +22,10 @@ namespace Division
 	{
 		renderer->setVertexBuffer(vertices_, vertexCount_);
 		renderer->setIndexBuffer(indices_, indexCount_);
-
-		LPDIRECT3DDEVICE9 renderDevice = static_cast<LPDIRECT3DDEVICE9>(renderer->getDevice());
-
 		renderer->setWorldMatrix(&position_);
 
+		LPDIRECT3DDEVICE9 renderDevice = static_cast<LPDIRECT3DDEVICE9>(renderer->getDevice());
+		
 		// Render the vertex buffer contents
 		if (texture_)
 			renderer->setTexture(texture_);

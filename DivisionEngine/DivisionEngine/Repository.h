@@ -3,10 +3,11 @@
 
 #include <string>
 
-#include "MeshLoader.h"
+#include "ResourceLoader.h"
 #include "Renderer.h"
 #include "Entity.h"
 #include "Window.h"
+#include "InputManager.h"
 #include "SkyBox.h"
 
 /**
@@ -33,7 +34,7 @@ namespace Division
 			Creates a mesh loader to convert files to generic Mesh classes.
 			@returns ResourceLoader*
 		*/
-		virtual MeshLoader* getMeshLoader() = 0;
+		virtual ResourceLoader* getMeshLoader() = 0;
 		/**
 			Creates a renderer to communicate the device.
 			@returns Renderer*
@@ -41,14 +42,28 @@ namespace Division
 		virtual Renderer* getRenderer() = 0;
 		/**
 			Parses a heightmap and stores the data in a Terrain.
-			@returns Entity*
+			@param filename The file to retrieve the heightmap data from.
+			@param rm ResourceManager to be passed to the class for texture loading.
+			@returns A Terrain object which can be renderered.
 		*/
 		virtual Entity* getTerrain(std::string, ResourceManager*, std::string) = 0;
 		/**
 			Creates a window from a string.
-			@returns A Window object with default options.
+			@param title The window title.
+			@returns A Window object with requested options.
 		*/
 		virtual Window* getWindow(std::string) = 0;
+		/**
+			Creates a framework specific input manager for handling input.
+			@returns An input manager
+		*/
+		virtual InputManager* getInputManager() = 0;
+		/**
+			Creates a sky box with a 1x1x1 dimension.
+			@param rm ResourceManager to be passed to the class for texture loading.
+			@return The created sky box.
+		*/
+		virtual Entity* getSkyBox(ResourceManager* rm) = 0;
 	};
 }
 

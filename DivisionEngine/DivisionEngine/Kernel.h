@@ -1,21 +1,24 @@
 #ifndef DIVISION_KERNEL_H
 #define DIVISION_KERNEL_H
 
-#include "ResourceManager.h"
-#include "SceneManager.h"
-#include "WindowsInputManager.h"
-#include "D3D9Repository.h"
+#include <string>
+
 
 namespace Division
 {
+	class ResourceManager;
+	class Repository;
+	class SceneManager;
 	class Kernel
 	{
 	public:
 		Kernel();
 		~Kernel();
+		void loadScene(std::string, std::string);
 		void run();
 		SceneManager* getSceneManager();
 		ResourceManager* getResourceManager();
+		
 
 	private:
 		Repository* repository_;

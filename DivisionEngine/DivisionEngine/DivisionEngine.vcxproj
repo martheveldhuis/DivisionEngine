@@ -22,7 +22,7 @@
     <VCProjectVersion>15.0</VCProjectVersion>
     <ProjectGuid>{106B8291-356B-4ADE-9BB2-A732E7703F9C}</ProjectGuid>
     <RootNamespace>DivisionEngine</RootNamespace>
-    <WindowsTargetPlatformVersion>8.1</WindowsTargetPlatformVersion>
+    <WindowsTargetPlatformVersion>10.0.16299.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
@@ -129,18 +129,20 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Clock.cpp" />
+    <ClCompile Include="Camera.cpp" />
     <ClCompile Include="D3D9Renderer.cpp" />
     <ClCompile Include="D3D9Repository.cpp" />
     <ClCompile Include="FileLoader.cpp" />
     <ClCompile Include="Kernel.cpp" />
     <ClCompile Include="Entity.cpp" />
     <ClCompile Include="Model.cpp" />
-    <ClCompile Include="Keyboard.cpp" />
+    <ClCompile Include="DirectInputKeyboard.cpp" />
     <ClCompile Include="Logger.cpp" />
     <ClCompile Include="LoggerPool.cpp" />
     <ClCompile Include="D3D9Mesh.cpp" />
     <ClCompile Include="D3D9MeshLoader.cpp" />
-    <ClCompile Include="Mouse.cpp" />
+    <ClCompile Include="DirectInputMouse.cpp" />
     <ClCompile Include="ResourceManager.cpp" />
     <ClCompile Include="Scene.cpp" />
     <ClCompile Include="SceneLoader.cpp" />
@@ -150,25 +152,28 @@
     <ClCompile Include="D3D9Texture.cpp" />
     <ClCompile Include="D3D9TextureLoader.cpp" />
     <ClCompile Include="Win32Window.cpp" />
-    <ClCompile Include="WindowsInputManager.cpp" />
+    <ClCompile Include="DirectInputManager.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Clock.h" />
+    <ClInclude Include="Camera.h" />
     <ClInclude Include="D3D9Renderer.h" />
     <ClInclude Include="D3D9Repository.h" />
     <ClInclude Include="MeshLoader.h" />
     <ClInclude Include="FileLoader.h" />
+    <ClInclude Include="InputManager.h" />
     <ClInclude Include="json.hpp" />
     <ClInclude Include="Kernel.h" />
     <ClInclude Include="Mesh.h" />
     <ClInclude Include="Entity.h" />
     <ClInclude Include="Model.h" />
     <ClInclude Include="InputDevice.h" />
-    <ClInclude Include="Keyboard.h" />
+    <ClInclude Include="DirectInputKeyboard.h" />
     <ClInclude Include="Logger.h" />
     <ClInclude Include="LoggerPool.h" />
     <ClInclude Include="D3D9Mesh.h" />
     <ClInclude Include="D3D9MeshLoader.h" />
-    <ClInclude Include="Mouse.h" />
+    <ClInclude Include="DirectInputMouse.h" />
     <ClInclude Include="Renderer.h" />
     <ClInclude Include="Repository.h" />
     <ClInclude Include="Resource.h" />
@@ -184,7 +189,7 @@
     <ClInclude Include="D3D9Texture.h" />
     <ClInclude Include="Window.h" />
     <ClInclude Include="Win32Window.h" />
-    <ClInclude Include="WindowsInputManager.h" />
+    <ClInclude Include="DirectInputManager.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

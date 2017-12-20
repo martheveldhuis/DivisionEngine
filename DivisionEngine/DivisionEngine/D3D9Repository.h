@@ -10,6 +10,8 @@
 #include "D3D9MeshLoader.h"
 #include "D3D9Renderer.h"
 #include "Win32Window.h"
+#include "Terrain.h"
+#include "DirectInputManager.h"
 
 namespace Division
 {
@@ -20,14 +22,15 @@ namespace Division
 		~D3D9Repository();
 		void* getFrameworkInterface();
 		ResourceLoader* getTextureLoader();
-		MeshLoader* getMeshLoader();
+		ResourceLoader* getMeshLoader();
 		Entity* getTerrain(std::string, ResourceManager*, std::string);
 		Renderer* getRenderer();
 		Window* getWindow(std::string);
+		InputManager* getInputManager();
+		Entity* getSkyBox(ResourceManager*);
 	private:
 		LPDIRECT3D9 direct3D_ = NULL;
 		LPDIRECT3DDEVICE9 direct3DDevice_ = NULL;
-		HWND windowHandle_ = NULL;
 	};
 }
 

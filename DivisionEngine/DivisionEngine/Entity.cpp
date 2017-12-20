@@ -1,5 +1,6 @@
 #include "Entity.h"
 #include "LoggerPool.h"
+#include "Renderer.h"
 
 namespace Division
 {
