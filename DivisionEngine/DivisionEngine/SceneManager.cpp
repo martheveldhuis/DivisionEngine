@@ -20,6 +20,16 @@ namespace Division
 			it->second->render();
 	}
 
+	void SceneManager::setInputHandle(void * hndl)
+	{
+		inputManager_->setWindowHandle(hndl);
+	}
+
+	void * SceneManager::getInputHandle()
+	{
+		return inputManager_->getWindowHandle();
+	}
+
 	void SceneManager::addRenderer(std::string str, Renderer* rend)
 	{
 		renderers_[str] = rend;

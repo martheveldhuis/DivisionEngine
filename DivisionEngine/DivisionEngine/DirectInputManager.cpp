@@ -35,7 +35,14 @@ namespace Division
 	void DirectInputManager::setWindowHandle(void* windowHandle)
 	{
 		windowHandle_ = static_cast<HWND>(windowHandle);
+		keyboard_ = NULL;
+		mouse_ = NULL;
 		initializeInputDevices();
+	}
+
+	void * DirectInputManager::getWindowHandle()
+	{
+		return windowHandle_;
 	}
 
 

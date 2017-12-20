@@ -18,6 +18,7 @@ namespace Division
 		~Win32Window();
 		static LRESULT WINAPI MsgProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);
 		void* getWindowHandle();
+
 	private:
 		HWND windowHandle_;
 	};

@@ -14,27 +14,27 @@ namespace Division
 	void Camera::updateCameraPosition(InputStates* inputStates)
 	{
 		if (inputStates->moveForward) {
-			position.zPosition += 0.08f;
+			position_.zPosition += 0.08f;
 		}
 		if (inputStates->moveBackward) {
-			position.zPosition -= 0.08f;
+			position_.zPosition -= 0.08f;
 		}
 		if (inputStates->moveRight) {
-			position.xPosition += 0.08f;
+			position_.xPosition += 0.08f;
 		}
 		if (inputStates->moveLeft) {
-			position.xPosition -= 0.08f;
+			position_.xPosition -= 0.08f;
 		}
 		if (inputStates->turnRight) {
-			position.yAngle += (inputStates->turnRight)/100.0f;
+			position_.yAngle += (inputStates->turnRight)/100.0f;
 		}
 		if (inputStates->turnLeft) {
-			position.yAngle -= (inputStates->turnLeft)/100.0f;
+			position_.yAngle -= (inputStates->turnLeft)/100.0f;
 		}
 	}
 
-	Position Camera::getCameraPosition()
+	Position* Camera::getCameraPosition()
 	{
-		return position;
+		return &position_;
 	}
 }

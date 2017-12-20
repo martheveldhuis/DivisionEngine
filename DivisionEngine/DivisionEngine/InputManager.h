@@ -20,6 +20,11 @@ namespace Division
 		*/
 		virtual void setWindowHandle(void* windowHandle) = 0;
 		/**
+			Retrieves the windowhandle from which to handle input
+			@returns void pointer windowhandle		
+		*/
+		virtual void* getWindowHandle() = 0;
+		/**
 			Retrieves the input data from the input devices.
 			@returns A struct filled with the set input data.
 		*/

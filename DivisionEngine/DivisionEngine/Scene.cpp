@@ -18,10 +18,15 @@ namespace Division
 		std::map<std::string, Window*>::const_iterator windowIt = windows_.begin();
 		std::map<std::string, Window*>::const_iterator windowsEnd = windows_.end();
 
-		InputStates i = inputManager_->getInput();
+		
 
 		for (; windowIt != windowsEnd; ++windowIt) {
-			cameraToWindow_[windowIt->second]->updateCameraPosition(&i);
+
+			if (windowIt->second->getWindowHandle() == inputManager_->getWindowHandle()) {
+				InputStates i = inputManager_->getInput();
+				cameraToWindow_[windowIt->second]->updateCameraPosition(&i);
+			}
+		
 			std::map<Window*, Renderer*>::const_iterator rendererIt;
 			rendererIt = rendererToWindow_.find(windowIt->second);
 
@@ -30,6 +35,7 @@ namespace Division
 					->logError("No renderers found while trying to render");
 				return;
 			}
+			rendererIt->second->setCameraPosition(cameraToWindow_[windowIt->second]->getCameraPosition());
 
 			rendererIt->second->clear();
 			rendererIt->second->beginScene();
@@ -56,9 +62,6 @@ namespace Division
 		rendererToWindow_[window] = renderer;
 		renderer->increaseReferenceCount();
 		cameraToWindow_[window] = camera; // TODO: delete this one when destroying scene
-
-		renderer->setCamera(camera);
-		inputManager_->setWindowHandle(window->getWindowHandle());
 	}
 
 	Window* Scene::getWindow(std::string windowName)
