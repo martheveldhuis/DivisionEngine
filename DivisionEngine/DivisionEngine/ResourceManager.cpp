@@ -4,7 +4,7 @@
 namespace Division
 {
 	ResourceManager::ResourceManager(ResourceLoader* textureLoader,
-									 MeshLoader* meshLoader) : 
+									 ResourceLoader* meshLoader) : 
 		textureLoader_(textureLoader), meshLoader_(meshLoader)
 	{
 		LoggerPool::getInstance()->getLogger("resourceManager")
@@ -37,39 +37,6 @@ namespace Division
 	}
 
 
-
-	Mesh* ResourceManager::getSkyBoxMesh(std::string meshFile)
-	{
-		{
-			std::map<std::string, Resource*>::iterator it;
-			it = meshes_.find(meshFile);
-
-			Mesh* mesh;
-			std::map<std::string, Resource*> textures;
-
-			if (it != meshes_.end()) {
-				mesh = dynamic_cast<Mesh*>(it->second);
-			}
-			else {
-				Resource* mesh = meshLoader_->getSkyBox();
-				meshes_[meshFile] = mesh;
-				return dynamic_cast<Mesh*>(mesh);
-			}
-
-			std::vector<std::string> textureFileNames = mesh->getTextureFileNames();
-
-			std::vector<std::string>::const_iterator textureFilesIterator = textureFileNames.begin();
-			while (textureFilesIterator != textureFileNames.end()) {
-				textures[*textureFilesIterator] = getTexture(*textureFilesIterator);
-				++textureFilesIterator;
-			}
-
-			mesh->setTextures(textures);
-
-			return mesh;
-		}
-
-	}
 
 	Resource* ResourceManager::addNewTexture(std::string textureFile)
 	{

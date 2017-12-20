@@ -32,15 +32,15 @@ namespace Division
 
 	void D3D9Renderer::setupMatrices()
 	{
-		D3DXVECTOR3 viewPointStart(0.0f, 0.0f, -10.0f);
-		D3DXVECTOR3 viewLookAt(0.0f, 1.0f, 5.0f);
+		D3DXVECTOR3 viewPointStart(0.0f, 0.0f, 0.0f);
+		D3DXVECTOR3 viewLookAt(0.0f, -1.0f, 5.0f);
 		D3DXVECTOR3 upVector(0.0f, 1.0f, 0.0f);
 		D3DXMATRIXA16 viewMatrix;
 		D3DXMatrixLookAtLH(&viewMatrix, &viewPointStart, &viewLookAt, &upVector);
 		direct3DDevice_->SetTransform(D3DTS_VIEW, &viewMatrix);
 
 		D3DXMATRIXA16 projectionMatrix;
-		D3DXMatrixPerspectiveFovLH(&projectionMatrix, D3DX_PI / 4, 1.0f, 1.0f, 100.0f);
+		D3DXMatrixPerspectiveFovLH(&projectionMatrix, D3DX_PI / 4, 1.0f, 0.5f, 100.0f);
 		direct3DDevice_->SetTransform(D3DTS_PROJECTION, &projectionMatrix);
 	}
 
@@ -58,7 +58,19 @@ namespace Division
 		
 		newX = (newX < 0) ? -dist * cos(angle) : dist * cos(angle);
 		newZ = (newZ < 0) ? -dist * sin(angle) : dist * sin(angle);
-				
+		const D3DXMATRIX	 yRot = {
+			cameraPosition.yAngle ,               0.0f,            cameraPosition.yAngle ,            0.0f,
+			0.0f,           1.0f,               0.0f,            0.0f,
+			cameraPosition.yAngle ,            0.0f,            cameraPosition.yAngle ,               0.0f,
+			0.0f,            0.0f,            0.0f,            1.0f
+		};
+		D3DXMATRIX ret;
+
+		D3DXMatrixIdentity(&ret);
+		ret(3, 0) = position->xPosition;
+		ret(3, 1) = position->yPosition;
+		ret(3, 2) = position->zPosition;
+		D3DXMatrixMultiply(&rotation, &yRot, &ret);
 
 		D3DXMatrixRotationYawPitchRoll(&rotation, position->yAngle - cameraPosition.yAngle, position->xAngle, position->zAngle);
 		D3DXMatrixTranslation(&translation, newX, (position->yPosition - cameraPosition.yPosition), newZ);

@@ -1,14 +1,14 @@
 #include "SkyBox.h"
 
 
-#define D3DFVF_CUSTOMVERTEX2 (D3DFVF_XYZ|D3DFVF_TEX1)
+#define D3DFVF_CUSTOMVERTEX (D3DFVF_XYZ|D3DFVF_TEX1)
 
 namespace Division
 {
-	SkyBox::SkyBox(ResourceManager* rm, SkyBoxVertex vertices[]) :
+	SkyBox::SkyBox(ResourceManager* rm, DivisionVertex vertices[]) :
 		Entity(rm), vertices_(vertices)
 	{
-		indices_ = new int[36]
+		indices_ = new int[36] 
 		{
 			0, 1, 2,    // side 1
 			2, 1, 3,
@@ -23,6 +23,8 @@ namespace Division
 			3, 7, 2,    // side 6
 			2, 7, 6,
 		};
+
+
 	}
 
 
@@ -32,44 +34,22 @@ namespace Division
 
 	void SkyBox::render(Renderer* renderer)
 	{
+		renderer->setVertexBuffer(vertices_, 8);
 		renderer->setIndexBuffer(indices_, 36);
-
 		LPDIRECT3DDEVICE9 renderDevice = static_cast<LPDIRECT3DDEVICE9>(renderer->getDevice());
 
-		LPDIRECT3DVERTEXBUFFER9 vertexBuffer;
 
-
-			if (FAILED(renderDevice->CreateVertexBuffer(8 * sizeof(SkyBoxVertex),
-				0, D3DFVF_CUSTOMVERTEX2,
-				D3DPOOL_DEFAULT, &vertexBuffer, NULL)))
-			{
-				;
-			}
-
-		// Fill the vertex buffer.
-		VOID* pVertices;
-		if (FAILED(vertexBuffer->Lock(0, sizeof(SkyBoxVertex)* 8, (void**)&pVertices, 0)))
-			;
-		memcpy(pVertices, vertices_, sizeof(SkyBoxVertex)* 8);
-		vertexBuffer->Unlock();
-		renderDevice->SetStreamSource(0, vertexBuffer, 0, sizeof(SkyBoxVertex));
-
-
-		renderer->setWorldMatrix(&position_);
 
 		// Render the vertex buffer contents
 		if (texture_)
 			renderer->setTexture(texture_);
 
-		renderDevice->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE);
-		renderDevice->SetRenderState(D3DRS_ZFUNC, D3DCMP_ALWAYS);
+		renderDevice->SetRenderState(D3DRS_ZFUNC, D3DCMP_LESS);
 		renderDevice->SetRenderState(D3DRS_ZWRITEENABLE, TRUE);
-		renderDevice->SetFVF(D3DFVF_CUSTOMVERTEX2);
+		renderDevice->SetFVF(D3DFVF_CUSTOMVERTEX);
 		renderDevice->DrawIndexedPrimitive(D3DPT_TRIANGLELIST, 0, 0, 8, 0, 12);
 
-		renderDevice->SetRenderState(D3DRS_CULLMODE, D3DCULL_CW);
-		renderDevice->SetRenderState(D3DRS_ZFUNC, D3DCMP_LESS);
-		vertexBuffer->Release();
+		renderDevice->SetRenderState(D3DRS_ZFUNC, D3DCMP_ALWAYS);
 	}
 
 

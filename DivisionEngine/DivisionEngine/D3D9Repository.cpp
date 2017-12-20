@@ -100,7 +100,7 @@ namespace Division
 
 			float textureX = currentColumn / (heightmapData.width - 1.0f);
 			float textureY = currentRow / (heightmapData.height - 1.0f);
-			vertices[i] = { static_cast<float>(x / 8.0f),y / 30.0f - 52.5f, static_cast<float>(z / 8.0f),
+			vertices[i] = { static_cast<float>(x ),y / 30.0f - 6.5f, static_cast<float>(z ),
 				textureX , textureY };
 		}
 
@@ -111,19 +111,21 @@ namespace Division
 
 	Entity* D3D9Repository::getSkyBox(ResourceManager* rm)
 	{
-		int side = 1.0f;
+		float side = 1.0f;
 		float texture = 0.125f;
 		int i = 0;
-		SkyBoxVertex vertices[] = {
-			{ -side, side, -side, texture * i,texture * i++ },    // vertex 0
-			{ side, side, -side, texture * i,texture * i++ },     // vertex 1
-			{ -side, -side, -side, texture * i,texture * i++ },   // 2
-			{ side, -side, -side, texture * i,texture * i++ },  // 3
-			{ -side, side, side, texture * i,texture * i++ },     // ...
-			{ side, side, side, texture * i,texture * i++ },
-			{ -side, -side, side, texture * i,texture * i++ },
-			{ side, -side, side, texture * i,texture * i++ },
-		};
+
+		DivisionVertex* vertices = new DivisionVertex[8];
+		
+		vertices[0] = { -side, side, -side, 0,0 };    // vertex 0
+		vertices[1] = { side, side, -side, 1,0};     // vertex 1
+		vertices[2] = { -side, -side, -side,1,1};   // 2
+		vertices[3] = { side, -side, -side, 0,1};  // 3
+		vertices[4] = { -side, side, side, 1,0};     // ...
+		vertices[5] = { side, side, side, 0,0 };
+		vertices[6] = { -side, -side, side, 0,1};
+		vertices[7] = { side, -side, side, 1,1};
+		
 
 		return new SkyBox(rm, vertices);
 

@@ -4,7 +4,7 @@
 #include <map>
 #include <string>
 
-#include "MeshLoader.h"
+#include "ResourceLoader.h"
 #include "Resource.h"
 #include "Mesh.h"
 
@@ -23,7 +23,7 @@ namespace Division
 			@param meshLoader The resource loader to create mesh objects.   
 		*/
 		ResourceManager(ResourceLoader* textureLoader, 
-						MeshLoader* meshLoader);
+			ResourceLoader* meshLoader);
 		~ResourceManager();
 		/**
 			Gets a texture object from the textures map, based on the 
@@ -53,16 +53,11 @@ namespace Division
 		@param meshFile The file name of the mesh.
 		*/
 		void removeMesh(std::string meshFile);
-		/**
-		..
-		@param meshFile The file name of the mesh.
-		*/
-		Mesh* getSkyBoxMesh(std::string meshFile);
 	private:
 		Resource* addNewTexture(std::string);
 		Resource* addNewMesh(std::string);
 		ResourceLoader* textureLoader_;
-		MeshLoader* meshLoader_;
+		ResourceLoader* meshLoader_;
 		std::map<std::string, Resource*> textures_;
 		std::map<std::string, Resource*> meshes_;
 	};

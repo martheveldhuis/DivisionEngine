@@ -4,7 +4,7 @@
 #include <d3d9.h>
 #include <string>
 
-#include "MeshLoader.h"
+#include "ResourceLoader.h"
 #include "Mesh.h"
 #include "D3D9Mesh.h"
 
@@ -15,7 +15,7 @@ namespace Division
 		d3d9 mesh objects as resources. Should be created by the d3d9
 		repository.
 	*/
-	class D3D9MeshLoader : public MeshLoader
+	class D3D9MeshLoader : public ResourceLoader
 	{
 	public:
 		/**

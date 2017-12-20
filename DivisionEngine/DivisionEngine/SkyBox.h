@@ -8,22 +8,16 @@
 
 namespace Division
 {
-	struct SkyBoxVertex
-	{
-		float x, y, z;
-		float u, v;
-	};
-
 	class SkyBox : public Entity
 	{
 	public:
-		SkyBox(ResourceManager*, SkyBoxVertex vertices[]);
+		SkyBox(ResourceManager*, DivisionVertex vertices[]);
 		~SkyBox();
 		void render(Renderer* renderer);
 		void setTexture(std::string);
 	private:
-		D3D9Texture* texture_ = NULL; // texture
-		SkyBoxVertex* vertices_;
+		Resource* texture_ = NULL; // texture
+		DivisionVertex* vertices_;
 		int vertexCount_ = 0;
 		int* indices_;
 		DWORD indexCount_ = 0;
