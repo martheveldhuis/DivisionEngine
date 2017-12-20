@@ -39,7 +39,7 @@ namespace Division
 
 			rendererIt->second->clear();
 			rendererIt->second->beginScene();
-			Position pos = cameraToWindow_[windowIt->second]->getCameraPosition();
+			Position pos = *(cameraToWindow_[windowIt->second]->getCameraPosition());
 			pos.xAngle = 0;
 			pos.yAngle = 0;
 			pos.zAngle = 0;

@@ -56,12 +56,11 @@ namespace Division
 		if (texture_)
 			renderer->setTexture(texture_);
 
-		renderDevice->SetRenderState(D3DRS_ZFUNC, D3DCMP_LESS);
-		renderDevice->SetRenderState(D3DRS_ZWRITEENABLE, TRUE);
+		renderDevice->SetRenderState(D3DRS_ZWRITEENABLE, FALSE);
 		renderDevice->SetFVF(D3DFVF_CUSTOMVERTEX);
 		renderDevice->DrawIndexedPrimitive(D3DPT_TRIANGLELIST, 0, 0, 8, 0, 12);
 
-		renderDevice->SetRenderState(D3DRS_ZFUNC, D3DCMP_ALWAYS);
+		renderDevice->SetRenderState(D3DRS_ZWRITEENABLE, TRUE);
 	}
 
 
