@@ -1,5 +1,6 @@
 #include "D3D9Repository.h"
 #include "LoggerPool.h"
+#include "SkyBox.h"
 
 namespace Division
 {
@@ -120,6 +121,27 @@ namespace Division
 		return new Terrain(rm, vertices, width, height);
 	}
 	
+
+
+	Entity* D3D9Repository::getSkyBox(ResourceManager* rm)
+	{
+		int side = 1.0f;
+		float texture = 0.125f;
+		int i = 0;
+		SkyBoxVertex vertices[] = {
+			{ -side, side, -side, texture * i,texture * i++ },    // vertex 0
+			{ side, side, -side, texture * i,texture * i++ },     // vertex 1
+			{ -side, -side, -side, texture * i,texture * i++ },   // 2
+			{ side, -side, -side, texture * i,texture * i++ },  // 3
+			{ -side, side, side, texture * i,texture * i++ },     // ...
+			{ side, side, side, texture * i,texture * i++ },
+			{ -side, -side, side, texture * i,texture * i++ },
+			{ side, -side, side, texture * i,texture * i++ },
+		};
+
+		return new SkyBox(rm, vertices);
+
+	}
 
 
 	Renderer* D3D9Repository::getRenderer()

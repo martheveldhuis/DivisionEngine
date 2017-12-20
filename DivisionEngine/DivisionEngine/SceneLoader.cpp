@@ -33,6 +33,10 @@ namespace Division
 
 		Scene* theScene = sceneManager_->createScene(scene);
 
+		Entity* skyBox = repository_->getSkyBox(resourceManager_);
+		skyBox->setTexture("banana.bmp");
+		theScene->addEntity("skybox", skyBox);
+
 		nlohmann::json renderersJson = sceneJson["renderers"];
 		for (nlohmann::json::iterator it = renderersJson.begin(); it != renderersJson.end(); ++it) {
 			nlohmann::json rendererJson = (*it);
@@ -55,6 +59,7 @@ namespace Division
 			Window* win = repository_->getWindow(windowTitle);
 			theScene->addWindow(name, win, (sceneManager_->getRenderer(renderer)), camera);
 		}
+		return theScene;
 
 		nlohmann::json objectJson = sceneJson["game_objects"];
 		for (nlohmann::json::iterator it = objectJson.begin(); it != objectJson.end(); ++it) {

@@ -4,7 +4,7 @@
 #include <math.h>
 #include "Camera.h"
 
-#define D3DFVF_CUSTOMVERTEX (D3DFVF_XYZ|D3DFVF_DIFFUSE)
+#define D3DFVF_CUSTOMVERTEX (D3DFVF_XYZ|D3DFVF_TEX1)
 
 namespace Division
 {
@@ -25,14 +25,14 @@ namespace Division
 
 	void D3D9Renderer::initializeGraphics()
 	{
-		//direct3DDevice_->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE);
+		direct3DDevice_->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE);
 		direct3DDevice_->SetRenderState(D3DRS_LIGHTING, FALSE);
 		//direct3Ddevice_->SetRenderState(D3DRS_FILLMODE, D3DFILL_WIREFRAME);
 	}
 
 	void D3D9Renderer::setupMatrices()
 	{
-		D3DXVECTOR3 viewPointStart(0.0f, 0.0f, 0.0f);
+		D3DXVECTOR3 viewPointStart(0.0f, 0.0f, -10.0f);
 		D3DXVECTOR3 viewLookAt(0.0f, 1.0f, 5.0f);
 		D3DXVECTOR3 upVector(0.0f, 1.0f, 0.0f);
 		D3DXMATRIXA16 viewMatrix;
@@ -70,7 +70,7 @@ namespace Division
 	void D3D9Renderer::setVertexBuffer(DivisionVertex* vertexBuffer, int verts)
 	{
 		// Create the vertex buffer.
-		if (!vertexBuffer_ && FAILED(direct3DDevice_->CreateVertexBuffer(verts * sizeof(DivisionVertex),
+		if (FAILED(direct3DDevice_->CreateVertexBuffer(verts * sizeof(DivisionVertex),
 			0, D3DFVF_CUSTOMVERTEX,
 			D3DPOOL_DEFAULT, &vertexBuffer_, NULL)))
 		{
@@ -84,12 +84,13 @@ namespace Division
 		memcpy(pVertices, vertexBuffer, sizeof(DivisionVertex)* verts);
 		vertexBuffer_->Unlock();
 		direct3DDevice_->SetStreamSource(0, vertexBuffer_, 0, sizeof(DivisionVertex));
+		vertexBuffer_->Release();
 	}
 
 	void D3D9Renderer::setIndexBuffer(void* indexBuffer, int indexes)
 	{
 		// Create the vertex buffer.
-		if (!indexBuffer_ && FAILED(direct3DDevice_->CreateIndexBuffer(indexes * sizeof(DWORD),
+		if (FAILED(direct3DDevice_->CreateIndexBuffer(indexes * sizeof(DWORD),
 			D3DUSAGE_WRITEONLY | D3DUSAGE_DYNAMIC,
 			D3DFMT_INDEX32,
 			D3DPOOL_DEFAULT, &indexBuffer_, NULL)))
@@ -102,8 +103,9 @@ namespace Division
 		if (FAILED(indexBuffer_->Lock(0, sizeof(DWORD)* indexes, (void**)&pData, 0)))
 			;
 		memcpy(pData, indexBuffer, sizeof(DWORD)* indexes);
-		vertexBuffer_->Unlock();
+		indexBuffer_->Unlock();
 		direct3DDevice_->SetIndices(indexBuffer_);
+		indexBuffer_->Release();
 	}
 
 	void D3D9Renderer::clear()

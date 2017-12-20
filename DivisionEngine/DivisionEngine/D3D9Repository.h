@@ -25,6 +25,7 @@ namespace Division
 		Renderer* getRenderer();
 		Window* getWindow(std::string);
 		InputManager* getInputManager();
+		Entity* getSkyBox(ResourceManager*);
 	private:
 		LPDIRECT3D9 direct3D_ = NULL;
 		LPDIRECT3DDEVICE9 direct3DDevice_ = NULL;

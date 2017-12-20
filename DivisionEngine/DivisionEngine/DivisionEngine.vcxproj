@@ -146,6 +146,7 @@
     <ClCompile Include="Scene.cpp" />
     <ClCompile Include="SceneLoader.cpp" />
     <ClCompile Include="SceneManager.cpp" />
+    <ClCompile Include="SkyBox.cpp" />
     <ClCompile Include="Terrain.cpp" />
     <ClCompile Include="D3D9Texture.cpp" />
     <ClCompile Include="D3D9TextureLoader.cpp" />
@@ -180,6 +181,7 @@
     <ClInclude Include="SceneLoader.h" />
     <ClInclude Include="SceneManager.h" />
     <ClInclude Include="D3D9TextureLoader.h" />
+    <ClInclude Include="SkyBox.h" />
     <ClInclude Include="Terrain.h" />
     <ClInclude Include="D3D9Texture.h" />
     <ClInclude Include="Window.h" />
