@@ -10,12 +10,12 @@
 #include "InputManager.h"
 #include "SkyBox.h"
 
-/**
-	Generates framework specific objects. On instianciation one framework
-	interface class will be created to build
-*/
 namespace Division
 {
+	/**
+		Generates framework specific objects. On instianciation one framework
+		interface class will be created to build
+	*/
 	class Repository
 	{
 	public:

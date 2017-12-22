@@ -15,6 +15,11 @@
 
 namespace Division
 {
+	/**
+		The repository for creating DirectX9 specific objects.
+		This will create and hold the direct3D device and direct3D
+		object for use within other D3D9 dependent classes.
+	*/
 	class D3D9Repository : public Repository
 	{
 	public:
