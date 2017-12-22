@@ -17,6 +17,7 @@ namespace Division
 		DirectInputManager();
 		~DirectInputManager();
 		void setWindowHandle(void*);
+		void* getWindowHandle();
 		InputStates getInput();
 		/**
 			Callback that is called each time a device is found when

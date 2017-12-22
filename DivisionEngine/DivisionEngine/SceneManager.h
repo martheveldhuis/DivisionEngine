@@ -18,6 +18,8 @@ namespace Division
 		SceneManager(ResourceManager*, Repository*);
 		~SceneManager();
 		void renderScenes();
+		void setInputHandle(void*);
+		void* getInputHandle();
 		void addRenderer(std::string, Renderer*);
 		Renderer* getRenderer(std::string);
 		void removeRenderer(std::string);

@@ -123,12 +123,23 @@ namespace Division
 
 		for (int i = 0; i < bufferItemsToRead_; ++i) {
 			switch (buttonsAndAxes_[i].dwOfs) {
+				// Slide mouse left / right.
 				case DIMOFS_X: {
 					long xDelta = static_cast<long>(buttonsAndAxes_[i].dwData);
 					if (xDelta > 0)
 						inputStates->turnRight += xDelta;
 					else {
 						inputStates->turnLeft += -(xDelta);
+					}
+					break;
+				}
+				// Slide mouse up / down.
+				case DIMOFS_Y : {
+					long yDelta = static_cast<long>(buttonsAndAxes_[i].dwData);
+					if (yDelta > 0)
+						inputStates->turnDown += yDelta;
+					else {
+						inputStates->turnUp += -(yDelta);
 					}
 					break;
 				}

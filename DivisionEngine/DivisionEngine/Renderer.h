@@ -70,12 +70,15 @@ namespace Division
 			@param position Angle and position coordinates of the object to render.
 		*/
 		virtual void setWorldMatrix(Position* position) = 0;
-		virtual void setCamera(Camera*) = 0;
 		/**
 			Retrieve the framework specific render device.
 			@returns void* Pointer to the device.
 		*/
 		virtual void* getDevice() = 0;
+    
+		virtual void setCameraPosition(Position*) = 0;
+		virtual Position* getCameraPosition() = 0;
+
 		virtual void increaseReferenceCount() = 0;
 		virtual void decreaseReferenceCount() = 0;
 		virtual short getReferenceCount() = 0;

@@ -41,13 +41,14 @@ namespace Division
 		void setWorldMatrix(Position*);
 		void setTexture(void*);
 		void setHandle(void*);
-		void setCamera(Camera*);
+		void setCameraPosition(Position*);
+		Position* getCameraPosition();
 	private:
 		LPDIRECT3DDEVICE9 direct3DDevice_; // Device to render with
 		LPDIRECT3DVERTEXBUFFER9 vertexBuffer_ = NULL; // Buffer to hold vertices
 		LPDIRECT3DINDEXBUFFER9  indexBuffer_ = NULL; // Buffer to hold indices
 		HWND windowHandle_;
-		Camera* camera_ = NULL;
+		Position* cameraPosition_;
 		short referenceCount_;
 	};
 }

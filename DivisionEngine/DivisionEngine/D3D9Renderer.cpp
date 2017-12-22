@@ -3,6 +3,7 @@
 #include <d3dx9.h>
 #include <math.h>
 #include "Camera.h"
+#include "LoggerPool.h"
 
 #define D3DFVF_CUSTOMVERTEX (D3DFVF_XYZ|D3DFVF_TEX1)
 
@@ -40,29 +41,29 @@ namespace Division
 		direct3DDevice_->SetTransform(D3DTS_VIEW, &viewMatrix);
 
 		D3DXMATRIXA16 projectionMatrix;
-		D3DXMatrixPerspectiveFovLH(&projectionMatrix, D3DX_PI / 4, 1.0f, 0.5f, 100.0f);
+		D3DXMatrixPerspectiveFovLH(&projectionMatrix, D3DX_PI / 4, 1.0f, .4f, 100.0f);
 		direct3DDevice_->SetTransform(D3DTS_PROJECTION, &projectionMatrix);
 	}
 
 	void D3D9Renderer::setWorldMatrix(Position* position)
 	{
-		D3DXMATRIX rotation;
-		D3DXMATRIX translation;
-		Position cameraPosition = camera_->getCameraPosition();
+		D3DXMATRIX translationCamera;
+		D3DXMATRIX rotationCamera;
+		D3DXMATRIX worldCamera;
 
-		float newX = position->xPosition - cameraPosition.xPosition;
-		float newZ = position->zPosition - cameraPosition.zPosition;
+		D3DXMATRIX translationEntity;
+		D3DXMATRIX rotationEntity;
+		D3DXMATRIX worldEntity;
+		
+		D3DXMatrixTranslation(&translationCamera, -cameraPosition_->xPosition, -cameraPosition_->yPosition, -cameraPosition_->zPosition);
+		D3DXMatrixRotationYawPitchRoll(&rotationCamera, -cameraPosition_->yAngle, 0, 0);
+		D3DXMatrixMultiply(&worldCamera, &translationCamera, &rotationCamera);
 
-		float dist = sqrt(pow(newX, 2.0f) + pow(newZ, 2.0f));
-		float angle = cameraPosition.yAngle + D3DX_PI / 2;
+		D3DXMatrixTranslation(&translationEntity, position->xPosition, position->yPosition, position->zPosition);
+		D3DXMatrixRotationYawPitchRoll(&rotationEntity, position->yAngle, position->xAngle, position->zAngle);
+		D3DXMatrixMultiply(&worldEntity, &rotationEntity, &translationEntity);
 
-		newX = (newX < 0) ? -dist * cos(angle) : dist * cos(angle);
-		newZ = (newZ < 0) ? -dist * sin(angle) : dist * sin(angle);
-
-		D3DXMatrixRotationYawPitchRoll(&rotation, position->yAngle - cameraPosition.yAngle, position->xAngle, position->zAngle);
-		D3DXMatrixTranslation(&translation, newX, (position->yPosition - cameraPosition.yPosition), newZ);
-
-		direct3DDevice_->SetTransform(D3DTS_WORLD, &(rotation * translation));
+		direct3DDevice_->SetTransform(D3DTS_WORLD, &(worldEntity * worldCamera));
 	}
 
 	void D3D9Renderer::setVertexBuffer(DivisionVertex* vertexBuffer, int verts)
@@ -139,8 +140,12 @@ namespace Division
 	{
 		windowHandle_ = static_cast<HWND>(handle);
 	}
-	void D3D9Renderer::setCamera(Camera *camera)
+	Position * D3D9Renderer::getCameraPosition()
 	{
-		camera_ = camera;
+		return cameraPosition_;
+	}
+	void D3D9Renderer::setCameraPosition(Position *pos)
+	{
+		cameraPosition_ = pos;
 	}
 }
