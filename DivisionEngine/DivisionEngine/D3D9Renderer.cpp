@@ -14,9 +14,13 @@ namespace Division
 	{
 	}
 
+
+
 	D3D9Renderer::~D3D9Renderer()
 	{
 	}
+
+
 
 	void D3D9Renderer::setup()
 	{
@@ -24,12 +28,16 @@ namespace Division
 		setupMatrices();
 	}
 
+
+
 	void D3D9Renderer::initializeGraphics()
 	{
 		//direct3DDevice_->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE);
 		direct3DDevice_->SetRenderState(D3DRS_LIGHTING, FALSE);
 		//direct3Ddevice_->SetRenderState(D3DRS_FILLMODE, D3DFILL_WIREFRAME);
 	}
+
+
 
 	void D3D9Renderer::setupMatrices()
 	{
@@ -45,6 +53,8 @@ namespace Division
 		direct3DDevice_->SetTransform(D3DTS_PROJECTION, &projectionMatrix);
 	}
 
+
+
 	void D3D9Renderer::setWorldMatrix(Position* position)
 	{
 		D3DXMATRIX translationCamera;
@@ -55,16 +65,27 @@ namespace Division
 		D3DXMATRIX rotationEntity;
 		D3DXMATRIX worldEntity;
 		
-		D3DXMatrixTranslation(&translationCamera, -cameraPosition_->xPosition, -cameraPosition_->yPosition, -cameraPosition_->zPosition);
-		D3DXMatrixRotationYawPitchRoll(&rotationCamera, -cameraPosition_->yAngle, 0, 0);
+		D3DXMatrixTranslation(&translationCamera, 
+							  -cameraPosition_->xPosition, 
+							  -cameraPosition_->yPosition, 
+							  -cameraPosition_->zPosition);
+		D3DXMatrixRotationYawPitchRoll(&rotationCamera, 
+									   -cameraPosition_->yAngle, 
+									   -cameraPosition_->xAngle, 0);
+		// Translate, then rotate, so the camera turns around itsself.
 		D3DXMatrixMultiply(&worldCamera, &translationCamera, &rotationCamera);
 
-		D3DXMatrixTranslation(&translationEntity, position->xPosition, position->yPosition, position->zPosition);
-		D3DXMatrixRotationYawPitchRoll(&rotationEntity, position->yAngle, position->xAngle, position->zAngle);
-		D3DXMatrixMultiply(&worldEntity, &rotationEntity, &translationEntity);
+		D3DXMatrixTranslation(&translationEntity, position->xPosition, 
+							  position->yPosition, position->zPosition);
+		D3DXMatrixRotationYawPitchRoll(&rotationEntity, position->yAngle, 
+									   position->xAngle, position->zAngle);
+		// Translate then rotate, so the entity is rendered on the right spot.
+		D3DXMatrixMultiply(&worldEntity, &translationEntity, &rotationEntity);
 
 		direct3DDevice_->SetTransform(D3DTS_WORLD, &(worldEntity * worldCamera));
 	}
+
+
 
 	void D3D9Renderer::setVertexBuffer(DivisionVertex* vertexBuffer, int verts)
 	{
@@ -86,9 +107,11 @@ namespace Division
 		vertexBuffer_->Release();
 	}
 
+
+
 	void D3D9Renderer::setIndexBuffer(void* indexBuffer, int indexes)
 	{
-		// Create the vertex buffer.
+		// Create the index buffer.
 		if (FAILED(direct3DDevice_->CreateIndexBuffer(indexes * sizeof(DWORD),
 			D3DUSAGE_WRITEONLY | D3DUSAGE_DYNAMIC,
 			D3DFMT_INDEX32,
@@ -97,7 +120,7 @@ namespace Division
 			;
 		}
 
-		// Fill the vertex buffer.
+		// Fill the index buffer.
 		VOID* pData;
 		if (FAILED(indexBuffer_->Lock(0, sizeof(DWORD)* indexes, (void**)&pData, 0)))
 			;
@@ -107,26 +130,36 @@ namespace Division
 		indexBuffer_->Release();
 	}
 
+
+
 	void D3D9Renderer::clear()
 	{
 		direct3DDevice_->Clear(0, NULL, D3DCLEAR_TARGET | D3DCLEAR_ZBUFFER, D3DCOLOR_XRGB(0, 0xff, 0xff), 1.0f, 0);
 	}
+
+
 
 	void D3D9Renderer::beginScene()
 	{
 		direct3DDevice_->BeginScene();
 	}
 
+
+
 	void D3D9Renderer::endScene()
 	{
 		direct3DDevice_->EndScene();
 	}
+
+
 
 	void D3D9Renderer::present(void* window)
 	{
 		HWND win = static_cast<HWND>(window);
 		direct3DDevice_->Present(NULL, NULL, win, NULL);
 	}
+
+
 
 	void D3D9Renderer::setTexture(void* resource)
 	{
@@ -136,14 +169,22 @@ namespace Division
 		direct3DDevice_->SetTextureStageState(0, D3DTSS_COLOROP, D3DTOP_SELECTARG1);
 	}
 
+
+
 	void D3D9Renderer::setHandle(void* handle)
 	{
 		windowHandle_ = static_cast<HWND>(handle);
 	}
+
+
+
 	Position * D3D9Renderer::getCameraPosition()
 	{
 		return cameraPosition_;
 	}
+
+
+
 	void D3D9Renderer::setCameraPosition(Position *pos)
 	{
 		cameraPosition_ = pos;

@@ -1,7 +1,6 @@
 #include "D3D9MeshLoader.h"
-#include "LoggerPool.h"
 #include "D3D9Mesh.h"
-#include "SkyBox.h"
+#include "LoggerPool.h"
 
 #include <d3dx9.h>
 
@@ -62,9 +61,6 @@ namespace Division
 
 			if (textureFileName != NULL && lstrlenA(textureFileName) > 0) {
 				textureFileNames.push_back(textureFileName);
-			}
-			else {
-				textureFileNames.push_back("");
 			}
 		}
 

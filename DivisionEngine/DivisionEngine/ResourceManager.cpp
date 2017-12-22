@@ -91,8 +91,13 @@ namespace Division
 
 		std::vector<std::string> textureFileNames = mesh->getTextureFileNames();
 
-		std::vector<std::string>::const_iterator textureFilesIterator = textureFileNames.begin();
-		while (textureFilesIterator != textureFileNames.end()) {
+		std::vector<std::string>::const_iterator textureFilesIterator;
+		std::vector<std::string>::const_iterator textureFilesEnd;
+
+		textureFilesIterator = textureFileNames.begin();
+		textureFilesEnd = textureFileNames.end();
+
+		while (textureFilesIterator != textureFilesEnd) {
 			textures[*textureFilesIterator] = getTexture(*textureFilesIterator);
 			++textureFilesIterator;
 		}

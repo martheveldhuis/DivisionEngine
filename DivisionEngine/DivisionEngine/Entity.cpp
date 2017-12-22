@@ -83,9 +83,8 @@ namespace Division
 		it = textures_.find(textureFile);
 
 		if (it != textures_.end()) {
-			Resource* resource = it->second;
+			resourceManager_->removeTexture(textureFile);
 			textures_.erase(it);
-			delete resource;
 		}
 	}
 
@@ -97,9 +96,8 @@ namespace Division
 		it = meshes_.find(meshFile);
 
 		if (it != meshes_.end()) {
-			Resource* resource = it->second;
+			resourceManager_->removeMesh(meshFile);
 			meshes_.erase(it);
-			delete resource;
 		}
 	}
 

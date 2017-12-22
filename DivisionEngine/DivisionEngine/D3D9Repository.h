@@ -31,6 +31,8 @@ namespace Division
 	private:
 		LPDIRECT3D9 direct3D_ = NULL;
 		LPDIRECT3DDEVICE9 direct3DDevice_ = NULL;
+		D3D9TextureLoader* textureLoader_ = NULL;
+		D3D9MeshLoader* meshLoader_ = NULL;
 	};
 }
 

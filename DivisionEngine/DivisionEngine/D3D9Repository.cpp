@@ -1,7 +1,6 @@
 #include "D3D9Repository.h"
 #include "LoggerPool.h"
 #include "FileLoader.h"
-#include "D3D9MeshLoader.h"
 #include "D3D9Mesh.h"
 #include "SkyBox.h"
 
@@ -45,14 +44,20 @@ namespace Division
 
 	ResourceLoader* D3D9Repository::getTextureLoader()
 	{
-		return new D3D9TextureLoader(direct3DDevice_); // TODO: create members of these
+		if (!textureLoader_)
+			textureLoader_ = new D3D9TextureLoader(direct3DDevice_);
+			
+		return textureLoader_;
 	}
 
 
 
 	ResourceLoader* D3D9Repository::getMeshLoader()
 	{
-		return new D3D9MeshLoader(direct3DDevice_); // TODO: create members of these
+		if (!meshLoader_)
+			meshLoader_ = new D3D9MeshLoader(direct3DDevice_);
+		
+		return meshLoader_;
 	}
 
 

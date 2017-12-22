@@ -4,14 +4,17 @@
 
 namespace Division
 {
-	Camera::Camera(ResourceManager* rm) : Entity(rm)
+	Camera::Camera(ResourceManager* resourceManager) : Entity(resourceManager)
 	{
 	}
+
 
 
 	Camera::~Camera()
 	{
 	}
+
+
 
 	void Camera::updateCameraPosition(InputStates* inputStates)
 	{
@@ -28,12 +31,14 @@ namespace Division
 			position_.xAngle -= (inputStates->turnDown) / 100.0f;
 		}
 		if (inputStates->moveForward) {
+			position_.xPosition += sin(position_.yAngle)*  0.1f;
+			position_.yPosition += sin(position_.xAngle) * 0.1f;
 			position_.zPosition += cos(position_.yAngle) * 0.1f;
-			position_.xPosition += sin(position_.yAngle) * 0.1f;
 		}
 		if (inputStates->moveBackward) {
+			position_.xPosition -= sin(position_.yAngle) *0.1f;
+			position_.yPosition -= sin(position_.xAngle) * 0.1f;
 			position_.zPosition -= cos(position_.yAngle) * 0.1f;
-			position_.xPosition -= sin(position_.yAngle) * 0.1f;
 		}
 		if (inputStates->moveRight) {
 			position_.zPosition += cos(position_.yAngle + M_PI / 2) * 0.1f;
@@ -44,6 +49,8 @@ namespace Division
 			position_.xPosition -= sin(position_.yAngle + M_PI / 2) * 0.1f;
 		}
 	}
+
+
 
 	Position* Camera::getCameraPosition()
 	{

@@ -9,9 +9,13 @@ namespace Division
 	{
 	}
 
+
+
 	Scene::~Scene()
 	{
 	}
+
+
 
 	void Scene::render()
 	{
@@ -64,6 +68,8 @@ namespace Division
 		cameraToWindow_[window] = camera; // TODO: delete this one when destroying scene
 	}
 
+
+
 	Window* Scene::getWindow(std::string windowName)
 	{
 		std::map<std::string, Window*>::iterator it;
@@ -73,6 +79,8 @@ namespace Division
 		else
 			return nullptr;
 	}
+
+
 
 	void Scene::removeWindow(std::string windowName)
 	{
@@ -92,10 +100,14 @@ namespace Division
 		}
 	}
 
+
+
 	void Scene::addEntity(std::string entityName, Entity* entity)
 	{
 		entities_[entityName] = entity;
 	}
+
+
 
 	Entity* Scene::getEntity(std::string entityName)
 	{
@@ -106,6 +118,8 @@ namespace Division
 		else
 			return nullptr;
 	}
+
+
 
 	void Scene::removeEntity(std::string entityName)
 	{

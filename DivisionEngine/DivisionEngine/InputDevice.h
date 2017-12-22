@@ -10,8 +10,8 @@ namespace Division
 	{
 		bool moveForward;	/**< W key */
 		bool moveBackward;	/**< S key */
-		bool moveLeft;
-		bool moveRight;
+		bool moveLeft;		/**< A key */
+		bool moveRight;		/**< D key */
 		long turnLeft;		/**< Moving the mouse to the left */
 		long turnRight;		/**< Moving the mouse to the left */
 		long turnUp;		/**< Moving the mouse up */
