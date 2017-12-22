@@ -27,29 +27,29 @@ namespace Division
 
 	void Logger::error(const std::string& msg, const char *file, const int& line)
 	{
-		_splitpath_s(file, drive, dir, fname, ext);
-		logFile_ << __TIME__ << "[ERROR] In file " << fname << ext << " at line " << line << ": " << msg << std::endl;
+		_splitpath_s(file, drive_, dir_, fname_, ext_);
+		logFile_ << __TIME__ << "[ERROR] In file " << fname_ << ext_ << " at line " << line << ": " << msg << std::endl;
 	}
 
 
 
 	void Logger::warning(const std::string& msg, const char *file, const int& line)
 	{
-		_splitpath_s(file, drive, dir, fname, ext);
-		logFile_ << __TIME__ << "[WARNING] In file " << fname << ext << " at line " << line << ": " << msg << std::endl;
+		_splitpath_s(file, drive_, dir_, fname_, ext_);
+		logFile_ << __TIME__ << "[WARNING] In file " << fname_ << ext_ << " at line " << line << ": " << msg << std::endl;
 	}
 
 
 
 	void Logger::info(const std::string& msg, const char *file, const int& line)
 	{
-		_splitpath_s(file, drive, dir, fname, ext);
-		logFile_ << __TIME__ << "[INFO] In file " << fname << ext << " at line " << line << ": " << msg << std::endl;
+		_splitpath_s(file, drive_, dir_, fname_, ext_);
+		logFile_ << __TIME__ << "[INFO] In file " << fname_ << ext_ << " at line " << line << ": " << msg << std::endl;
 	}
 
 	void Logger::info(const int msg, const char *file, const int& line)
 	{
-		_splitpath_s(file, drive, dir, fname, ext);
-		logFile_ << __TIME__ << "[INFO] In file " << fname << ext << " at line " << line << ": " << msg << std::endl;
+		_splitpath_s(file, drive_, dir_, fname_, ext_);
+		logFile_ << __TIME__ << "[INFO] In file " << fname_ << ext_ << " at line " << line << ": " << msg << std::endl;
 	}
 }
