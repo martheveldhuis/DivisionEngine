@@ -24,6 +24,10 @@ namespace Division
 		void setupMatrices();
 		void setVertexBuffer(struct DivisionVertex* vertices, int verts);
 		void setIndexBuffer(void* vertices, int indexes);
+		/**
+			Gets the directx9 device.
+			@returns Pointer to the direct3D device.
+		*/
 		void* getDevice() { return direct3DDevice_; }
 
 		void increaseReferenceCount() { referenceCount_++; };
