@@ -42,7 +42,7 @@ namespace Division
 	void D3D9Renderer::setupMatrices()
 	{
 		D3DXVECTOR3 viewPointStart(0.0f, 0.0f, 0.0f);
-		D3DXVECTOR3 viewLookAt(0.0f, -1.0f, 5.0f);
+		D3DXVECTOR3 viewLookAt(5.0f, -1.0f, 0.0f);
 		D3DXVECTOR3 upVector(0.0f, 1.0f, 0.0f);
 		D3DXMATRIXA16 viewMatrix;
 		D3DXMatrixLookAtLH(&viewMatrix, &viewPointStart, &viewLookAt, &upVector);
@@ -53,7 +53,10 @@ namespace Division
 		direct3DDevice_->SetTransform(D3DTS_PROJECTION, &projectionMatrix);
 	}
 
-
+	void D3D9Renderer::setCameraMatrix(void* view)
+	{
+		cameraView_ = static_cast<D3DXMATRIX*>(view);
+	}
 
 	void D3D9Renderer::setWorldMatrix(Position* position)
 	{
@@ -65,15 +68,13 @@ namespace Division
 		D3DXMATRIX rotationEntity;
 		D3DXMATRIX worldEntity;
 		
-		D3DXMatrixTranslation(&translationCamera, 
+		/*D3DXMatrixTranslation(&translationCamera, 
 							  -cameraPosition_->xPosition, 
 							  -cameraPosition_->yPosition, 
 							  -cameraPosition_->zPosition);
-		D3DXMatrixRotationYawPitchRoll(&rotationCamera, 
-									   -cameraPosition_->yAngle, 
-									   -cameraPosition_->xAngle, 0);
+		D3DXMatrixRotationYawPitchRoll(&rotationCamera, -cameraPosition_->yAngle, 0, 0);
 		// Translate, then rotate, so the camera turns around itsself.
-		D3DXMatrixMultiply(&worldCamera, &translationCamera, &rotationCamera);
+		D3DXMatrixMultiply(&worldCamera, &translationCamera, &rotationCamera);*/
 
 		D3DXMatrixTranslation(&translationEntity, position->xPosition, 
 							  position->yPosition, position->zPosition);
@@ -82,7 +83,10 @@ namespace Division
 		// Translate then rotate, so the entity is rendered on the right spot.
 		D3DXMatrixMultiply(&worldEntity, &translationEntity, &rotationEntity);
 
-		direct3DDevice_->SetTransform(D3DTS_WORLD, &(worldEntity * worldCamera));
+
+
+		//direct3DDevice_->SetTransform(D3DTS_WORLD, &(worldEntity * worldCamera));
+		direct3DDevice_->SetTransform(D3DTS_WORLD, &(worldEntity * (*cameraView_)));
 	}
 
 
@@ -174,19 +178,5 @@ namespace Division
 	void D3D9Renderer::setHandle(void* handle)
 	{
 		windowHandle_ = static_cast<HWND>(handle);
-	}
-
-
-
-	Position * D3D9Renderer::getCameraPosition()
-	{
-		return cameraPosition_;
-	}
-
-
-
-	void D3D9Renderer::setCameraPosition(Position *pos)
-	{
-		cameraPosition_ = pos;
 	}
 }
