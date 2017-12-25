@@ -1,5 +1,5 @@
 #include "SceneLoader.h"
-#include "Camera.h"
+#include "D3D9Camera.h"
 #include "SceneManager.h"
 #include "Model.h"
 
@@ -56,7 +56,7 @@ namespace Division
 			std::string name = windowJson["name"];
 			std::string windowTitle = windowJson["window_title"];
 			std::string renderer = windowJson["renderer"];
-			Camera* camera = new Camera(resourceManager_);
+			D3D9Camera* camera = new D3D9Camera(resourceManager_);
 			Window* win = repository_->getWindow(windowTitle);
 			theScene->addWindow(name, win, (sceneManager_->getRenderer(renderer)), camera);
 		}

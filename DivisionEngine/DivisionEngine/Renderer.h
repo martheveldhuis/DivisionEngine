@@ -3,7 +3,7 @@
 
 namespace Division
 {
-	class Camera;
+	class D3D9Camera;
 	struct DivisionVertex
 	{
 		float x, y, z;

@@ -1,20 +1,20 @@
-#include "Camera.h"
+#include "D3D9Camera.h"
 
 namespace Division
 {
-	Camera::Camera(ResourceManager* resourceManager) : Entity(resourceManager)
+	D3D9Camera::D3D9Camera(ResourceManager* resourceManager) : Entity(resourceManager)
 	{
 	}
 
 
 
-	Camera::~Camera()
+	D3D9Camera::~D3D9Camera()
 	{
 	}
 
 
 
-	void Camera::updateCameraPosition(InputStates* inputStates)
+	void D3D9Camera::updateCameraPosition(InputStates* inputStates)
 	{
 
 		// After multiple rotations, the camera’s axes can become 
@@ -102,7 +102,7 @@ namespace Division
 
 
 
-	void Camera::yaw(float angle)
+	void D3D9Camera::yaw(float angle)
 	{
 		D3DXMatrixRotationY(&world, angle);
 		
@@ -113,7 +113,7 @@ namespace Division
 
 
 
-	void Camera::pitch(float angle)
+	void D3D9Camera::pitch(float angle)
 	{
 		D3DXMatrixRotationAxis(&world, &right, angle);
 
@@ -124,7 +124,7 @@ namespace Division
 
 
 
-	void Camera::walk(float units)
+	void D3D9Camera::walk(float units)
 	{
 		// Add new x and z in 'look' direction to position.
 		pos += D3DXVECTOR3(look.x, 0.0f, look.z) * units;
@@ -132,7 +132,7 @@ namespace Division
 
 
 
-	void Camera::crabwalk(float units)
+	void D3D9Camera::crabwalk(float units)
 	{
 		// Add new x and z in 'right' direction to position.
 		pos += D3DXVECTOR3(right.x, 0.0f, right.z) * units;
@@ -140,7 +140,7 @@ namespace Division
 
 
 
-	void* Camera::getCameraOrientation()
+	void* D3D9Camera::getCameraOrientation()
 	{
 		return world;
 	}

@@ -1,6 +1,6 @@
 #include "Scene.h"
 
-#include "Camera.h"
+#include "D3D9Camera.h"
 #include "LoggerPool.h"
 
 namespace Division
@@ -57,7 +57,7 @@ namespace Division
 		}
 	}
 
-	void Scene::addWindow(std::string windowName, Window* window, Renderer* renderer, Camera* camera)
+	void Scene::addWindow(std::string windowName, Window* window, Renderer* renderer, D3D9Camera* camera)
 	{
 		windows_[windowName] = window;
 		rendererToWindow_[window] = renderer;

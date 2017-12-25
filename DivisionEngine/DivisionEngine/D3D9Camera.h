@@ -1,5 +1,5 @@
-#ifndef DIVISION_CAMERA_H
-#define DIVISION_CAMERA_H
+#ifndef DIVISION_D3D9CAMERA_H
+#define DIVISION_D3D9CAMERA_H
 
 #include <d3dx9.h>
 
@@ -9,15 +9,16 @@
 namespace Division
 {
 	/**
-		Special entity that represents a camera. Besides being an entity that
-		is rendered within a scene, it is used to calculate the position of the
-		player in the scene, handling its movement.
+		Special entity that represents a Direct 3D specific camera. Besides 
+		being an entity that is rendered within a scene, it is used to 
+		calculate the position of the player in the scene, handling its 
+		movement. This is implemented using Direct 3D methods.
 	*/
-	class Camera : public Entity
+	class D3D9Camera : public Entity
 	{
 	public:
-		Camera(ResourceManager* rm);
-		~Camera();
+		D3D9Camera(ResourceManager* rm);
+		~D3D9Camera();
 		/**
 			Calculates and updates the location and angles of the camera by 
 			interpreting the input provided.
@@ -60,4 +61,4 @@ namespace Division
 	};
 }
 
-#endif // !DIVISION_CAMERA_H
+#endif // !DIVISION_D3D9CAMERA_H

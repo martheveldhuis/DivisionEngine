@@ -2,7 +2,7 @@
 #include "D3D9Texture.h"
 #include <d3dx9.h>
 #include <math.h>
-#include "Camera.h"
+#include "D3D9Camera.h"
 #include "LoggerPool.h"
 
 #define D3DFVF_CUSTOMVERTEX (D3DFVF_XYZ|D3DFVF_TEX1)
