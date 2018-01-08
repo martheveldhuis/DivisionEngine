@@ -41,7 +41,7 @@ namespace Division
 											   &mesh);
 			if (FAILED(result)) {
 				LoggerPool::getInstance()->getLogger("MeshLoader")->
-					logInfo("Failed to load mesh from file: " + result);
+					logInfo("Failed to load mesh from file");
 			}
 		}
 

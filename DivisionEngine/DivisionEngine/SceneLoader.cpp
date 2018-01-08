@@ -56,6 +56,8 @@ namespace Division
 			std::string name = windowJson["name"];
 			std::string windowTitle = windowJson["window_title"];
 			std::string renderer = windowJson["renderer"];
+
+			// TODO: add new entity with camera mesh to entities.
 			D3D9Camera* camera = new D3D9Camera(resourceManager_);
 			Window* win = repository_->getWindow(windowTitle);
 			theScene->addWindow(name, win, (sceneManager_->getRenderer(renderer)), camera);

@@ -22,13 +22,13 @@ namespace Division
 		std::map<std::string, Window*>::const_iterator windowIt = windows_.begin();
 		std::map<std::string, Window*>::const_iterator windowsEnd = windows_.end();
 
-		
-
 		for (; windowIt != windowsEnd; ++windowIt) {
+
+			D3D9Camera* camera = dynamic_cast<D3D9Camera*>(cameraToWindow_[windowIt->second]);
 
 			if (windowIt->second->getWindowHandle() == inputManager_->getWindowHandle()) {
 				InputStates i = inputManager_->getInput();
-				cameraToWindow_[windowIt->second]->updateCameraPosition(&i);
+				camera->updateCameraPosition(&i);
 			}
 		
 			std::map<Window*, Renderer*>::const_iterator rendererIt;
@@ -40,7 +40,7 @@ namespace Division
 				return;
 			}
 
-			rendererIt->second->setCameraMatrix(cameraToWindow_[windowIt->second]->getCameraOrientation());
+			rendererIt->second->setCameraMatrix(camera->getCameraOrientation());
 
 			rendererIt->second->clear();
 			rendererIt->second->beginScene();
@@ -57,7 +57,7 @@ namespace Division
 		}
 	}
 
-	void Scene::addWindow(std::string windowName, Window* window, Renderer* renderer, D3D9Camera* camera)
+	void Scene::addWindow(std::string windowName, Window* window, Renderer* renderer, Entity* camera)
 	{
 		windows_[windowName] = window;
 		rendererToWindow_[window] = renderer;

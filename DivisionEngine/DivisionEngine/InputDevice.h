@@ -12,11 +12,12 @@ namespace Division
 		bool moveBackward;	/**< S key */
 		bool moveLeft;		/**< A key */
 		bool moveRight;		/**< D key */
+		bool moveUp;		/**< Left mouse button */
+		bool moveDown;		/**< Right mouse button */
 		long turnLeft;		/**< Moving the mouse to the left */
 		long turnRight;		/**< Moving the mouse to the left */
 		long turnUp;		/**< Moving the mouse up */
 		long turnDown;		/**< Moving the mouse down */
-		bool action;		/**< Left mouse button */
 	};
 
 	/**

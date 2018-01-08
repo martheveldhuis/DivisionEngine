@@ -97,6 +97,7 @@ namespace Division
 		textureFilesIterator = textureFileNames.begin();
 		textureFilesEnd = textureFileNames.end();
 
+		// Add the texture to the textures map without using the texture loader.
 		while (textureFilesIterator != textureFilesEnd) {
 			textures[*textureFilesIterator] = getTexture(*textureFilesIterator);
 			++textureFilesIterator;
@@ -133,5 +134,19 @@ namespace Division
 			meshes_.erase(it);
 			delete resource;
 		}
+	}
+
+
+
+	int ResourceManager::getNumberOfTextures()
+	{
+		return textures_.size();
+	}
+
+
+
+	int ResourceManager::getNumberOfMeshes()
+	{
+		return meshes_.size();
 	}
 }

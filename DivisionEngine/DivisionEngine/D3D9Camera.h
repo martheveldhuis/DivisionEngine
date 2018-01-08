@@ -5,6 +5,7 @@
 
 #include "Entity.h"
 #include "InputDevice.h"
+#include "Clock.h"
 
 namespace Division
 {
@@ -53,11 +54,17 @@ namespace Division
 			@param units The amount to move.
 		*/
 		void crabwalk(float units);
-		D3DXVECTOR3 look = D3DXVECTOR3(1.0f, 0.0f, 0.0f);	/**< Axis we look at */
-		D3DXVECTOR3 up = D3DXVECTOR3(0.0f, 1.0f, 0.0f);		/**< Axis going up/down */
-		D3DXVECTOR3 right = D3DXVECTOR3(0.0f, 0.0f, 1.0f);	/**< Axis going right/left */
-		D3DXVECTOR3 pos;	/**<  Position of the camera */
-		D3DXMATRIX world;	/**<  Orientation of the camera in world space */
+		/**
+			Translates the camera position on the up axis.
+			@param units The amount to move.
+		*/
+		void fly(float units);
+		D3DXVECTOR3 look_ = D3DXVECTOR3(1.0f, 0.0f, 0.0f);	/**< Axis we look at */
+		D3DXVECTOR3 up_ = D3DXVECTOR3(0.0f, 1.0f, 0.0f);		/**< Axis going up/down */
+		D3DXVECTOR3 right_ = D3DXVECTOR3(0.0f, 0.0f, 1.0f);	/**< Axis going right/left */
+		D3DXVECTOR3 pos_;	/**<  Position of the camera */
+		D3DXMATRIX world_;	/**<  Orientation of the camera in world space */
+		Clock* clock_;
 	};
 }
 

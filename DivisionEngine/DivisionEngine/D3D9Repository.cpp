@@ -29,7 +29,7 @@ namespace Division
 			windowHandle, D3DCREATE_SOFTWARE_VERTEXPROCESSING, &direct3DParams, &direct3DDevice_);
 		if (FAILED(result)) {
 			LoggerPool::getInstance()->getLogger("D3DRepository")
-				->logError("Failed to create Direct3D device, " + result);
+				->logError("Failed to create Direct3D device");
 			return;
 		}
 	}

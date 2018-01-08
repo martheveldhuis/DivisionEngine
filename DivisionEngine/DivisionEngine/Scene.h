@@ -8,7 +8,6 @@
 #include "Renderer.h"
 #include "Window.h"
 #include "ResourceManager.h"
-#include "D3D9Camera.h"
 #include "InputManager.h"
 
 namespace Division
@@ -19,7 +18,7 @@ namespace Division
 		Scene(ResourceManager*, InputManager*);
 		~Scene();
 		void render();
-		void addWindow(std::string, Window*, Renderer*, D3D9Camera*);
+		void addWindow(std::string, Window*, Renderer*, Entity*);
 		Window* getWindow(std::string);
 		void removeWindow(std::string);
 		void addEntity(std::string, Entity*);
@@ -31,7 +30,7 @@ namespace Division
 		std::map<std::string, Entity*> entities_;
 		std::map<std::string, Window*> windows_;
 		std::map<Window*, Renderer*> rendererToWindow_;
-		std::map<Window*, D3D9Camera*> cameraToWindow_;
+		std::map<Window*, Entity*> cameraToWindow_;
 	};
 }
 

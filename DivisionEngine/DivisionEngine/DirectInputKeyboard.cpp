@@ -28,14 +28,14 @@ namespace Division
 											NULL);
 		if FAILED(result) {
 			LoggerPool::getInstance()->getLogger("keyboard")
-				->logError("Couldn't create device, " + result);
+				->logError("Couldn't create device");
 			return;
 		}
 
 		result = directInputKeyboard_->SetDataFormat(&c_dfDIKeyboard);
 		if FAILED(result) {
 			LoggerPool::getInstance()->getLogger("keyboard")
-				->logError("Couldn't set data format, " + result);
+				->logError("Couldn't set data format");
 			release();
 			return;
 		}
@@ -45,7 +45,7 @@ namespace Division
 															DISCL_FOREGROUND);
 		if FAILED(result) {
 			LoggerPool::getInstance()->getLogger("keyboard")
-				->logError("Couldn't set coorperative level, " + result);
+				->logError("Couldn't set coorperative level");
 			release();
 			return;
 		}
@@ -109,5 +109,11 @@ namespace Division
 
 		if (keys_[DIK_D] & 0x80)
 			inputStates->moveRight = true;
+
+		if (keys_[DIK_SPACE] & 0x80)
+			inputStates->moveUp = true;
+
+		if (keys_[DIK_X] & 0x80)
+			inputStates->moveDown = true;
 	}
 }

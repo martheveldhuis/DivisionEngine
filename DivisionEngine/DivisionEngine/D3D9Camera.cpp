@@ -4,6 +4,8 @@ namespace Division
 {
 	D3D9Camera::D3D9Camera(ResourceManager* resourceManager) : Entity(resourceManager)
 	{
+		clock_ = new Clock();
+		clock_->start();
 	}
 
 
@@ -19,56 +21,72 @@ namespace Division
 
 		// After multiple rotations, the camera’s axes can become 
 		// non-orthogonal(non- perpendicular) to each other (floating point 
-		// errors). Therefore, we need to recalculate the up and right vectors 
+		// errors). Therefore, we need to recalculate the up_ and right vectors 
 		// based on the look vector using the cross-product. 
 		// For easy calculation, normalize(magnitude is 1, direction is kept).
-		D3DXVec3Normalize(&right, &right);
-		D3DXVec3Cross(&up, &right, &look);
-		D3DXVec3Normalize(&up, &up);
-		D3DXVec3Cross(&look, &up, &right);
-		D3DXVec3Normalize(&look, &look);
-		
+		D3DXVec3Normalize(&right_, &right_);
+		D3DXVec3Cross(&up_, &right_, &look_);
+		D3DXVec3Normalize(&up_, &up_);
+		D3DXVec3Cross(&look_, &up_, &right_);
+		D3DXVec3Normalize(&look_, &look_);
+
+		// Check the elapsed time since the last frame.
+		clock_t deltaTime = clock_->poll();
+
+		// Scale the movement in the game, based on the time per frame.
+		float yawScaling = 20.0 * deltaTime;
+		float pitchScaling = 20.0 * deltaTime;
+		float velocity = 0.015 * deltaTime;
+
 		// Call the correct methods to alter the camera's vectors and world 
 		// matrix based on which input is set. Scale the input values.
 		if (inputStates->turnRight) {
-			position_.yAngle += (inputStates->turnRight) / 100.0f;
-			yaw((inputStates->turnRight) / 100.0f);
+			position_.yAngle += (inputStates->turnRight) / yawScaling;
+			yaw((inputStates->turnRight) / yawScaling);
 		}
 		if (inputStates->turnLeft) {
-			position_.yAngle -= (inputStates->turnLeft) / 100.0f;
-			yaw(-(inputStates->turnLeft) / 100.0f);
+			position_.yAngle -= (inputStates->turnLeft) / yawScaling;
+			yaw(-(inputStates->turnLeft) / yawScaling);
 		}
 		if (inputStates->turnUp) {
-			position_.xAngle += (inputStates->turnUp) / 500.0f;
-			pitch((inputStates->turnUp) / 500.0f);
+			position_.xAngle += (inputStates->turnUp) / pitchScaling;
+			pitch((inputStates->turnUp) / pitchScaling);
 		}
 		if (inputStates->turnDown) {
-			position_.xAngle -= (inputStates->turnDown) / 500.0f;
-			pitch(-(inputStates->turnDown) / 500.0f);
+			position_.xAngle -= (inputStates->turnDown) / pitchScaling;
+			pitch(-(inputStates->turnDown) / pitchScaling);
 		}
 		if (inputStates->moveForward) {
-			position_.zPosition += inputStates->moveForward * 0.1f;
-			walk(inputStates->moveForward * 0.1f);
+			position_.zPosition += velocity;
+			walk(velocity);
 		}
 		if (inputStates->moveBackward) {
-			position_.zPosition -= inputStates->moveForward * 0.1f;
-			walk(-inputStates->moveBackward * 0.1f);
+			position_.zPosition -= velocity;
+			walk(-velocity);
 		}
 		if (inputStates->moveRight) {
-			position_.xPosition -= inputStates->moveRight * 0.1f;
-			crabwalk(-inputStates->moveRight * 0.1f);
+			position_.xPosition -= velocity;
+			crabwalk(-velocity);
 		}
 		if (inputStates->moveLeft) {
-			position_.xPosition += inputStates->moveRight * 0.1f;
-			crabwalk(inputStates->moveLeft * 0.1f);
+			position_.xPosition += velocity;
+			crabwalk(velocity);
+		}
+		if (inputStates->moveUp) {
+			position_.yPosition += velocity;
+			fly(velocity);
+		}
+		if (inputStates->moveDown) {
+			position_.yPosition -= velocity;
+			fly(-velocity);
 		}
 
 		// Calculate the translation of the camera in the world, taking into
 		// account the rotated right, up, and look vectors. The translation of 
 		// the camera is negative to the world translation.
-		float x = -D3DXVec3Dot(&look, &pos);
-		float y = -D3DXVec3Dot(&up, &pos);
-		float z = -D3DXVec3Dot(&right, &pos);
+		float x = -D3DXVec3Dot(&look_, &pos_);
+		float y = -D3DXVec3Dot(&up_, &pos_);
+		float z = -D3DXVec3Dot(&right_, &pos_);
 
 		// Matrix lay-out (row-major):
 		//
@@ -78,56 +96,56 @@ namespace Division
 		// translateX		translateY		translateZ			1
 
 		// Build the world matrix.
-		world(0, 0) = look.x;
-		world(1, 0) = look.y;
-		world(2, 0) = look.z;
+		world_(0, 0) = look_.x;
+		world_(1, 0) = look_.y;
+		world_(2, 0) = look_.z;
 
-		world(0, 1) = up.x;
-		world(0, 2) = right.x;
-		world(0, 3) = 0.0f;
+		world_(0, 1) = up_.x;
+		world_(0, 2) = right_.x;
+		world_(0, 3) = 0.0f;
 
-		world(1, 1) = up.y;
-		world(1, 2) = right.y;
-		world(1, 3) = 0.0f;
+		world_(1, 1) = up_.y;
+		world_(1, 2) = right_.y;
+		world_(1, 3) = 0.0f;
 
-		world(2, 1) = up.z;
-		world(2, 2) = right.z;
-		world(2, 3) = 0.0f;
+		world_(2, 1) = up_.z;
+		world_(2, 2) = right_.z;
+		world_(2, 3) = 0.0f;
 
-		world(3, 0) = x;
-		world(3, 1) = y;
-		world(3, 2) = z;
-		world(3, 3) = 1.0f;
+		world_(3, 0) = x;
+		world_(3, 1) = y;
+		world_(3, 2) = z;
+		world_(3, 3) = 1.0f;
 	}
 
 
 
 	void D3D9Camera::yaw(float angle)
 	{
-		D3DXMatrixRotationY(&world, angle);
+		D3DXMatrixRotationY(&world_, angle);
 		
 		// Rotate right and look vectors around y-axis.
-		D3DXVec3TransformCoord(&look, &look, &world);
-		D3DXVec3TransformCoord(&right, &right, &world);
+		D3DXVec3TransformCoord(&look_, &look_, &world_);
+		D3DXVec3TransformCoord(&right_, &right_, &world_);
 	}
 
 
 
 	void D3D9Camera::pitch(float angle)
 	{
-		D3DXMatrixRotationAxis(&world, &right, angle);
+		D3DXMatrixRotationAxis(&world_, &right_, angle);
 
 		// Rotate up and look vectors around x-axis.
-		D3DXVec3TransformCoord(&up, &up, &world);
-		D3DXVec3TransformCoord(&look, &look, &world);
+		D3DXVec3TransformCoord(&up_, &up_, &world_);
+		D3DXVec3TransformCoord(&look_, &look_, &world_);
 	}
 
 
 
 	void D3D9Camera::walk(float units)
 	{
-		// Add new x and z in 'look' direction to position.
-		pos += D3DXVECTOR3(look.x, 0.0f, look.z) * units;
+		// Add new x, y and z in 'look' direction to position.
+		pos_ += D3DXVECTOR3(look_.x, look_.y, look_.z) * units;
 	}
 
 
@@ -135,13 +153,21 @@ namespace Division
 	void D3D9Camera::crabwalk(float units)
 	{
 		// Add new x and z in 'right' direction to position.
-		pos += D3DXVECTOR3(right.x, 0.0f, right.z) * units;
+		pos_ += D3DXVECTOR3(right_.x, 0.0f, right_.z) * units;
+	}
+
+
+
+	void D3D9Camera::fly(float units)
+	{
+		// Add new y in 'up' direction to position.
+		pos_ += D3DXVECTOR3(0.0f, up_.y, 0.0f) * units;
 	}
 
 
 
 	void* D3D9Camera::getCameraOrientation()
 	{
-		return world;
+		return world_;
 	}
 }

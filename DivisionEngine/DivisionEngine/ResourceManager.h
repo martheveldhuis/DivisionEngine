@@ -48,11 +48,19 @@ namespace Division
 		*/
 		void removeTexture(std::string textureFile);
 		/**
-		Removes a mesh object from the mesh map, based on the mesh's file
-		name.
-		@param meshFile The file name of the mesh.
+			Removes a mesh object from the mesh map, based on the mesh's file
+			name.
+			@param meshFile The file name of the mesh.
 		*/
 		void removeMesh(std::string meshFile);
+		/**
+			@returns The number of textures saved on the resource manager.
+		*/
+		int getNumberOfTextures();
+		/**
+			@returns The number of meshes saved on the resource manager.
+		*/
+		int getNumberOfMeshes();
 	private:
 		Resource* addNewTexture(std::string);
 		Resource* addNewMesh(std::string);

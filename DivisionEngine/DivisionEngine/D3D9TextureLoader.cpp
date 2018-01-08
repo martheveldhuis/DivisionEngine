@@ -35,7 +35,7 @@ namespace Division
 												 &textureData)))
 			{
 				LoggerPool::getInstance()->getLogger("TextureLoader")->
-					logError("Failed to create texture from file, " + result);
+					logError("Failed to create texture from file");
 			}
 		}
 

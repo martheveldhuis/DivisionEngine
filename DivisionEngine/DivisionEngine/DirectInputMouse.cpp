@@ -147,7 +147,14 @@ namespace Division
 				case DIMOFS_BUTTON0: {
 					long leftButton = static_cast<long>(buttonsAndAxes_[i].dwData);
 					if (leftButton > 0)
-						inputStates->action = true;
+						// Fill input states with a corresponding action.
+					break;
+				}
+				// Right mouse button.
+				case DIMOFS_BUTTON1: {
+					long rightButton = static_cast<long>(buttonsAndAxes_[i].dwData);
+					if (rightButton > 0)
+						// Fill input states with a corresponding action.
 					break;
 				}
 			}
