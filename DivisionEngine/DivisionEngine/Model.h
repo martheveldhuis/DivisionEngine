@@ -18,5 +18,4 @@ namespace Division
 		~Model();
 	};
 }
-
 #endif // !DIVISION_MODEL_H
