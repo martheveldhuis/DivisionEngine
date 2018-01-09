@@ -42,6 +42,12 @@ namespace Division
 
 			rendererIt->second->setCameraMatrix(camera->getCameraOrientation());
 
+			Position pos;
+			pos.xAngle = pos.zAngle = pos.yAngle = 0;
+			pos.xPosition = camera->position_.xPosition;
+			pos.yPosition = camera->position_.yPosition;
+			pos.zPosition = camera->position_.zPosition;
+			rendererIt->second->setWorldMatrix(&pos);
 			rendererIt->second->clear();
 			rendererIt->second->beginScene();
 

@@ -58,6 +58,9 @@ namespace Division
 
 	Resource* ResourceManager::getTexture(std::string textureFile)
 	{
+
+		LoggerPool::getInstance()->getLogger("MeshLoader")->
+			logInfo("Failed to load mesh from file");
 		std::map<std::string, Resource*>::iterator it;
 		it = textures_.find(textureFile);
 

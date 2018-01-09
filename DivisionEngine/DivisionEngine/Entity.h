@@ -64,13 +64,13 @@ namespace Division
 			@param renderer The renderer to use for drawing the entity.
 		*/
 		virtual void render(Renderer* renderer);
+		Position position_;
 	protected:
 		virtual Resource* addTexture(std::string);
 		virtual Mesh* addMesh(std::string);
 		ResourceManager* resourceManager_;
 		std::map<std::string, Resource*> textures_;
 		std::map<std::string, Mesh*> meshes_;
-		Position position_;
 		bool isVisible_ = true;
 	};
 }
