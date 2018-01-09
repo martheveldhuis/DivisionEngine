@@ -16,7 +16,7 @@ namespace Division
 
 
 
-	void D3D9Camera::updateCameraPosition(InputStates* inputStates)
+	void D3D9Camera::updateOrientation(InputStates* inputStates)
 	{
 
 		// After multiple rotations, the camera’s axes can become 
@@ -50,11 +50,21 @@ namespace Division
 		}
 		if (inputStates->turnUp) {
 			position_.xAngle += (inputStates->turnUp) / pitchScaling;
-			pitch((inputStates->turnUp) / pitchScaling);
+			// Prevent gimbal lock.
+			if (position_.xAngle > 1.55)
+				position_.xAngle = 1.55;
+			else {
+				pitch((inputStates->turnUp) / pitchScaling);
+			}
 		}
 		if (inputStates->turnDown) {
 			position_.xAngle -= (inputStates->turnDown) / pitchScaling;
-			pitch(-(inputStates->turnDown) / pitchScaling);
+			// Prevent gimbal lock.
+			if (position_.xAngle < -1.55)
+				position_.xAngle = -1.55;
+			else {
+				pitch(-(inputStates->turnDown) / pitchScaling);
+			}
 		}
 		if (inputStates->moveForward) {
 			walk(velocity);
@@ -166,7 +176,7 @@ namespace Division
 
 
 
-	void* D3D9Camera::getCameraOrientation()
+	void* D3D9Camera::getOrientation()
 	{
 		return world_;
 	}

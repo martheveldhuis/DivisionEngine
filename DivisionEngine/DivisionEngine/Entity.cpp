@@ -112,4 +112,18 @@ namespace Division
 			++meshIterator;
 		}
 	}
+
+
+	void Entity::updateOrientation(InputStates* inputStates)
+	{
+		// TODO: implement for general entity.
+	}
+
+
+
+	void* Entity::getOrientation()
+	{
+		// TODO: implement for general entity.
+		return nullptr;
+	}
 }
