@@ -5,6 +5,7 @@
 
 #include "Mesh.h"
 #include "ResourceManager.h"
+#include "InputDevice.h"
 
 
 namespace Division
@@ -64,6 +65,19 @@ namespace Division
 			@param renderer The renderer to use for drawing the entity.
 		*/
 		virtual void render(Renderer* renderer);
+		/**
+			Calculates and updates the location and angles of the entity by 
+			interpreting the input provided.
+			@param inputStates The struct containing input from the user.
+		*/
+		virtual void updateOrientation(InputStates* inputStates);
+		/**
+			Gets the current entity world orientation, which contains
+			information about how the entity is rotated, translated and
+			scaled within the world.
+			@returns The entity world matrix.
+		*/
+		virtual void* getOrientation();
 	protected:
 		virtual Resource* addTexture(std::string);
 		virtual Mesh* addMesh(std::string);
