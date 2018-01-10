@@ -84,4 +84,8 @@ namespace Division
 	{
 		return resourceManager_;
 	}
+	Repository * Kernel::getRepository()
+	{
+		return repository_;
+	}
 }

@@ -2,6 +2,7 @@
 #include "LoggerPool.h"
 #include "FileLoader.h"
 #include "D3D9Mesh.h"
+#include "D3D9Camera.h"
 #include "SkyBox.h"
 
 namespace Division
@@ -147,7 +148,14 @@ namespace Division
 		return new Win32Window(title);
 	}
 
-	InputManager * D3D9Repository::getInputManager()
+	Entity* D3D9Repository::getCamera(ResourceManager* resourceManager, 
+									  float x, float y, float z, float xAngle,
+									  float yAngle, float zAngle)
+	{
+		return new D3D9Camera(resourceManager, x, y, z, xAngle, yAngle, zAngle);
+	}
+
+	InputManager* D3D9Repository::getInputManager()
 	{
 		return new DirectInputManager();
 	}

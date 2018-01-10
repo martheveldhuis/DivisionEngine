@@ -2,7 +2,9 @@
 
 namespace Division
 {
-	D3D9Camera::D3D9Camera(ResourceManager* resourceManager) : Entity(resourceManager)
+	D3D9Camera::D3D9Camera(ResourceManager* resourceManager, float x, float y, 
+						   float z, float xAngle, float yAngle, float zAngle) 
+		: Entity(resourceManager, x, y, z, xAngle, yAngle, zAngle)
 	{
 		clock_ = new Clock();
 		clock_->start();
@@ -34,8 +36,8 @@ namespace Division
 		clock_t deltaTime = clock_->poll();
 
 		// Scale the movement in the game, based on the time per frame.
-		float yawScaling = 20.0 * deltaTime;
-		float pitchScaling = 20.0 * deltaTime;
+		float yawScaling = 5.0 * deltaTime;
+		float pitchScaling = 5.0 * deltaTime;
 		float velocity = 0.015 * deltaTime;
 
 		// Call the correct methods to alter the camera's vectors and world 
@@ -142,6 +144,9 @@ namespace Division
 		// Rotate up and look vectors around x-axis.
 		D3DXVec3TransformCoord(&up_, &up_, &world_);
 		D3DXVec3TransformCoord(&look_, &look_, &world_);
+		position_.xAngle = look_.x;
+		position_.yAngle = look_.y;
+		position_.zAngle = look_.z;
 	}
 
 

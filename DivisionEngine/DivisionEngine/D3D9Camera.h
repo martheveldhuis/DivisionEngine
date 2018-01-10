@@ -18,7 +18,8 @@ namespace Division
 	class D3D9Camera : public Entity
 	{
 	public:
-		D3D9Camera(ResourceManager* rm);
+		D3D9Camera(ResourceManager* rm, float x = 0, float y = 0, float z = 0,
+				   float xAngle = 0, float yAngle = 0, float zAngle = 0);
 		~D3D9Camera();
 		void updateOrientation(InputStates* inputStates);
 		void* getOrientation();
