@@ -5,6 +5,11 @@
 
 namespace Division
 {
+	/**
+		Class that could be used to create model entities. Could be expanded to
+		contain logic for being used in the creation of a game. For instance by 
+		implementing an update method.
+	*/
 	class Model : public Entity
 	{
 	public:
@@ -13,5 +18,4 @@ namespace Division
 		~Model();
 	};
 }
-
 #endif // !DIVISION_MODEL_H

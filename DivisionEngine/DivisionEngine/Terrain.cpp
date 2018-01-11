@@ -1,7 +1,7 @@
 #include "Terrain.h"
 
 
-#define D3DFVF_CUSTOMVERTEX (D3DFVF_XYZ|D3DFVF_DIFFUSE)
+#define D3DFVF_CUSTOMVERTEX (D3DFVF_XYZ|D3DFVF_TEX1)
 
 namespace Division 
 {
@@ -22,11 +22,10 @@ namespace Division
 	{
 		renderer->setVertexBuffer(vertices_, vertexCount_);
 		renderer->setIndexBuffer(indices_, indexCount_);
-
-		LPDIRECT3DDEVICE9 renderDevice = static_cast<LPDIRECT3DDEVICE9>(renderer->getDevice());
-
 		renderer->setWorldMatrix(&position_);
 
+		LPDIRECT3DDEVICE9 renderDevice = static_cast<LPDIRECT3DDEVICE9>(renderer->getDevice());
+		
 		// Render the vertex buffer contents
 		if (texture_)
 			renderer->setTexture(texture_);
@@ -61,6 +60,21 @@ namespace Division
 		}
 
 		return numIndices;
+	}
+
+
+
+	void Terrain::setTexture(std::string textureFile)
+	{
+		std::map<std::string, Resource*>::iterator it;
+		it = textures_.find(textureFile);
+
+		if (it != textures_.end())
+			textures_[textureFile] = it->second;
+		else {
+			addTexture(textureFile);
+		}
+		texture_ = textures_[textureFile];
 	}
 
 }

@@ -1,9 +1,12 @@
 #include "SceneManager.h"
+#include "SceneLoader.h"
+
 namespace Division
 {
 	SceneManager::SceneManager(ResourceManager* rm, Repository* repository_)
 		: resourceManager_(rm), repository_(repository_)
 	{
+		inputManager_ = repository_->getInputManager();
 	}
 
 	SceneManager::~SceneManager()
@@ -15,6 +18,16 @@ namespace Division
 		std::map<std::string, Scene*>::iterator it;
 		for (it = scenes_.begin(); it != scenes_.end(); it++)
 			it->second->render();
+	}
+
+	void SceneManager::setInputHandle(void * hndl)
+	{
+		inputManager_->setWindowHandle(hndl);
+	}
+
+	void * SceneManager::getInputHandle()
+	{
+		return inputManager_->getWindowHandle();
 	}
 
 	void SceneManager::addRenderer(std::string str, Renderer* rend)
@@ -37,24 +50,23 @@ namespace Division
 		std::map<std::string, Renderer*>::iterator it;
 		it = renderers_.find(str);
 		if (it != renderers_.end()) {
-			it->second->cleanup();
 			renderers_.erase(it);
 		}
 	}
 
-	Scene* SceneManager::createScene(std::string str, Renderer* renderer)
+	Scene* SceneManager::createScene(std::string str)
 	{
-		Scene* createdScene = new Scene(resourceManager_);
+		Scene* createdScene = new Scene(resourceManager_, inputManager_);
 		scenes_[str] = createdScene;
 		return createdScene;
 	}
 
-	Scene* SceneManager::loadScene(std::string sceneFile)
+	Scene* SceneManager::loadScene(std::string scene, std::string filename)
 	{
-		SceneLoader* loader = new SceneLoader(this, repository_, resourceManager_);
-		loader->loadScene(sceneFile);
-
-		return getScene(sceneFile);
+		if (sceneLoader_ == NULL) {
+			sceneLoader_ = new SceneLoader(this, repository_, resourceManager_);
+		}
+		return sceneLoader_->loadScene(scene, filename);
 	}
 
 	Scene* SceneManager::getScene(std::string str)
@@ -73,6 +85,15 @@ namespace Division
 		if (it != scenes_.end()) {
 			delete it->second;
 			scenes_.erase(it);
+		}
+
+		// Check if renderers are not in use anymore\
+		// TODO : Find better solution
+		for (std::map<std::string, Renderer*>::iterator it2 = renderers_.begin(); it2 != renderers_.end(); ++it2) {
+			if (it2->second->getReferenceCount() == 0) {
+				delete it2->second;
+				renderers_.erase(it2);
+			}
 		}
 	}
 }

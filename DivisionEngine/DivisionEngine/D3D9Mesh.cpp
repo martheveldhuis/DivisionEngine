@@ -3,9 +3,9 @@
 namespace Division
 {
 	D3D9Mesh::D3D9Mesh(LPD3DXMESH meshData, D3DMATERIAL9* meshMaterials,
-			   DWORD numberOfMaterials, std::vector<std::string> textureFileNames)
+		DWORD numberOfMaterials, std::vector<std::string> textureFileNames)
 		: meshData_(meshData), meshMaterials_(meshMaterials),
-		  numberOfMaterials_(numberOfMaterials), textureFileNames_(textureFileNames)
+		numberOfMaterials_(numberOfMaterials), textureFileNames_(textureFileNames)
 	{
 	}
 
@@ -21,34 +21,26 @@ namespace Division
 	}
 
 
-	int D3D9Mesh::getNumberOfMaterials()
-	{
-		return static_cast<int>(numberOfMaterials_);
-	}
 
+	void D3D9Mesh::setTextures(std::map<std::string, Resource*> textures)
+	{
+		std::map<std::string, Resource*>::const_iterator textureIterator;
+		std::map<std::string, Resource*>::const_iterator textureEnd;
+
+		textureIterator = textures.begin();
+		textureEnd = textures.end();
+
+		while (textureIterator != textureEnd) {
+			textures_[textureIterator->first] = textureIterator->second;
+			++textureIterator;
+		}
+	}
+	
 
 
 	std::vector<std::string> D3D9Mesh::getTextureFileNames()
 	{
 		return textureFileNames_;
-	}
-
-
-
-	void D3D9Mesh::setTextures(std::map<std::string, Resource*> textures)
-	{
-		std::map<std::string, Resource*>::const_iterator textureIterator = textures.begin();
-		while (textureIterator != textures.end()) {
-			textures_[textureIterator->first] = textureIterator->second;
-			++textureIterator;
-		}
-	}
-
-
-
-	std::map<std::string, Resource*> D3D9Mesh::getTextures()
-	{
-		return textures_;
 	}
 
 
@@ -67,10 +59,11 @@ namespace Division
 			textureIterator = customTextures.begin();
 			textureEnd = customTextures.end();
 		}
-			
+
 
 		for (DWORD i = 0; i < numberOfMaterials_; i++) {
-			renderDevice->SetMaterial(&meshMaterials_[i]);
+			if (meshMaterials_)
+				renderDevice->SetMaterial(&meshMaterials_[i]);
 
 			if (textureIterator != textureEnd) {
 				renderer->setTexture(textureIterator->second);

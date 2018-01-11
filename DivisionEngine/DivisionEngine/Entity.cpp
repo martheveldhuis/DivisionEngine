@@ -1,4 +1,6 @@
 #include "Entity.h"
+#include "LoggerPool.h"
+#include "Renderer.h"
 
 namespace Division
 {
@@ -45,31 +47,35 @@ namespace Division
 		return mesh;
 	}
 
-	Resource* Entity::getTexture(std::string textureFile)
+
+
+	void Entity::setTexture(std::string textureFile)
 	{
 		std::map<std::string, Resource*>::iterator it;
 		it = textures_.find(textureFile);
 
 		if (it != textures_.end())
-			return it->second;
+			textures_[textureFile] = it->second;
 		else {
-			return addTexture(textureFile);
+			addTexture(textureFile);
 		}
 	}
 
 
 
-	Mesh* Entity::getMesh(std::string meshFile)
+	void Entity::setMesh(std::string meshFile)
 	{
 		std::map<std::string, Mesh*>::iterator it;
 		it = meshes_.find(meshFile);
 
 		if (it != meshes_.end())
-			return it->second;
+			meshes_[meshFile] = it->second;
 		else {
-			return addMesh(meshFile);
+			addMesh(meshFile);
 		}
 	}
+
+
 
 	void Entity::removeTexture(std::string textureFile)
 	{
@@ -77,11 +83,12 @@ namespace Division
 		it = textures_.find(textureFile);
 
 		if (it != textures_.end()) {
-			Resource* resource = it->second;
+			resourceManager_->removeTexture(textureFile);
 			textures_.erase(it);
-			delete resource;
 		}
 	}
+
+
 
 	void Entity::removeMesh(std::string meshFile)
 	{
@@ -89,9 +96,8 @@ namespace Division
 		it = meshes_.find(meshFile);
 
 		if (it != meshes_.end()) {
-			Resource* resource = it->second;
+			resourceManager_->removeMesh(meshFile);
 			meshes_.erase(it);
-			delete resource;
 		}
 	}
 
@@ -105,5 +111,19 @@ namespace Division
 			meshIterator->second->draw(renderer,  textures_);
 			++meshIterator;
 		}
+	}
+
+
+	void Entity::updateOrientation(InputStates* inputStates)
+	{
+		// TODO: implement for general entity.
+	}
+
+
+
+	void* Entity::getOrientation()
+	{
+		// TODO: implement for general entity.
+		return nullptr;
 	}
 }

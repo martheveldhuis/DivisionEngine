@@ -1,84 +1,86 @@
 #include "D3D9Renderer.h"
+#include "D3D9Texture.h"
+#include <d3dx9.h>
+#include <math.h>
+#include "D3D9Camera.h"
+#include "LoggerPool.h"
 
-#define D3DFVF_CUSTOMVERTEX (D3DFVF_XYZ|D3DFVF_DIFFUSE)
+#define D3DFVF_CUSTOMVERTEX (D3DFVF_XYZ|D3DFVF_TEX1)
 
 namespace Division
 {
-	D3D9Renderer::D3D9Renderer(LPDIRECT3DDEVICE9 direct3DDevice)
-		 : direct3DDevice_(direct3DDevice)
+	D3D9Renderer::D3D9Renderer(LPDIRECT3DDEVICE9 direct3DDevice) :
+		direct3DDevice_(direct3DDevice)
 	{
 	}
+
+
 
 	D3D9Renderer::~D3D9Renderer()
 	{
 	}
 
+
+
 	void D3D9Renderer::setup()
 	{
 		initializeGraphics();
+		setupMatrices();
 	}
+
+
 
 	void D3D9Renderer::initializeGraphics()
 	{
-
-
-		// Turn off culling, so we see the front and back of the triangle
-	//	direct3DDevice_->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE);
-
-		// Turn off D3D lighting, since we are providing our own vertex colors
+		//direct3DDevice_->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE);
 		direct3DDevice_->SetRenderState(D3DRS_LIGHTING, FALSE);
-		//direct3Ddevice_->SetRenderState(D3DRS_FILLMODE, D3DFILL_WIREFRAME);
-		//direct3Ddevice_->SetRenderState(D3DRS_FILLMODE, D3DFILL_POINT);
+		//direct3DDevice_->SetRenderState(D3DRS_FILLMODE, D3DFILL_WIREFRAME);
 	}
 
-	void D3D9Renderer::cleanup()
-	{
-		//TODO: only release when not in use?
-		direct3DDevice_->Release();
-		direct3DDevice_ = NULL;
-	}
+
 
 	void D3D9Renderer::setupMatrices()
 	{
-		D3DXMATRIXA16 matWorldRotY;
-		D3DXMATRIXA16 matWorldScale;
+		D3DXVECTOR3 viewPointStart(0.0f, 0.0f, 0.0f);
+		D3DXVECTOR3 viewLookAt(5.0f, -1.0f, 0.0f);
+		D3DXVECTOR3 upVector(0.0f, 1.0f, 0.0f);
+		D3DXMATRIXA16 viewMatrix;
+		D3DXMatrixLookAtLH(&viewMatrix, &viewPointStart, &viewLookAt, &upVector);
+		direct3DDevice_->SetTransform(D3DTS_VIEW, &viewMatrix);
 
-		UINT iTime = GetTickCount64() % 1000; // replace with mouse move
-		FLOAT fAngle = iTime * (2.0f * D3DX_PI) / 1000.0f;
-		D3DXMatrixRotationY(&matWorldRotY, 0.5f * D3DX_PI);
-		//D3DXMatrixScaling(&matWorldScale, .5, .5, .5);
-	//	D3DXMatrixScaling(&matWorldScale, 5,5,5);
-	//	matWorldRotY *= matWorldScale;
-		direct3DDevice_->SetTransform(D3DTS_WORLD, &matWorldRotY);
-
-		D3DXVECTOR3 vEyePt(0.0f, 8.0f, -5.0f);
-		D3DXVECTOR3 vLookatPt(0.0f, 0.0f, 0.0f);
-		D3DXVECTOR3 vUpVec(0.0f, 1.0f, 0.0f);
-		D3DXMATRIXA16 matView;
-		D3DXMatrixLookAtLH(&matView, &vEyePt, &vLookatPt, &vUpVec);
-		direct3DDevice_->SetTransform(D3DTS_VIEW, &matView);
-
-		D3DXMATRIXA16 matProj;
-		D3DXMatrixPerspectiveFovLH(&matProj, D3DX_PI / 4, 1.0f, 1.0f, 100.0f);
-		direct3DDevice_->SetTransform(D3DTS_PROJECTION, &matProj);
+		D3DXMATRIXA16 projectionMatrix;
+		D3DXMatrixPerspectiveFovLH(&projectionMatrix, D3DX_PI / 4, 1.0f, .4f, 100.0f);
+		direct3DDevice_->SetTransform(D3DTS_PROJECTION, &projectionMatrix);
 	}
 
+	void D3D9Renderer::setCameraMatrix(void* view)
+	{
+		cameraView_ = static_cast<D3DXMATRIX*>(view);
+	}
 
 	void D3D9Renderer::setWorldMatrix(Position* position)
 	{
-		D3DXMATRIX rotation;
-		D3DXMATRIX translation;
+		D3DXMATRIX translationEntity;
+		D3DXMATRIX rotationEntity;
+		D3DXMATRIX worldEntity;
+		
+		// Translate and rotate the entity into the world.
+		D3DXMatrixTranslation(&translationEntity, position->xPosition, 
+							  position->yPosition, position->zPosition);
+		D3DXMatrixRotationYawPitchRoll(&rotationEntity, position->yAngle, 
+									   position->xAngle, position->zAngle);
+		// Translate then rotate, so the entity is rendered on the right spot.
+		D3DXMatrixMultiply(&worldEntity, &translationEntity, &rotationEntity);
 
-		D3DXMatrixRotationYawPitchRoll(&rotation, position->yAngle, position->xAngle, position->zAngle);
-		D3DXMatrixTranslation(&translation, position->xPosition, position->yPosition, position->zPosition);
-
-		direct3DDevice_->SetTransform(D3DTS_WORLD, &(rotation * translation));
+		direct3DDevice_->SetTransform(D3DTS_WORLD, &(worldEntity * (*cameraView_)));
 	}
 
-	void D3D9Renderer::setVertexBuffer(DivisionVertex * vertexBuffer, int verts)
+
+
+	void D3D9Renderer::setVertexBuffer(DivisionVertex* vertexBuffer, int verts)
 	{
 		// Create the vertex buffer.
-		if (!vertexBuffer_ && FAILED(direct3DDevice_->CreateVertexBuffer(verts * sizeof(DivisionVertex),
+		if (FAILED(direct3DDevice_->CreateVertexBuffer(verts * sizeof(DivisionVertex),
 			0, D3DFVF_CUSTOMVERTEX,
 			D3DPOOL_DEFAULT, &vertexBuffer_, NULL)))
 		{
@@ -87,17 +89,20 @@ namespace Division
 
 		// Fill the vertex buffer.
 		VOID* pVertices;
-		if (FAILED(vertexBuffer_->Lock(0, sizeof(DivisionVertex) * verts, (void**)&pVertices, 0)))
+		if (FAILED(vertexBuffer_->Lock(0, sizeof(DivisionVertex)* verts, (void**)&pVertices, 0)))
 			;
-		memcpy(pVertices, vertexBuffer, sizeof(DivisionVertex) * verts);
+		memcpy(pVertices, vertexBuffer, sizeof(DivisionVertex)* verts);
 		vertexBuffer_->Unlock();
 		direct3DDevice_->SetStreamSource(0, vertexBuffer_, 0, sizeof(DivisionVertex));
+		vertexBuffer_->Release();
 	}
+
+
 
 	void D3D9Renderer::setIndexBuffer(void* indexBuffer, int indexes)
 	{
-		// Create the vertex buffer.
-		if (!indexBuffer_ && FAILED(direct3DDevice_->CreateIndexBuffer(indexes * sizeof(DWORD),
+		// Create the index buffer.
+		if (FAILED(direct3DDevice_->CreateIndexBuffer(indexes * sizeof(DWORD),
 			D3DUSAGE_WRITEONLY | D3DUSAGE_DYNAMIC,
 			D3DFMT_INDEX32,
 			D3DPOOL_DEFAULT, &indexBuffer_, NULL)))
@@ -105,21 +110,57 @@ namespace Division
 			;
 		}
 
-		// Fill the vertex buffer.
+		// Fill the index buffer.
 		VOID* pData;
-		if (FAILED(indexBuffer_->Lock(0, sizeof(DWORD) * indexes, (void**)&pData, 0)))
+		if (FAILED(indexBuffer_->Lock(0, sizeof(DWORD)* indexes, (void**)&pData, 0)))
 			;
-		memcpy(pData, indexBuffer, sizeof(DWORD) * indexes);
-		vertexBuffer_->Unlock();
+		memcpy(pData, indexBuffer, sizeof(DWORD)* indexes);
+		indexBuffer_->Unlock();
 		direct3DDevice_->SetIndices(indexBuffer_);
+		indexBuffer_->Release();
 	}
-	
+
+
+
+	void D3D9Renderer::clear()
+	{
+		direct3DDevice_->Clear(0, NULL, D3DCLEAR_TARGET | D3DCLEAR_ZBUFFER, D3DCOLOR_XRGB(0, 0xff, 0xff), 1.0f, 0);
+	}
+
+
+
+	void D3D9Renderer::beginScene()
+	{
+		direct3DDevice_->BeginScene();
+	}
+
+
+
+	void D3D9Renderer::endScene()
+	{
+		direct3DDevice_->EndScene();
+	}
+
+
+
+	void D3D9Renderer::present(void* window)
+	{
+		HWND win = static_cast<HWND>(window);
+		direct3DDevice_->Present(NULL, NULL, win, NULL);
+	}
+
+
 
 	void D3D9Renderer::setTexture(void* resource)
 	{
 		D3D9Texture* texture = static_cast<D3D9Texture*>(resource);
 		direct3DDevice_->SetTexture(0, texture->getTextureData());
+		direct3DDevice_->SetTextureStageState(0, D3DTSS_COLORARG1, D3DTA_TEXTURE);
+		direct3DDevice_->SetTextureStageState(0, D3DTSS_COLOROP, D3DTOP_SELECTARG1);
 	}
+
+
+
 	void D3D9Renderer::setHandle(void* handle)
 	{
 		windowHandle_ = static_cast<HWND>(handle);

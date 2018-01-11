@@ -1,14 +1,16 @@
 #include "ResourceManager.h"
+#include "LoggerPool.h"
 
 namespace Division
 {
 	ResourceManager::ResourceManager(ResourceLoader* textureLoader,
-		ResourceLoader* meshLoader) :
+									 ResourceLoader* meshLoader) : 
 		textureLoader_(textureLoader), meshLoader_(meshLoader)
 	{
 		LoggerPool::getInstance()->getLogger("resourceManager")
 			->logInfo("Created ResourceManager");
 	}
+
 
 
 	ResourceManager::~ResourceManager()
@@ -36,7 +38,6 @@ namespace Division
 
 
 
-
 	Resource* ResourceManager::addNewTexture(std::string textureFile)
 	{
 		Resource* texture = textureLoader_->getResource(textureFile);
@@ -57,6 +58,9 @@ namespace Division
 
 	Resource* ResourceManager::getTexture(std::string textureFile)
 	{
+
+		LoggerPool::getInstance()->getLogger("MeshLoader")->
+			logInfo("Failed to load mesh from file");
 		std::map<std::string, Resource*>::iterator it;
 		it = textures_.find(textureFile);
 
@@ -90,8 +94,14 @@ namespace Division
 
 		std::vector<std::string> textureFileNames = mesh->getTextureFileNames();
 
-		std::vector<std::string>::const_iterator textureFilesIterator = textureFileNames.begin();
-		while (textureFilesIterator != textureFileNames.end()) {
+		std::vector<std::string>::const_iterator textureFilesIterator;
+		std::vector<std::string>::const_iterator textureFilesEnd;
+
+		textureFilesIterator = textureFileNames.begin();
+		textureFilesEnd = textureFileNames.end();
+
+		// Add the texture to the textures map without using the texture loader.
+		while (textureFilesIterator != textureFilesEnd) {
 			textures[*textureFilesIterator] = getTexture(*textureFilesIterator);
 			++textureFilesIterator;
 		}
@@ -128,4 +138,19 @@ namespace Division
 			delete resource;
 		}
 	}
+
+
+
+	int ResourceManager::getNumberOfTextures()
+	{
+		return textures_.size();
+	}
+
+
+
+	int ResourceManager::getNumberOfMeshes()
+	{
+		return meshes_.size();
+	}
+
 }

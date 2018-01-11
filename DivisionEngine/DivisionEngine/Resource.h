@@ -3,6 +3,10 @@
 
 namespace Division 
 {
+	/**
+		Interface for resource objects that are used by the resource manager
+		and entities.
+	*/
 	class Resource
 	{
 	public:
