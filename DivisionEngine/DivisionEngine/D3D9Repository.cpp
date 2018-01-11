@@ -105,7 +105,7 @@ namespace Division
 
 			float textureX = currentColumn / (heightmapData.width - 1.0f);
 			float textureY = currentRow / (heightmapData.height - 1.0f);
-			vertices[i] = { static_cast<float>(x ),y / 30.0f - 6.5f, static_cast<float>(z ),
+			vertices[i] = { static_cast<float>(x),y / 20.0f - 6.5f, static_cast<float>(z),
 				textureX , textureY };
 		}
 
@@ -118,17 +118,61 @@ namespace Division
 	{
 		float side = 1.0f;
 
-		DivisionVertex* vertices = new DivisionVertex[8];
+		DivisionVertex* vertices = new DivisionVertex[24];
+
 		
-		vertices[0] = { -side, side, -side, 0,0 };    // vertex 0
-		vertices[1] = { side, side, -side, 1,0};     // vertex 1
-		vertices[2] = { -side, -side, -side,1,1};   // 2
-		vertices[3] = { side, -side, -side, 0,1};  // 3
-		vertices[4] = { -side, side, side, 1,0};     // ...	
-		vertices[5] = { side, side, side, 0,0 };
-		vertices[6] = { -side, -side, side, 0,1};
-		vertices[7] = { side, -side, side, 1,1};
+
+		vertices[0] = { -side, -side, -side, .25f,2/3.0f };     // front face
+		vertices[1] = { -side, side, -side, .25f, 1/3.0f };
+		vertices[2] = { side, side, -side, 0, 1/3.0f };
+		vertices[3] = { side, -side, -side, 0,2/3.0f };
+
+		vertices[4] = { -side, -side, side, 1,0 };		// back face
+		vertices[5] = { side, -side, side, 1,0 };
+		vertices[6] = { side, side, side, 1,0 };
+		vertices[7] = { -side, side, side, 1,0 };
+
+		vertices[8] = { -side, side, -side, 1,0 };		// top face
+		vertices[9] = { -side, side, side, 1,0 };
+		vertices[10] = { side, side, side, 1,0 };
+		vertices[11] = { side, side, -side, 1,0 };
+
+		vertices[12] = { -side, -side, -side, 1,0 };		// bottom face
+		vertices[13] = { side, -side, -side, 1,0 };
+		vertices[14] = { side, -side, side, 1,0 };
+		vertices[15] = { -side, -side, side, 1,0 };
+
+
+		vertices[16] = { -side, -side, side, 0,0 };    // left face
+		vertices[17] = { -side, side, side, 0,0 };
+		vertices[18] = { -side, side, -side, 0,0 };
+		vertices[19] = { -side, -side, -side, 0,0 };
+
+		vertices[20] = { side, -side, -side, 0,0 };    // right face
+		vertices[21] = { side, side, -side, 0,0 };
+		vertices[22] = { side, side, side, 0,0 };
+		vertices[23] = { side, -side, side, 0,0 };
+
+
+		/*
 		
+		vertices[0] = { -side, side, -side, 0,0 };    // lba - west side
+
+		vertices[1] = { side, side, -side, 1,0};      // rba - 
+
+		vertices[2] = { -side, -side, -side,1,1};     // loa
+
+		vertices[3] = { side, -side, -side, 0,1};     // roa
+
+		vertices[4] = { -side, side, side, 1,0};      // lbv
+
+		vertices[5] = { side, side, side, 0,0 };      // rbv
+
+		vertices[6] = { -side, -side, side, 0,1};     // lov 
+
+		vertices[7] = { side, -side, side, 1,1};      // rov
+		*/
+
 
 		return new SkyBox(rm, vertices);
 

@@ -10,18 +10,29 @@ namespace Division
 	{
 		indices_ = new int[36] 
 		{
-			6,7,2,
-			2,7,3,
-			1,5,0,
-			0,5,4,
-			5,1,7,
-			7,1,3,
-			4,5,6,
-			6,5,7,
-			2,0,6,
-			6,0,4,
-			3,1,2,
-			2,1,0
+			// Front Face
+			0,  1,  2,
+			0,  2,  3,
+
+			// Back Face
+			4,  5,  6,
+			4,  6,  7,
+
+			// Top Face
+			8,  9, 10,
+			8, 10, 11,
+
+			// Bottom Face
+			12, 13, 14,
+			12, 14, 15,
+
+			// Left Face
+			16, 17, 18,
+			16, 18, 19,
+
+			// Right Face
+			20, 21, 22,
+			20, 22, 23
 		};
 
 /*
@@ -46,7 +57,7 @@ namespace Division
 
 	void SkyBox::render(Renderer* renderer)
 	{
-		renderer->setVertexBuffer(vertices_, 8);
+		renderer->setVertexBuffer(vertices_, 24);
 		renderer->setIndexBuffer(indices_, 36);
 		LPDIRECT3DDEVICE9 renderDevice = static_cast<LPDIRECT3DDEVICE9>(renderer->getDevice());
 
@@ -57,7 +68,7 @@ namespace Division
 
 		renderDevice->SetRenderState(D3DRS_ZWRITEENABLE, FALSE);
 		renderDevice->SetFVF(D3DFVF_CUSTOMVERTEX);
-		renderDevice->DrawIndexedPrimitive(D3DPT_TRIANGLELIST, 0, 0, 8, 0, 12);
+		renderDevice->DrawIndexedPrimitive(D3DPT_TRIANGLELIST, 0, 0, 24, 0, 12);
 
 		renderDevice->SetRenderState(D3DRS_ZWRITEENABLE, TRUE);
 	}
