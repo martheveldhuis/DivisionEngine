@@ -48,14 +48,25 @@ namespace Division
 			pos.yPosition = camera->getPosition().yPosition;
 			pos.zPosition = camera->getPosition().zPosition;
 			rendererIt->second->setWorldMatrix(&pos);
+
 			rendererIt->second->clear();
 			rendererIt->second->beginScene();
 
-			std::map<std::string, Entity*>::const_iterator enitityIt = entities_.begin();
+			std::map<std::string, Entity*>::const_iterator entityIt = entities_.begin();
 			std::map<std::string, Entity*>::const_iterator enititiesEnd = entities_.end();
 
-			for (; enitityIt != enititiesEnd; enitityIt++) {
-				enitityIt->second->render(rendererIt->second);
+			for (; entityIt != enititiesEnd; entityIt++) {
+				if (camera == entityIt->second) {
+					pos.xAngle = pos.zAngle = pos.yAngle = 0;
+					pos.xPosition = camera->getPosition().xPosition;
+					pos.yPosition = camera->getPosition().yPosition;
+					pos.zPosition = camera->getPosition().zPosition;
+					rendererIt->second->setWorldMatrix(&pos);
+					continue;
+				}
+				/*if (entityIt->first == "camera" || entityIt->first == "camera2")
+					continue;*/
+				entityIt->second->render(rendererIt->second);
 			}
 
 			rendererIt->second->endScene();

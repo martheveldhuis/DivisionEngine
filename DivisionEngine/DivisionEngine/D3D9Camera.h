@@ -23,6 +23,7 @@ namespace Division
 		~D3D9Camera();
 		void updateOrientation(InputStates* inputStates);
 		void* getOrientation();
+		//void render(Renderer* renderer);
 	private:
 		/**
 			Rotates the camera over the y-axis (up axis).

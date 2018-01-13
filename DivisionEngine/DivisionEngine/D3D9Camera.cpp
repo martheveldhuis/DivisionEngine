@@ -1,4 +1,5 @@
 #include "D3D9Camera.h"
+#include "D3D9Renderer.h"
 
 namespace Division
 {
@@ -43,15 +44,15 @@ namespace Division
 		// Call the correct methods to alter the camera's vectors and world 
 		// matrix based on which input is set. Scale the input values.
 		if (inputStates->turnRight) {
-			position_.yAngle += (inputStates->turnRight) / yawScaling;
+			//position_.yAngle += (inputStates->turnRight) / yawScaling;
 			yaw((inputStates->turnRight) / yawScaling);
 		}
 		if (inputStates->turnLeft) {
-			position_.yAngle -= (inputStates->turnLeft) / yawScaling;
+			//position_.yAngle -= (inputStates->turnLeft) / yawScaling;
 			yaw(-(inputStates->turnLeft) / yawScaling);
 		}
 		if (inputStates->turnUp) {
-			position_.xAngle += (inputStates->turnUp) / pitchScaling;
+			//position_.xAngle += (inputStates->turnUp) / pitchScaling;
 			// Prevent gimbal lock.
 			if (position_.xAngle > 1.55)
 				position_.xAngle = 1.55;
@@ -60,7 +61,7 @@ namespace Division
 			}
 		}
 		if (inputStates->turnDown) {
-			position_.xAngle -= (inputStates->turnDown) / pitchScaling;
+		//	position_.xAngle -= (inputStates->turnDown) / pitchScaling;
 			// Prevent gimbal lock.
 			if (position_.xAngle < -1.55)
 				position_.xAngle = -1.55;
@@ -96,10 +97,10 @@ namespace Division
 
 		// Matrix lay-out (row-major):
 		//
-		// rotateLookX		rotateUpX		rotateRightX		0
-		// rotateLookY		rotateUpY		rotateRightY		0
-		// rotateLookZ		rotateUpZ		rotateRightZ		0
-		// translateX		translateY		translateZ			1
+		// locationLookHeadX	locationUpHeadX		locationRightHeadX		0
+		// locationLookHeadY	locationUpHeadY		locationRightHeadY		0
+		// locationLookHeadZ	locationUpHeadZ		locationRightHeadZ		0
+		// translateX			translateY			translateZ				1
 
 		// Build the world matrix.
 		world_(0, 0) = look_.x;
@@ -122,6 +123,7 @@ namespace Division
 		world_(3, 1) = y;
 		world_(3, 2) = z;
 		world_(3, 3) = 1.0f;
+
 	}
 
 
@@ -144,9 +146,6 @@ namespace Division
 		// Rotate up and look vectors around x-axis.
 		D3DXVec3TransformCoord(&up_, &up_, &world_);
 		D3DXVec3TransformCoord(&look_, &look_, &world_);
-		position_.xAngle = look_.x;
-		position_.yAngle = look_.y;
-		position_.zAngle = look_.z;
 	}
 
 
@@ -185,4 +184,5 @@ namespace Division
 	{
 		return world_;
 	}
+
 }
