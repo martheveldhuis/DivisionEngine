@@ -9,7 +9,7 @@ namespace Division
 
 
 
-	FileData Division::FileLoader::parseBmp(std::string fileName)
+	FileData FileLoader::parseBmp(std::string fileName)
 	{
 		FileData fileData;
 		fileData.valid = true;

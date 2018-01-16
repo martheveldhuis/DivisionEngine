@@ -21,9 +21,8 @@ namespace Division
 
 	Mesh* D3D9MeshLoader::getResource(std::string meshFile)
 	{
-
-		LPD3DXMESH mesh = NULL;
-		LPD3DXBUFFER buffer = NULL;
+		LPD3DXMESH mesh = NULL;		// Mesh object.
+		LPD3DXBUFFER buffer = NULL;	// Buffer for holding material properties.
 		DWORD numberOfMaterials = 0L;
 		std::vector<std::string> textureFileNames;
 
@@ -33,9 +32,9 @@ namespace Division
 										   NULL, &numberOfMaterials, &mesh);
 		if (FAILED(result))
 		{
-			std::string prefixedtMeshFile = "..\\" + meshFile;
+			std::string prefixedMeshFile = "..\\" + meshFile;
 
-			HRESULT result = D3DXLoadMeshFromX(prefixedtMeshFile.c_str(), 
+			HRESULT result = D3DXLoadMeshFromX(prefixedMeshFile.c_str(),
 											   D3DXMESH_SYSTEMMEM,
 											   direct3DDevice_, NULL, &buffer,
 											   NULL, &numberOfMaterials,
@@ -48,6 +47,7 @@ namespace Division
 		LoggerPool::getInstance()->getLogger("MeshLoader")->
 			logInfo("Failed to load mesh from file");
 
+		// Set up structures for extracting material information.
 		D3DXMATERIAL* materials = (D3DXMATERIAL*)buffer->GetBufferPointer();
 		D3DMATERIAL9* meshMaterials = new D3DMATERIAL9[numberOfMaterials];
 
@@ -57,11 +57,14 @@ namespace Division
 		}
 
 		for (DWORD i = 0; i < numberOfMaterials; i++) {
+			// Copy the material.
 			meshMaterials[i] =			materials[i].MatD3D;
+			// Set the lighting type for the material.
 			meshMaterials[i].Ambient =	meshMaterials[i].Diffuse;
 
 			LPCSTR textureFileName =	materials[i].pTextureFilename;
 
+			// Set the texture file name if it is specified in the .x file.
 			if (textureFileName != NULL && lstrlenA(textureFileName) > 0) {
 				textureFileNames.push_back(textureFileName);
 			}

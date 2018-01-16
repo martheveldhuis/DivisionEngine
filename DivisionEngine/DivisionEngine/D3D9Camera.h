@@ -4,7 +4,6 @@
 #include <d3dx9.h>
 
 #include "Entity.h"
-#include "InputDevice.h"
 #include "Clock.h"
 
 namespace Division
@@ -18,10 +17,12 @@ namespace Division
 	class D3D9Camera : public Entity
 	{
 	public:
-		D3D9Camera(ResourceManager* rm);
+		D3D9Camera(ResourceManager* rm, float x = 0, float y = 0, float z = 0,
+				   float xAngle = 0, float yAngle = 0, float zAngle = 0);
 		~D3D9Camera();
 		void updateOrientation(InputStates* inputStates);
 		void* getOrientation();
+		//void render(Renderer* renderer);
 	private:
 		/**
 			Rotates the camera over the y-axis (up axis).
@@ -48,11 +49,18 @@ namespace Division
 			@param units The amount to move.
 		*/
 		void fly(float units);
-		D3DXVECTOR3 look_ = D3DXVECTOR3(1.0f, 0.0f, 0.0f);	/**< Axis we look at */
-		D3DXVECTOR3 up_ = D3DXVECTOR3(0.0f, 1.0f, 0.0f);		/**< Axis going up/down */
-		D3DXVECTOR3 right_ = D3DXVECTOR3(0.0f, 0.0f, 1.0f);	/**< Axis going right/left */
-		D3DXVECTOR3 pos_;	/**<  Position of the camera */
-		D3DXMATRIX world_;	/**<  Orientation of the camera in world space */
+		/**
+			TODO: implement.
+		*/
+		void render(Renderer* renderer);
+		D3DXVECTOR3 look_ = D3DXVECTOR3(1.0f, 0.0f, 
+										0.0f);	/**< Axis we look at */
+		D3DXVECTOR3 up_ = D3DXVECTOR3(0.0f, 1.0f, 
+									  0.0f);	/**< Axis going up/down */
+		D3DXVECTOR3 right_ = D3DXVECTOR3(0.0f, 0.0f, 
+										 1.0f);	/**< Axis going right/left */
+		D3DXVECTOR3 pos_;	/**< Position of the camera */
+		D3DXMATRIX world_;	/**< Orientation of the camera in world space */
 		Clock* clock_;
 	};
 }

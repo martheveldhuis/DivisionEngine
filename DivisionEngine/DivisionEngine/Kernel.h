@@ -14,13 +14,13 @@ namespace Division
 	class Kernel
 	{
 	public:
-		Kernel(repositoryType);
+		Kernel(repositoryType = D3D9);
 		~Kernel();
 		void loadScene(std::string, std::string);
 		void run();
 		SceneManager* getSceneManager();
 		ResourceManager* getResourceManager();
-		
+		Repository* getRepository();
 
 	private:
 		Repository* repository_;

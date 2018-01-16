@@ -32,7 +32,7 @@ namespace Division
 
 	void D3D9Renderer::initializeGraphics()
 	{
-		//direct3DDevice_->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE);
+		direct3DDevice_->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE);
 		direct3DDevice_->SetRenderState(D3DRS_LIGHTING, FALSE);
 		//direct3DDevice_->SetRenderState(D3DRS_FILLMODE, D3DFILL_WIREFRAME);
 	}
@@ -49,7 +49,7 @@ namespace Division
 		direct3DDevice_->SetTransform(D3DTS_VIEW, &viewMatrix);
 
 		D3DXMATRIXA16 projectionMatrix;
-		D3DXMatrixPerspectiveFovLH(&projectionMatrix, D3DX_PI / 4, 1.0f, .4f, 100.0f);
+		D3DXMatrixPerspectiveFovLH(&projectionMatrix, D3DX_PI / 4, 1.0f, 0.4f, 100.0f);
 		direct3DDevice_->SetTransform(D3DTS_PROJECTION, &projectionMatrix);
 	}
 
@@ -57,6 +57,8 @@ namespace Division
 	{
 		cameraView_ = static_cast<D3DXMATRIX*>(view);
 	}
+
+
 
 	void D3D9Renderer::setWorldMatrix(Position* position)
 	{
