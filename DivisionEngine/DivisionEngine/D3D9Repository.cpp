@@ -117,8 +117,6 @@ namespace Division
 	Entity* D3D9Repository::getSkyBox(ResourceManager* rm)
 	{
 		float side = 1.0f;
-		float texture = 0.125f;
-		int i = 0;
 
 		DivisionVertex* vertices = new DivisionVertex[8];
 		
@@ -126,7 +124,7 @@ namespace Division
 		vertices[1] = { side, side, -side, 1,0};     // vertex 1
 		vertices[2] = { -side, -side, -side,1,1};   // 2
 		vertices[3] = { side, -side, -side, 0,1};  // 3
-		vertices[4] = { -side, side, side, 1,0};     // ...
+		vertices[4] = { -side, side, side, 1,0};     // ...	
 		vertices[5] = { side, side, side, 0,0 };
 		vertices[6] = { -side, -side, side, 0,1};
 		vertices[7] = { side, -side, side, 1,1};

@@ -16,7 +16,7 @@ namespace Division
 
 
 
-	void D3D9Camera::updateCameraPosition(InputStates* inputStates)
+	void D3D9Camera::updateOrientation(InputStates* inputStates)
 	{
 
 		// After multiple rotations, the camera’s axes can become 
@@ -50,34 +50,38 @@ namespace Division
 		}
 		if (inputStates->turnUp) {
 			position_.xAngle += (inputStates->turnUp) / pitchScaling;
-			pitch((inputStates->turnUp) / pitchScaling);
+			// Prevent gimbal lock.
+			if (position_.xAngle > 1.55)
+				position_.xAngle = 1.55;
+			else {
+				pitch((inputStates->turnUp) / pitchScaling);
+			}
 		}
 		if (inputStates->turnDown) {
 			position_.xAngle -= (inputStates->turnDown) / pitchScaling;
-			pitch(-(inputStates->turnDown) / pitchScaling);
+			// Prevent gimbal lock.
+			if (position_.xAngle < -1.55)
+				position_.xAngle = -1.55;
+			else {
+				pitch(-(inputStates->turnDown) / pitchScaling);
+			}
 		}
 		if (inputStates->moveForward) {
-			position_.zPosition += velocity;
 			walk(velocity);
 		}
 		if (inputStates->moveBackward) {
-			position_.zPosition -= velocity;
 			walk(-velocity);
 		}
 		if (inputStates->moveRight) {
-			position_.xPosition -= velocity;
 			crabwalk(-velocity);
 		}
 		if (inputStates->moveLeft) {
-			position_.xPosition += velocity;
 			crabwalk(velocity);
 		}
 		if (inputStates->moveUp) {
-			position_.yPosition += velocity;
 			fly(velocity);
 		}
 		if (inputStates->moveDown) {
-			position_.yPosition -= velocity;
 			fly(-velocity);
 		}
 
@@ -146,6 +150,9 @@ namespace Division
 	{
 		// Add new x, y and z in 'look' direction to position.
 		pos_ += D3DXVECTOR3(look_.x, look_.y, look_.z) * units;
+		position_.xPosition = pos_.x;
+		position_.yPosition = pos_.y;
+		position_.zPosition = pos_.z;
 	}
 
 
@@ -154,6 +161,8 @@ namespace Division
 	{
 		// Add new x and z in 'right' direction to position.
 		pos_ += D3DXVECTOR3(right_.x, 0.0f, right_.z) * units;
+		position_.xPosition = pos_.x;
+		position_.zPosition = pos_.z;
 	}
 
 
@@ -162,11 +171,12 @@ namespace Division
 	{
 		// Add new y in 'up' direction to position.
 		pos_ += D3DXVECTOR3(0.0f, up_.y, 0.0f) * units;
+		position_.yPosition = pos_.y;
 	}
 
 
 
-	void* D3D9Camera::getCameraOrientation()
+	void* D3D9Camera::getOrientation()
 	{
 		return world_;
 	}

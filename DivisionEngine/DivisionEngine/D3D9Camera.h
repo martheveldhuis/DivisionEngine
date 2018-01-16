@@ -20,19 +20,8 @@ namespace Division
 	public:
 		D3D9Camera(ResourceManager* rm);
 		~D3D9Camera();
-		/**
-			Calculates and updates the location and angles of the camera by 
-			interpreting the input provided.
-			@param inputStates The struct containing input from the user.
-		*/
-		void updateCameraPosition(InputStates* inputStates);
-		/**
-			Gets the current camera world orientation, which contains
-			information about how the camera is rotated, translated and
-			scaled within the world.
-			@returns The camera world matrix.
-		*/
-		void* getCameraOrientation();
+		void updateOrientation(InputStates* inputStates);
+		void* getOrientation();
 	private:
 		/**
 			Rotates the camera over the y-axis (up axis).

@@ -4,6 +4,7 @@
 #include "D3D9Mesh.h"
 #include "D3D9TextureLoader.h"
 #include <d3d9.h>
+#include <LoggerPool.h>
 
 using namespace Microsoft::VisualStudio::CppUnitTestFramework;
 using namespace Division;
@@ -94,6 +95,8 @@ namespace DivisionTest
 
 		TEST_METHOD(testGetMeshNewMesh)
 		{
+
+
 			Resource* testMesh = testResourceManager->getMesh("tiger.x");
 			int result = testResourceManager->getNumberOfMeshes();
 

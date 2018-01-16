@@ -21,6 +21,7 @@ namespace Division
 
 	Mesh* D3D9MeshLoader::getResource(std::string meshFile)
 	{
+
 		LPD3DXMESH mesh = NULL;
 		LPD3DXBUFFER buffer = NULL;
 		DWORD numberOfMaterials = 0L;
@@ -44,6 +45,8 @@ namespace Division
 					logInfo("Failed to load mesh from file");
 			}
 		}
+		LoggerPool::getInstance()->getLogger("MeshLoader")->
+			logInfo("Failed to load mesh from file");
 
 		D3DXMATERIAL* materials = (D3DXMATERIAL*)buffer->GetBufferPointer();
 		D3DMATERIAL9* meshMaterials = new D3DMATERIAL9[numberOfMaterials];

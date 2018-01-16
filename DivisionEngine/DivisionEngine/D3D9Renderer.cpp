@@ -34,7 +34,7 @@ namespace Division
 	{
 		//direct3DDevice_->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE);
 		direct3DDevice_->SetRenderState(D3DRS_LIGHTING, FALSE);
-		//direct3Ddevice_->SetRenderState(D3DRS_FILLMODE, D3DFILL_WIREFRAME);
+		//direct3DDevice_->SetRenderState(D3DRS_FILLMODE, D3DFILL_WIREFRAME);
 	}
 
 
@@ -60,22 +60,11 @@ namespace Division
 
 	void D3D9Renderer::setWorldMatrix(Position* position)
 	{
-		D3DXMATRIX translationCamera;
-		D3DXMATRIX rotationCamera;
-		D3DXMATRIX worldCamera;
-
 		D3DXMATRIX translationEntity;
 		D3DXMATRIX rotationEntity;
 		D3DXMATRIX worldEntity;
 		
-		/*D3DXMatrixTranslation(&translationCamera, 
-							  -cameraPosition_->xPosition, 
-							  -cameraPosition_->yPosition, 
-							  -cameraPosition_->zPosition);
-		D3DXMatrixRotationYawPitchRoll(&rotationCamera, -cameraPosition_->yAngle, 0, 0);
-		// Translate, then rotate, so the camera turns around itsself.
-		D3DXMatrixMultiply(&worldCamera, &translationCamera, &rotationCamera);*/
-
+		// Translate and rotate the entity into the world.
 		D3DXMatrixTranslation(&translationEntity, position->xPosition, 
 							  position->yPosition, position->zPosition);
 		D3DXMatrixRotationYawPitchRoll(&rotationEntity, position->yAngle, 
@@ -83,9 +72,6 @@ namespace Division
 		// Translate then rotate, so the entity is rendered on the right spot.
 		D3DXMatrixMultiply(&worldEntity, &translationEntity, &rotationEntity);
 
-
-
-		//direct3DDevice_->SetTransform(D3DTS_WORLD, &(worldEntity * worldCamera));
 		direct3DDevice_->SetTransform(D3DTS_WORLD, &(worldEntity * (*cameraView_)));
 	}
 

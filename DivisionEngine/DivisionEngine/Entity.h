@@ -5,6 +5,7 @@
 
 #include "Mesh.h"
 #include "ResourceManager.h"
+#include "InputDevice.h"
 
 
 namespace Division
@@ -29,25 +30,25 @@ namespace Division
 			@param y The y angle of the entity, default 0.
 			@param z The z angle of the entity, default 0.
 		*/
-		Entity(ResourceManager* resourceManager, 
-			   float x = 0, float y = 0, float z = 0,
-			   float xAngle = 0, float yAngle = 0, float zAngle = 0);
+		Entity(ResourceManager* resourceManager,
+			float x = 0, float y = 0, float z = 0,
+			float xAngle = 0, float yAngle = 0, float zAngle = 0);
 		virtual ~Entity();
 		/**
-			Sets a texture object on the textures_ map based on the texture's 
+			Sets a texture object on the textures_ map based on the texture's
 			file name. Requests the object from the resourcemanager.
 			@param textureFile The file name of the texture.
 		*/
 		virtual void setTexture(std::string textureFile);
 		/**
-			Sets a mesh object on the meshes_ map based on the mesh's 
+			Sets a mesh object on the meshes_ map based on the mesh's
 			file name. Requests the object from the resourcemanager.
 			@param meshFile The file name of the mesh.
 		*/
 		virtual void setMesh(std::string meshFile);
 		/**
-			Removes a texture object from the textures_ map based on the 
-			texture's file name. The texture object will also be deleted in 
+			Removes a texture object from the textures_ map based on the
+			texture's file name. The texture object will also be deleted in
 			the resource manager.
 			@param textureFile The file name of the texture.
 		*/
@@ -64,14 +65,32 @@ namespace Division
 			@param renderer The renderer to use for drawing the entity.
 		*/
 		virtual void render(Renderer* renderer);
+		/**
+			Calculates and updates the location and angles of the entity by
+			interpreting the input provided.
+			@param inputStates The struct containing input from the user.
+		*/
+		virtual void updateOrientation(InputStates* inputStates);
+		/**
+			Gets the current entity world orientation, which contains
+			information about how the entity is rotated, translated and
+			scaled within the world.
+			@returns The entity world matrix.
+		*/
+		virtual void* getOrientation();
+		/**
+			Gets the current entity position, with rotation.
+			@returns The entity position.
+		*/
+		virtual Position getPosition() { return position_; }
 	protected:
 		virtual Resource* addTexture(std::string);
 		virtual Mesh* addMesh(std::string);
 		ResourceManager* resourceManager_;
 		std::map<std::string, Resource*> textures_;
 		std::map<std::string, Mesh*> meshes_;
-		Position position_;
 		bool isVisible_ = true;
+		Position position_;
 	};
 }
 
