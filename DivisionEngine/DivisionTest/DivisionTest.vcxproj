@@ -160,6 +160,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="ClockTest.cpp" />
     <ClCompile Include="ResourceManagerTest.cpp" />
   </ItemGroup>
   <ItemGroup>
