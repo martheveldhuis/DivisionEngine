@@ -2,7 +2,8 @@
 #include "LoggerPool.h"
 #include "FileLoader.h"
 #include "D3D9Mesh.h"
-#include "SkyBox.h"
+#include "D3D9SkyBox.h"
+#include "D3D9Terrain.h"
 
 namespace Division
 {
@@ -14,6 +15,7 @@ namespace Division
 			return;
 		}
 
+		// Set up the dx parameters.
 		D3DPRESENT_PARAMETERS direct3DParams;
 		ZeroMemory(&direct3DParams, sizeof(direct3DParams));
 		direct3DParams.Windowed = TRUE;
@@ -22,11 +24,14 @@ namespace Division
 		direct3DParams.EnableAutoDepthStencil = true;
 		direct3DParams.AutoDepthStencilFormat = D3DFMT_D16;
 
+		// Create a dummy window to create a direct3D device without a visible window present.
 		HWND windowHandle = CreateWindowA("STATIC", "dummy", NULL, 100, 100, 800, 600,
 			NULL, NULL, NULL, NULL);
 
+		// Attempt to create the direct3D device, log on fail.
 		HRESULT result = direct3D_->CreateDevice(D3DADAPTER_DEFAULT, D3DDEVTYPE_HAL,
 			windowHandle, D3DCREATE_SOFTWARE_VERTEXPROCESSING, &direct3DParams, &direct3DDevice_);
+
 		if (FAILED(result)) {
 			LoggerPool::getInstance()->getLogger("D3DRepository")
 				->logError("Failed to create Direct3D device");
@@ -38,6 +43,10 @@ namespace Division
 
 	D3D9Repository::~D3D9Repository()
 	{
+		if (textureLoader_)
+			delete textureLoader_;
+		if (meshLoader_)
+			delete meshLoader_;
 	}
 
 
@@ -64,117 +73,53 @@ namespace Division
 
 	Entity* D3D9Repository::getTerrain(std::string filename, ResourceManager* rm, std::string texturefile = "") {
 		
-		bool useTexture = texturefile != "";
-
-		int index = 0, currentColumn, currentRow, heightmapIndex;
+		int currentColumn, currentRow, heightmapIndex;
 
 		FileData heightmapData, textureFileData;
 
+		// Use the file loader to parse the texture and heightmap bmp.
 		textureFileData = FileLoader::parseBmp(texturefile);
 		heightmapData = FileLoader::parseBmp(filename);
 		
+		// Create the vertex array.
 		DivisionVertex* vertices = new DivisionVertex[heightmapData.width *
 													  heightmapData.height];
 
 		unsigned char* heightData = heightmapData.rawData;
-		unsigned int* textureColorData = textureFileData.colorData;
 
+		// Single for loop to create all vertices of the terrain.
 		for (int i = 0; i < heightmapData.width * heightmapData.height; i++) {
 			currentColumn = floor(i / heightmapData.height);
 			currentRow = i % heightmapData.height;
 
-			// convert vertices index to the corresponding heightmap pixel
+			// Convert vertices index to the corresponding heightmap pixel.
 			heightmapIndex = (heightmapData.height - (currentRow + 1)) *
 							  heightmapData.rowByteCount + currentColumn * heightmapData.byteCount;
 
+			// Get the elevation from the heightmap pixel color.
 			int y = heightData[heightmapIndex];
-			unsigned int vertexColor = 0xff000000;
-
-			if (useTexture) {
-				int colorIndex = (textureFileData.height - currentRow) + currentColumn *
-								  textureFileData.rowByteCount;
-
-				colorIndex *= textureFileData.byteCount;
-				// Get colors from texture
-
-				vertexColor += textureColorData[i];
-			}
 
 			int z = heightmapData.width / -2 + currentColumn;
 			int x = heightmapData.height / -2 + currentRow;
 
+			// Calculate the texture positions.
 			float textureX = currentColumn / (heightmapData.width - 1.0f);
 			float textureY = currentRow / (heightmapData.height - 1.0f);
-			vertices[i] = { static_cast<float>(x),y / 20.0f - 6.5f, static_cast<float>(z),
+
+			// Create a new vertex with the x, y and z position, and texture uv mapping.
+			vertices[i] = { x / 8.0f, y / 30.0f - 26.5f, z / 8.0f,
 				textureX , textureY };
 		}
 
-		return new Terrain(rm, vertices, heightmapData.width, heightmapData.height);
+		return new D3D9Terrain(rm, vertices, heightmapData.width, heightmapData.height);
 	}
 	
 
 
 	Entity* D3D9Repository::getSkyBox(ResourceManager* rm)
 	{
-		float side = 1.0f;
 
-		DivisionVertex* vertices = new DivisionVertex[24];
-
-		
-
-		vertices[0] = { -side, -side, -side, .25f,2/3.0f };     // front face
-		vertices[1] = { -side, side, -side, .25f, 1/3.0f };
-		vertices[2] = { side, side, -side, 0, 1/3.0f };
-		vertices[3] = { side, -side, -side, 0,2/3.0f };
-
-		vertices[4] = { -side, -side, side, 1,0 };		// back face
-		vertices[5] = { side, -side, side, 1,0 };
-		vertices[6] = { side, side, side, 1,0 };
-		vertices[7] = { -side, side, side, 1,0 };
-
-		vertices[8] = { -side, side, -side, 1,0 };		// top face
-		vertices[9] = { -side, side, side, 1,0 };
-		vertices[10] = { side, side, side, 1,0 };
-		vertices[11] = { side, side, -side, 1,0 };
-
-		vertices[12] = { -side, -side, -side, 1,0 };		// bottom face
-		vertices[13] = { side, -side, -side, 1,0 };
-		vertices[14] = { side, -side, side, 1,0 };
-		vertices[15] = { -side, -side, side, 1,0 };
-
-
-		vertices[16] = { -side, -side, side, 0,0 };    // left face
-		vertices[17] = { -side, side, side, 0,0 };
-		vertices[18] = { -side, side, -side, 0,0 };
-		vertices[19] = { -side, -side, -side, 0,0 };
-
-		vertices[20] = { side, -side, -side, 0,0 };    // right face
-		vertices[21] = { side, side, -side, 0,0 };
-		vertices[22] = { side, side, side, 0,0 };
-		vertices[23] = { side, -side, side, 0,0 };
-
-
-		/*
-		
-		vertices[0] = { -side, side, -side, 0,0 };    // lba - west side
-
-		vertices[1] = { side, side, -side, 1,0};      // rba - 
-
-		vertices[2] = { -side, -side, -side,1,1};     // loa
-
-		vertices[3] = { side, -side, -side, 0,1};     // roa
-
-		vertices[4] = { -side, side, side, 1,0};      // lbv
-
-		vertices[5] = { side, side, side, 0,0 };      // rbv
-
-		vertices[6] = { -side, -side, side, 0,1};     // lov 
-
-		vertices[7] = { side, -side, side, 1,1};      // rov
-		*/
-
-
-		return new SkyBox(rm, vertices);
+		return new D3D9SkyBox(rm, 1);
 
 	}
 

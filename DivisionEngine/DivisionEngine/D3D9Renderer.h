@@ -45,9 +45,9 @@ namespace Division
 
 		virtual void setCameraMatrix(void*);
 	private:
-		LPDIRECT3DDEVICE9 direct3DDevice_; // Device to render with
-		LPDIRECT3DVERTEXBUFFER9 vertexBuffer_ = NULL; // Buffer to hold vertices
-		LPDIRECT3DINDEXBUFFER9  indexBuffer_ = NULL; // Buffer to hold indices
+		LPDIRECT3DDEVICE9 direct3DDevice_;
+		LPDIRECT3DVERTEXBUFFER9 vertexBuffer_ = NULL;
+		LPDIRECT3DINDEXBUFFER9  indexBuffer_ = NULL;
 		HWND windowHandle_;
 		D3DXMATRIX* cameraView_;
 		short referenceCount_;

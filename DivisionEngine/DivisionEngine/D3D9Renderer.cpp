@@ -32,7 +32,7 @@ namespace Division
 
 	void D3D9Renderer::initializeGraphics()
 	{
-		direct3DDevice_->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE);
+		//direct3DDevice_->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE);
 		direct3DDevice_->SetRenderState(D3DRS_LIGHTING, FALSE);
 		//direct3DDevice_->SetRenderState(D3DRS_FILLMODE, D3DFILL_WIREFRAME);
 	}
@@ -156,7 +156,6 @@ namespace Division
 		D3D9Texture* texture = static_cast<D3D9Texture*>(resource);
 		direct3DDevice_->SetTexture(0, texture->getTextureData());
 		direct3DDevice_->SetTextureStageState(0, D3DTSS_COLORARG1, D3DTA_TEXTURE);
-		direct3DDevice_->SetTextureStageState(0, D3DTSS_COLORARG1, D3DTA_DIFFUSE);
 		direct3DDevice_->SetTextureStageState(0, D3DTSS_COLOROP, D3DTOP_SELECTARG1);
 	}
 
