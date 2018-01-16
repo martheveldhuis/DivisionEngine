@@ -136,6 +136,21 @@ namespace Division
 
 
 
+	void D3D9Renderer::increaseReferenceCount()
+	{
+		referenceCount_++;
+	}
+
+	void D3D9Renderer::decreaseReferenceCount()
+	{
+		referenceCount_--;
+	}
+
+	short D3D9Renderer::getReferenceCount()
+	{
+		return referenceCount_;
+	}
+
 	void D3D9Renderer::clear()
 	{
 		direct3DDevice_->Clear(0, NULL, D3DCLEAR_TARGET | D3DCLEAR_ZBUFFER, D3DCOLOR_XRGB(0, 0xff, 0xff), 1.0f, 0);
