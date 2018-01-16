@@ -6,19 +6,17 @@
 
 namespace Division
 {
-	Kernel::Kernel(repositoryType repoType)
+	Kernel::Kernel(RepositoryType repoType)
 	{
-		switch (repoType)
-		{
-		case D3D9:
-			repository_ = new D3D9Repository();
-			break;
-		case OPENGL:
-
-			break;
-		default:
-
-			break;
+		switch (repoType) {
+			case REPOSITORYTYPE_D3D9:
+				repository_ = new D3D9Repository();
+				break;
+			case REPOSITORYTYPE_OPENGL:
+				// TODO: implement for OpenGL.
+				break;
+			default:
+				break;
 		}		
 
 		resourceManager_ = new ResourceManager(repository_->getTextureLoader(),
@@ -57,29 +55,32 @@ namespace Division
 		int frames = 0;
 		int lastSec = 0;
 
-		while (msg.message != WM_QUIT)
-		{
-			if (PeekMessage(&msg, NULL, 0U, 0U, PM_REMOVE))
-			{
+		while (msg.message != WM_QUIT) {
+			if (PeekMessage(&msg, NULL, 0U, 0U, PM_REMOVE)) {
 				TranslateMessage(&msg);
 				DispatchMessage(&msg);
 			}
 			else {
-				frames++;
+				++frames;
+
 				if (clock.getRuntime() / 1000 != lastSec) {
 					lastSec = clock.getRuntime() / 1000;
 					kernelLog->logInfo(frames);
 					frames = 0;
 				}
-				std::cout << msg.message << std::endl;
+
 				HWND win = GetForegroundWindow();
+
 				if (win != sceneManager_->getInputHandle()) {// Set foregroundwindow handle
 					sceneManager_->setInputHandle(win);
 				}
+
 				sceneManager_->renderScenes();
 			}
 		}
 	}
+
+
 
 	SceneManager* Kernel::getSceneManager()
 	{
@@ -88,14 +89,14 @@ namespace Division
 
 
 
-	ResourceManager * Kernel::getResourceManager()
+	ResourceManager* Kernel::getResourceManager()
 	{
 		return resourceManager_;
 	}
 
 
 
-	Repository * Kernel::getRepository()
+	Repository* Kernel::getRepository()
 	{
 		return repository_;
 	}

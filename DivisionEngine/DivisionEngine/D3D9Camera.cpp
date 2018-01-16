@@ -39,33 +39,32 @@ namespace Division
 		float yawScaling = 5.0 * deltaTime;
 		float pitchScaling = 5.0 * deltaTime;
 		float velocity = 0.015 * deltaTime;
+		float maxViewAngle = 1.55;
 
 		// Call the correct methods to alter the camera's vectors and world 
 		// matrix based on which input is set. Scale the input values.
 		if (inputStates->turnRight) {
-			//position_.yAngle += (inputStates->turnRight) / yawScaling;
 			yaw((inputStates->turnRight) / yawScaling);
 		}
 		if (inputStates->turnLeft) {
-			//position_.yAngle -= (inputStates->turnLeft) / yawScaling;
 			yaw(-(inputStates->turnLeft) / yawScaling);
 		}
 		if (inputStates->turnUp) {
-			//position_.xAngle += (inputStates->turnUp) / pitchScaling;
+			position_.xAngle += inputStates->turnUp / pitchScaling;
 			// Prevent gimbal lock.
-			if (position_.xAngle > 1.55)
-				position_.xAngle = 1.55;
+			if (position_.xAngle > maxViewAngle)
+				position_.xAngle = maxViewAngle;
 			else {
 				pitch((inputStates->turnUp) / pitchScaling);
 			}
 		}
 		if (inputStates->turnDown) {
-		//	position_.xAngle -= (inputStates->turnDown) / pitchScaling;
+			position_.xAngle -= inputStates->turnDown / pitchScaling;
 			// Prevent gimbal lock.
-			if (position_.xAngle < -1.55)
-				position_.xAngle = -1.55;
+			if (position_.xAngle < -maxViewAngle)
+				position_.xAngle = -maxViewAngle;
 			else {
-				pitch(-(inputStates->turnDown) / pitchScaling);
+				pitch(-(inputStates->turnDown / pitchScaling));
 			}
 		}
 		if (inputStates->moveForward) {

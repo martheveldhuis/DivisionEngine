@@ -10,7 +10,7 @@ namespace Division
 {
 	/**
 		Special entity that represents a Direct 3D specific camera. Besides 
-		being an entity that is rendered within a scene, it is used to 
+		being an entity that is placed within a scene, it is used to 
 		calculate the position of the player in the scene, handling its 
 		movement. This is implemented using Direct 3D methods.
 	*/
@@ -22,7 +22,7 @@ namespace Division
 		~D3D9Camera();
 		void updateOrientation(InputStates* inputStates);
 		void* getOrientation();
-		//void render(Renderer* renderer);
+		void render(Renderer* renderer);
 	private:
 		/**
 			Rotates the camera over the y-axis (up axis).
@@ -49,10 +49,6 @@ namespace Division
 			@param units The amount to move.
 		*/
 		void fly(float units);
-		/**
-			TODO: implement.
-		*/
-		void render(Renderer* renderer);
 		D3DXVECTOR3 look_ = D3DXVECTOR3(1.0f, 0.0f, 
 										0.0f);	/**< Axis we look at */
 		D3DXVECTOR3 up_ = D3DXVECTOR3(0.0f, 1.0f, 
