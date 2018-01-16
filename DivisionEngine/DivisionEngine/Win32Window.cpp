@@ -3,7 +3,6 @@ namespace Division
 {
 	Win32Window::Win32Window(std::string winTitle = "x")
 	{
-		std::string winName = "window";
 		//Create a window class.
 		WNDCLASSEX wc = { sizeof(WNDCLASSEX), CS_CLASSDC, Win32Window::MsgProc, 0L, 0L,
 			GetModuleHandle(NULL), NULL, NULL, NULL, NULL,
@@ -14,7 +13,24 @@ namespace Division
 
 		//Create the application's window.
 		windowHandle_ = CreateWindow("window", winTitle.c_str(),
-			WS_OVERLAPPEDWINDOW, 100, 100, 800, 600,
+			WS_BORDER, 100, 100, 800, 600,
+			NULL, NULL, wc.hInstance, NULL);
+
+		ShowWindow(windowHandle_, SW_SHOWDEFAULT);
+	}
+	Win32Window::Win32Window(int X, int Y, int nWidth, int nHeight, std::string winTitle = "x" , DWORD style = WS_BORDER)
+	{
+		//Create a window class.
+		WNDCLASSEX wc = { sizeof(WNDCLASSEX), CS_CLASSDC, Win32Window::MsgProc, 0L, 0L,
+			GetModuleHandle(NULL), NULL, NULL, NULL, NULL,
+			"window", NULL };
+
+		//Register the window class.
+		RegisterClassEx(&wc);
+
+		//Create the application's window.
+		windowHandle_ = CreateWindow("window", winTitle.c_str(),
+			style, X, Y, nWidth, nHeight,
 			NULL, NULL, wc.hInstance, NULL);
 
 		ShowWindow(windowHandle_, SW_SHOWDEFAULT);
@@ -40,5 +56,9 @@ namespace Division
 	void* Win32Window::getWindowHandle()
 	{
 		return windowHandle_;
+	}
+	void Win32Window::moveWindow(int X, int Y, int nWidth, int nHeight, bool rDraw)
+	{
+		MoveWindow(windowHandle_, X, Y, nWidth, nHeight, rDraw);
 	}
 }
