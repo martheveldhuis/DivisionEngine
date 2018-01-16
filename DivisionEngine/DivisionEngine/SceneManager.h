@@ -24,7 +24,7 @@ namespace Division
 		Renderer* getRenderer(std::string);
 		void removeRenderer(std::string);
 		Scene* createScene(std::string);
-		Scene* loadScene(std::string, std::string);
+		Scene* loadScene(std::string);
 		Scene* getScene(std::string);
 		void removeScene(std::string);
 	private:

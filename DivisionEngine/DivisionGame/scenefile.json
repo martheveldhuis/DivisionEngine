@@ -1,14 +1,14 @@
 {
   "scene":{
-    "name": "TheBestScene",
+    "name": "scene1",
     "terrain": {
-      "heightmap": "terrainhm-small.bmp",
-      "texture": "terrain-small.bmp"
+      "heightmap": "terrainhm.bmp",
+      "texture": "terraintexture.bmp"
     }
   },
   "renderers":[
     {
-      "name": "DXrenderer"
+      "name": ""
     }
   ],
   "game_objects": [

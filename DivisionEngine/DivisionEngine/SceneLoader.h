@@ -33,7 +33,7 @@ namespace Division
 			@param filename The file to load the configuration from.
 			@returns The filled scene file.
 		*/
-		Scene* loadScene(std::string scene, std::string filename);
+		Scene* loadScene(std::string filename);
 	private:
 		Repository* repository_;
 		ResourceManager* resourceManager_;

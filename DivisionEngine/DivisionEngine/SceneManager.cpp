@@ -9,9 +9,13 @@ namespace Division
 		inputManager_ = repository_->getInputManager();
 	}
 
+
+
 	SceneManager::~SceneManager()
 	{
 	}
+
+
 
 	void SceneManager::renderScenes()
 	{
@@ -20,20 +24,28 @@ namespace Division
 			it->second->render();
 	}
 
+
+
 	void SceneManager::setInputHandle(void * hndl)
 	{
 		inputManager_->setWindowHandle(hndl);
 	}
+
+
 
 	void * SceneManager::getInputHandle()
 	{
 		return inputManager_->getWindowHandle();
 	}
 
+
+
 	void SceneManager::addRenderer(std::string str, Renderer* rend)
 	{
 		renderers_[str] = rend;
 	}
+
+
 
 	Renderer* SceneManager::getRenderer(std::string str)
 	{
@@ -45,6 +57,8 @@ namespace Division
 			return nullptr;
 	}
 
+
+
 	void SceneManager::removeRenderer(std::string str)
 	{
 		std::map<std::string, Renderer*>::iterator it;
@@ -54,6 +68,8 @@ namespace Division
 		}
 	}
 
+
+
 	Scene* SceneManager::createScene(std::string str)
 	{
 		Scene* createdScene = new Scene(resourceManager_, inputManager_);
@@ -61,12 +77,14 @@ namespace Division
 		return createdScene;
 	}
 
-	Scene* SceneManager::loadScene(std::string scene, std::string filename)
+
+
+	Scene* SceneManager::loadScene(std::string filename)
 	{
 		if (sceneLoader_ == NULL) {
 			sceneLoader_ = new SceneLoader(this, repository_, resourceManager_);
 		}
-		return sceneLoader_->loadScene(scene, filename);
+		return sceneLoader_->loadScene(filename);
 	}
 
 	Scene* SceneManager::getScene(std::string str)

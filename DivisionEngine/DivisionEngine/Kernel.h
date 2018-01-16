@@ -18,7 +18,7 @@ namespace Division
 	public:
 		Kernel(RepositoryType = REPOSITORYTYPE_D3D9);
 		~Kernel();
-		void loadScene(std::string, std::string);
+		void loadScene(std::string);
 		void run();
 		SceneManager* getSceneManager();
 		ResourceManager* getResourceManager();

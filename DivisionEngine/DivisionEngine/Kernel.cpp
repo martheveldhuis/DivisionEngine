@@ -36,9 +36,9 @@ namespace Division
 
 
 
-	void Kernel::loadScene(std::string scene, std::string fileName)
+	void Kernel::loadScene(std::string fileName)
 	{
-		sceneManager_->loadScene(scene, fileName);
+		sceneManager_->loadScene(fileName);
 	}
 
 

@@ -1,9 +1,9 @@
 {
   "scene":{
-    "name": "TheBestScene",
+    "name": "scene2",
     "terrain": {
-      "heightmap": "terrainhm2.bmp",
-      "texture": "terrain.bmp"
+      "heightmap": "terrainhm.bmp",
+      "texture": "terraintexture.bmp"
     }
   },
   "renderers":[
