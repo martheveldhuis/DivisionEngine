@@ -4,7 +4,6 @@
 #include "D3D9Mesh.h"
 #include "D3D9TextureLoader.h"
 #include <d3d9.h>
-#include <LoggerPool.h>
 
 using namespace Microsoft::VisualStudio::CppUnitTestFramework;
 using namespace Division;
