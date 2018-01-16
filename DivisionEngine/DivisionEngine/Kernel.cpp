@@ -27,6 +27,8 @@ namespace Division
 		sceneManager_ = new SceneManager(resourceManager_, repository_);
 	}
 
+
+
 	Kernel::~Kernel()
 	{
 		delete repository_;
@@ -34,10 +36,14 @@ namespace Division
 		delete sceneManager_;
 	}
 
+
+
 	void Kernel::loadScene(std::string scene, std::string fileName)
 	{
 		sceneManager_->loadScene(scene, fileName);
 	}
+
+
 
 	void Kernel::run()
 	{
@@ -80,10 +86,15 @@ namespace Division
 		return sceneManager_;
 	}
 
+
+
 	ResourceManager * Kernel::getResourceManager()
 	{
 		return resourceManager_;
 	}
+
+
+
 	Repository * Kernel::getRepository()
 	{
 		return repository_;

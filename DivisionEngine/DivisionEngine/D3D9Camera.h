@@ -4,7 +4,6 @@
 #include <d3dx9.h>
 
 #include "Entity.h"
-#include "InputDevice.h"
 #include "Clock.h"
 
 namespace Division
@@ -50,11 +49,18 @@ namespace Division
 			@param units The amount to move.
 		*/
 		void fly(float units);
-		D3DXVECTOR3 look_ = D3DXVECTOR3(1.0f, 0.0f, 0.0f);	/**< Axis we look at */
-		D3DXVECTOR3 up_ = D3DXVECTOR3(0.0f, 1.0f, 0.0f);		/**< Axis going up/down */
-		D3DXVECTOR3 right_ = D3DXVECTOR3(0.0f, 0.0f, 1.0f);	/**< Axis going right/left */
-		D3DXVECTOR3 pos_;	/**<  Position of the camera */
-		D3DXMATRIX world_;	/**<  Orientation of the camera in world space */
+		/**
+			TODO: implement.
+		*/
+		void render(Renderer* renderer);
+		D3DXVECTOR3 look_ = D3DXVECTOR3(1.0f, 0.0f, 
+										0.0f);	/**< Axis we look at */
+		D3DXVECTOR3 up_ = D3DXVECTOR3(0.0f, 1.0f, 
+									  0.0f);	/**< Axis going up/down */
+		D3DXVECTOR3 right_ = D3DXVECTOR3(0.0f, 0.0f, 
+										 1.0f);	/**< Axis going right/left */
+		D3DXVECTOR3 pos_;	/**< Position of the camera */
+		D3DXMATRIX world_;	/**< Orientation of the camera in world space */
 		Clock* clock_;
 	};
 }

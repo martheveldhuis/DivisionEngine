@@ -1,5 +1,4 @@
 #include "D3D9Camera.h"
-#include "D3D9Renderer.h"
 
 namespace Division
 {
@@ -176,6 +175,13 @@ namespace Division
 		// Add new y in 'up' direction to position.
 		pos_ += D3DXVECTOR3(0.0f, up_.y, 0.0f) * units;
 		position_.yPosition = pos_.y;
+	}
+
+
+
+	void D3D9Camera::render(Renderer* renderer)
+	{
+		// TODO: render the camera entity differently from a normal entity.
 	}
 
 

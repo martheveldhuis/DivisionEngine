@@ -32,7 +32,7 @@ namespace Division
 
 	void D3D9Renderer::initializeGraphics()
 	{
-		//direct3DDevice_->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE);
+		direct3DDevice_->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE);
 		direct3DDevice_->SetRenderState(D3DRS_LIGHTING, FALSE);
 		//direct3DDevice_->SetRenderState(D3DRS_FILLMODE, D3DFILL_WIREFRAME);
 	}

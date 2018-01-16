@@ -148,12 +148,16 @@ namespace Division
 		return new Win32Window(title);
 	}
 
+
+
 	Entity* D3D9Repository::getCamera(ResourceManager* resourceManager, 
 									  float x, float y, float z, float xAngle,
 									  float yAngle, float zAngle)
 	{
 		return new D3D9Camera(resourceManager, x, y, z, xAngle, yAngle, zAngle);
 	}
+
+
 
 	InputManager* D3D9Repository::getInputManager()
 	{
