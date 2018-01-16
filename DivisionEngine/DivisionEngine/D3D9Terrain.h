@@ -8,12 +8,18 @@
 
 namespace Division
 {
-	class Terrain : public Entity
+	/**
+	    A terrain object to render and create terrain.
+	*/
+	class D3D9Terrain : public Entity
 	{
 	public:
-		Terrain(ResourceManager*, DivisionVertex vertices[], int, int);
-		~Terrain();
+		D3D9Terrain(ResourceManager*, DivisionVertex vertices[], int, int);
+		~D3D9Terrain();
 		void render(Renderer* renderer);
+		/**
+		   Generates indices based on the vertices.
+		*/
 		int generateIndices(int** ppIndices, int verticesAlongWidth, int verticesAlongLength);
 		void setTexture(std::string textureFile);
 	private:
