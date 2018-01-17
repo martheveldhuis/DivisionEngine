@@ -8,7 +8,8 @@ namespace Division
 	public:
 		virtual ~Window() {};
 		virtual void* getWindowHandle() = 0;
-		virtual void moveWindow(int X, int Y, int nWidth, int nHeight, bool rDraw) = 0;
+		virtual void moveWindow(int X, int Y, bool rDraw) = 0;
+		virtual void resizeWindow(int nWidth, int nHeight, bool rDraw) = 0;
 	};
 }
 #endif

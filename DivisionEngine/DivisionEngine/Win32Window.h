@@ -14,15 +14,20 @@ namespace Division
 	class Win32Window : public Window
 	{
 	public:
-		Win32Window(std::string winTitle);
-		Win32Window(int X, int Y, int nWidth, int nHeight, std::string winTitle, DWORD style);
+		Win32Window(std::string winTitle = "x");
+		Win32Window(int X, int Y, int nWidth, int nHeight, std::string winTitle = "x", DWORD style = WS_BORDER);
 		~Win32Window();
 		static LRESULT WINAPI MsgProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);
 		void* getWindowHandle();
-		void moveWindow(int X, int Y, int nWidth, int nHeight, bool rDraw);
+		void moveWindow(int X, int Y, bool rDraw);
+		void resizeWindow(int nWidth, int nHeight, bool rDraw);
 
 	private:
 		HWND windowHandle_;
+		int x_;
+		int y_;
+		int nWidth_;
+		int nHeight_;
 	};
 }
 
