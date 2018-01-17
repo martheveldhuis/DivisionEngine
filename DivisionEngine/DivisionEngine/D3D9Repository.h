@@ -31,6 +31,9 @@ namespace Division
 		Entity* getTerrain(std::string, ResourceManager*, std::string);
 		Renderer* getRenderer();
 		Window* getWindow(std::string);
+		Entity* getCamera(ResourceManager* resourceManager,
+						float x = 0, float y = 0, float z = 0,
+						float xAngle = 0, float yAngle = 0, float zAngle = 0);
 		InputManager* getInputManager();
 		Entity* getSkyBox(ResourceManager*);
 	private:

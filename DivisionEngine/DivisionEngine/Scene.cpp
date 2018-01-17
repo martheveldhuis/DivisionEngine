@@ -26,6 +26,7 @@ namespace Division
 
 			Entity* camera = cameraToWindow_[windowIt->second];
 
+			// Only update the camera based on input on the active window.
 			if (windowIt->second->getWindowHandle() == inputManager_->getWindowHandle()) {
 				InputStates i = inputManager_->getInput();
 				camera->updateOrientation(&i);
@@ -40,22 +41,29 @@ namespace Division
 				return;
 			}
 
+			// Set the camera orientation on the renderer.
 			rendererIt->second->setCameraMatrix(camera->getOrientation());
 
-			Position pos;
-			pos.xAngle = pos.zAngle = pos.yAngle = 0;
-			pos.xPosition = camera->getPosition().xPosition;
-			pos.yPosition = camera->getPosition().yPosition;
-			pos.zPosition = camera->getPosition().zPosition;
-			rendererIt->second->setWorldMatrix(&pos);
+			// Set the skybox position (the first entity) based on the camera
+			// position.
+			Position skyboxPosition;
+			skyboxPosition.xAngle = 0;
+			skyboxPosition.zAngle = 0;
+			skyboxPosition.yAngle = 0;
+			skyboxPosition.xPosition = camera->getPosition().xPosition;
+			skyboxPosition.yPosition = camera->getPosition().yPosition;
+			skyboxPosition.zPosition = camera->getPosition().zPosition;
+			rendererIt->second->setWorldMatrix(&skyboxPosition);
+
 			rendererIt->second->clear();
 			rendererIt->second->beginScene();
 
-			std::map<std::string, Entity*>::const_iterator enitityIt = entities_.begin();
+			std::map<std::string, Entity*>::const_iterator entityIt = entities_.begin();
 			std::map<std::string, Entity*>::const_iterator enititiesEnd = entities_.end();
 
-			for (; enitityIt != enititiesEnd; enitityIt++) {
-				enitityIt->second->render(rendererIt->second);
+			// Render all the entities in the scene.
+			for (; entityIt != enititiesEnd; entityIt++) {
+				entityIt->second->render(rendererIt->second);
 			}
 
 			rendererIt->second->endScene();

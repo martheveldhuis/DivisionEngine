@@ -32,6 +32,8 @@ namespace Division
 			return;
 		}
 
+		// Set global keyboard structure variable that describes the format of
+		// the data that the DirectInputDevice should return.
 		result = directInputKeyboard_->SetDataFormat(&c_dfDIKeyboard);
 		if FAILED(result) {
 			LoggerPool::getInstance()->getLogger("keyboard")
@@ -39,7 +41,9 @@ namespace Division
 			release();
 			return;
 		}
-
+		
+		// Only this window handle can take input from this input device.
+		// Only take input when the window handle is active.
 		result = directInputKeyboard_->SetCooperativeLevel(windowHandle_, 
 															DISCL_EXCLUSIVE | 
 															DISCL_FOREGROUND);

@@ -53,6 +53,20 @@ namespace Division
 		*/
 		virtual Window* getWindow(std::string) = 0;
 		/**
+			Creates a camera entity with a specified position.
+			@param resourceManager The provider of resources.
+			@param x The x location of the camera, default 0.
+			@param y The y location of the camera, default 0.
+			@param z The z location of the camera, default 0.
+			@param x The x angle of the camera, default 0.
+			@param y The y angle of the camera, default 0.
+			@param z The z angle of the camera, default 0.
+			@returns The camera as an entity.
+		*/
+		virtual Entity* getCamera(ResourceManager* resourceManager,
+			float x = 0, float y = 0, float z = 0,
+			float xAngle = 0, float yAngle = 0, float zAngle = 0) = 0;
+		/**
 			Creates a framework specific input manager for handling input.
 			@returns An input manager
 		*/

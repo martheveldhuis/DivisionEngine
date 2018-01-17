@@ -1,5 +1,4 @@
 #include "SceneLoader.h"
-#include "D3D9Camera.h"
 #include "SceneManager.h"
 #include "Model.h"
 
@@ -58,7 +57,7 @@ namespace Division
 			std::string renderer = windowJson["renderer"];
 
 			// TODO: add new entity with camera mesh to entities.
-			D3D9Camera* camera = new D3D9Camera(resourceManager_);
+			Entity* camera = repository_->getCamera(resourceManager_);
 			Window* win = repository_->getWindow(windowTitle);
 			theScene->addWindow(name, win, (sceneManager_->getRenderer(renderer)), camera);
 		}

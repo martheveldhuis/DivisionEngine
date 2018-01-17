@@ -9,18 +9,20 @@
 
 namespace Division
 {
-	enum repositoryType{D3D9,OPENGL};
+	enum RepositoryType { 
+		REPOSITORYTYPE_D3D9, REPOSITORYTYPE_OPENGL
+	};
 
 	class Kernel
 	{
 	public:
-		Kernel(repositoryType);
+		Kernel(RepositoryType = REPOSITORYTYPE_D3D9);
 		~Kernel();
 		void loadScene(std::string, std::string);
 		void run();
 		SceneManager* getSceneManager();
 		ResourceManager* getResourceManager();
-		
+		Repository* getRepository();
 
 	private:
 		Repository* repository_;
