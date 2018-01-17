@@ -11,7 +11,7 @@
       "name": "DXrenderer"
     }
   ],
-  "game_objects": [
+  "entities": [
     {
       "name": "tiger",
       "mesh": "tiger.x",

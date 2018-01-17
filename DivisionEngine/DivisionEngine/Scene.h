@@ -22,11 +22,17 @@ namespace Division
 		Window* getWindow(std::string);
 		void removeWindow(std::string);
 		void addEntity(std::string, Entity*);
+		/**
+		    Sets the skybox of the scene.
+			@param skyBox The sky box entity to use.
+		*/
+		void setSkyBox(Entity* skyBox);
 		Entity* getEntity(std::string);
 		void removeEntity(std::string);
 	private:
 		ResourceManager* resourceManager_;
 		InputManager* inputManager_;
+		Entity* skyBox_;
 		std::map<std::string, Entity*> entities_;
 		std::map<std::string, Window*> windows_;
 		std::map<Window*, Renderer*> rendererToWindow_;
