@@ -72,56 +72,17 @@ namespace Division
 
 
 
-	Entity* D3D9Repository::getTerrain(std::string filename, ResourceManager* rm, std::string texturefile = "") {
-		
-		int currentColumn, currentRow, heightmapIndex;
-
-		FileData heightmapData, textureFileData;
-
-		// Use the file loader to parse the texture and heightmap bmp.
-		textureFileData = FileLoader::parseBmp(texturefile);
-		heightmapData = FileLoader::parseBmp(filename);
-		
-		// Create the vertex array.
-		DivisionVertex* vertices = new DivisionVertex[heightmapData.width *
-													  heightmapData.height];
-
-		unsigned char* heightData = heightmapData.rawData;
-
-		// Single for loop to create all vertices of the terrain.
-		for (int i = 0; i < heightmapData.width * heightmapData.height; i++) {
-			currentColumn = floor(i / heightmapData.height);
-			currentRow = i % heightmapData.height;
-
-			// Convert vertices index to the corresponding heightmap pixel.
-			heightmapIndex = (heightmapData.height - (currentRow + 1)) *
-							  heightmapData.rowByteCount + currentColumn * heightmapData.byteCount;
-
-			// Get the elevation from the heightmap pixel color.
-			int y = heightData[heightmapIndex];
-
-			int z = heightmapData.width / -2 + currentColumn;
-			int x = heightmapData.height / -2 + currentRow;
-
-			// Calculate the texture positions.
-			float textureX = currentColumn / (heightmapData.width - 1.0f);
-			float textureY = currentRow / (heightmapData.height - 1.0f);
-
-			// Create a new vertex with the x, y and z position, and texture uv mapping.
-			vertices[i] = { x / 8.0f, y / 30.0f - 6.5f, z / 8.0f,
-				textureX , textureY };
-		}
-
-		return new D3D9Terrain(rm, vertices, heightmapData.width, heightmapData.height);
+	Entity* D3D9Repository::getTerrain(std::string filename, ResourceManager* rm,
+									   std::string texturefile = "")
+	{
+		return new D3D9Terrain(rm, filename, texturefile);
 	}
 	
 
 
 	Entity* D3D9Repository::getSkyBox(ResourceManager* rm)
 	{
-
 		return new D3D9SkyBox(rm, 1);
-
 	}
 
 

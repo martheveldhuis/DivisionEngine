@@ -31,7 +31,12 @@ namespace Division
 				InputStates i = inputManager_->getInput();
 				camera->updateOrientation(&i);
 			}
-		
+			else {
+				// Else update with empty input to still render this window.
+				InputStates i;
+				camera->updateOrientation(&i);
+			}
+
 			std::map<Window*, Renderer*>::const_iterator rendererIt;
 			rendererIt = rendererToWindow_.find(windowIt->second);
 

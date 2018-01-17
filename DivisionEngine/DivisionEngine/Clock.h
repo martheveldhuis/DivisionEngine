@@ -35,16 +35,16 @@ namespace Division
 		*/
 		clock_t poll();
 		/**
-		Gets the total runtime of the clock excluding the time the clock
-		was stopped.
-		@returns Get the total run time in ms.
+			Gets the total runtime of the clock excluding the time the clock
+			was stopped.
+			@returns Get the total run time in ms.
 		*/
 		clock_t getRuntime();
 		/**
 			Checks whether the clock is running.
 			@returns True if the clock is running, false if not.
 		*/
-		clock_t isRunning();
+		bool isRunning();
 	private:
 		clock_t startTime_;
 		clock_t lastPollTime_;
