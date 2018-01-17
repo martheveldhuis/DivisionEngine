@@ -108,7 +108,7 @@ namespace Division
 			float textureY = currentRow / (heightmapData.height - 1.0f);
 
 			// Create a new vertex with the x, y and z position, and texture uv mapping.
-			vertices[i] = { x / 8.0f, y / 30.0f - 26.5f, z / 8.0f,
+			vertices[i] = { x / 8.0f, y / 30.0f - 6.5f, z / 8.0f,
 				textureX , textureY };
 		}
 
