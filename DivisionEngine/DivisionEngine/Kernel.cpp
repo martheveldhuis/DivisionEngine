@@ -13,7 +13,7 @@ namespace Division
 				repository_ = new D3D9Repository();
 				break;
 			case REPOSITORYTYPE_OPENGL:
-				// TODO: implement for OpenGL.
+				// TODO: implement for OpenGL ;)
 				break;
 			default:
 				break;
@@ -68,13 +68,16 @@ namespace Division
 					kernelLog->logInfo(frames);
 					frames = 0;
 				}
+				// Get handle of current window  on the foreground.
+				HWND win = GetForegroundWindow(); 
 
-				HWND win = GetForegroundWindow();
-
-				if (win != sceneManager_->getInputHandle()) {// Set foregroundwindow handle
+				//Check if the window handle is different from the current active window handle.
+				if (win != sceneManager_->getInputHandle()) {
+					// Set active window handle
 					sceneManager_->setInputHandle(win);
 				}
 
+				//Render all the scenes
 				sceneManager_->renderScenes();
 			}
 		}

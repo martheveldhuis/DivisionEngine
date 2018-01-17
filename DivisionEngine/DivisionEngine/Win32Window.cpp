@@ -1,37 +1,12 @@
 #include "Win32Window.h"
 namespace Division
 {
-	Win32Window::Win32Window(std::string winTitle)
-	{
-		//Create a window class.
-		WNDCLASSEX wc = { sizeof(WNDCLASSEX), CS_CLASSDC, Win32Window::MsgProc, 0L, 0L,
-			GetModuleHandle(NULL), NULL, NULL, NULL, NULL,
-			"window", NULL };
-
-		//Register the window class.
-		RegisterClassEx(&wc);
-		x_ = 100;
-		y_ = 100;
-
-		nWidth_ = 800;
-		nHeight_ = 600;
-
-		//Create the application's window.
-		windowHandle_ = CreateWindow("window", winTitle.c_str(),
-			WS_BORDER, x_, y_, nWidth_, nHeight_,
-			NULL, NULL, wc.hInstance, NULL);
-
-		ShowWindow(windowHandle_, SW_SHOWDEFAULT);
-	}
-
-
-
-	Win32Window::Win32Window(int X, int Y, int nWidth, int nHeight, std::string winTitle, DWORD style) : 
+	Win32Window::Win32Window(std::string winTitle, int X, int Y, int nWidth, int nHeight, DWORD style) :
 		x_(X) , y_(Y), 
 		nWidth_(nWidth), nHeight_(nHeight)
 	{
 		//Create a window class.
-		WNDCLASSEX wc = { sizeof(WNDCLASSEX), CS_CLASSDC, Win32Window::MsgProc, 0L, 0L,
+		WNDCLASSEX wc = { sizeof(WNDCLASSEX), CS_CLASSDC, Win32Window::WindowProc, 0L, 0L,
 			GetModuleHandle(NULL), NULL, NULL, NULL, NULL,
 			"window", NULL };
 
@@ -40,7 +15,7 @@ namespace Division
 
 		//Create the application's window.
 		windowHandle_ = CreateWindow("window", winTitle.c_str(),
-			WS_BORDER, x_, y_, nWidth_, nHeight_,
+			style, x_, y_, nWidth_, nHeight_,
 			NULL, NULL, wc.hInstance, NULL);
 
 		ShowWindow(windowHandle_, SW_SHOWDEFAULT);
@@ -51,19 +26,19 @@ namespace Division
 	Win32Window::~Win32Window()
 	{
 	}
+	
 
 
-
-	LRESULT WINAPI Win32Window::MsgProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
-	{//Besides the main function, there must be a message processing function
-		switch (msg)
+	LRESULT WINAPI Win32Window::WindowProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
+	{
+		switch (uMsg)
 		{
 		case WM_DESTROY:
 			PostQuitMessage(0);
 			return 0;
 		}
 
-		return DefWindowProc(hWnd, msg, wParam, lParam);
+		return DefWindowProc(hWnd, uMsg, wParam, lParam);
 	}
 
 

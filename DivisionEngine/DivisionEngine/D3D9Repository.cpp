@@ -134,6 +134,7 @@ namespace Division
 
 	Window* D3D9Repository::getWindow(std::string title)
 	{
+		
 		return new Win32Window(title);
 	}
 
