@@ -40,18 +40,35 @@ namespace Division
 
 		Scene* scene1 = sceneManager_->createScene(sceneName);
 
-		// Read the terrain's heightmap file name, or set default.
-		std::string heightmap = sceneJson["scene"]["terrain"]["heightmap"];
-		if (heightmap.empty())
-			heightmap = "terrainhm.bmp";
+		// Read terrain's heightmap and texture file names, or set defaults.
+		std::string heightmap;
+		std::string heightmapTexture;
 
-		// Read the terrain's heightmap texture file name, or set default.
-		std::string heightmapTexture = sceneJson["scene"]["terrain"]["texture"];
-		if (heightmapTexture.empty())
-			heightmapTexture = "terraintexture.bmp";
+		if (sceneJson.find("scene") != sceneJson.end() &&
+			sceneJson["scene"].find("terrain") != sceneJson["scene"].end()) {
 
+			if (sceneJson["scene"]["terrain"].find("heightmap") != 
+				sceneJson["scene"]["terrain"].end()) {
+				heightmap = sceneJson["scene"]["terrain"]["heightmap"].
+							get<std::string>();
+			}
+			else {
+				heightmap = "terrainhm.bmp";
+			}
+
+			if (sceneJson["scene"]["terrain"].find("texture") != 
+				sceneJson["scene"]["terrain"].end()) {
+				heightmap = sceneJson["scene"]["terrain"]["texture"].
+							get<std::string>();
+			}
+			else {
+				heightmapTexture = "terraintexture.bmp";
+			}
+		}
+		
 		// Create the terrain.
-		Entity* terrain = repository_->getTerrain(heightmap, resourceManager_, heightmapTexture);
+		Entity* terrain = repository_->getTerrain(heightmap, resourceManager_, 
+												  heightmapTexture);
 		terrain->setTexture(heightmapTexture);
 		scene1->addEntity("terrain", terrain);
 
@@ -62,21 +79,12 @@ namespace Division
 		scene1->addEntity("skybox", skyBox);
 
 		// Iterate over renderers in scene file.
-		nlohmann::json renderersJson = sceneJson["renderers"];
-		nlohmann::json::iterator renderersIterator = renderersJson.begin();
-		nlohmann::json::iterator renderersEnd = renderersJson.end();
 		Renderer* renderer = NULL;
-		int renderNr = 1;
+		std::string rendererName;
+		nlohmann::json renderersJson = sceneJson["renderers"];
 
-		for (; renderersIterator != renderersEnd; ++renderersIterator, 
-			 ++renderNr) {
-			nlohmann::json rendererJson = (*renderersIterator);
-			std::string rendererName = rendererJson["name"];
-
-			// Make sure renderers get names.
-			if (rendererName.empty())
-				rendererName = "renderer" + renderNr;
-
+		if (sceneJson.find("renderers") == sceneJson.end()) {
+			rendererName = "renderer1";
 			renderer = sceneManager_->getRenderer(rendererName);
 
 			if (!renderer) {
@@ -85,6 +93,29 @@ namespace Division
 				sceneManager_->addRenderer(rendererName, renderer);
 			}
 		}
+		else {
+			nlohmann::json::iterator renderersIterator = renderersJson.begin();
+			nlohmann::json::iterator renderersEnd = renderersJson.end();
+
+			for (; renderersIterator != renderersEnd; ++renderersIterator) {
+				nlohmann::json rendererJson = (*renderersIterator);
+				if (rendererJson.find("name") == rendererJson.end()) {
+					rendererName = "renderer1";
+				}
+				else {
+					rendererName = rendererJson["name"].get<std::string>();
+				}
+
+				renderer = sceneManager_->getRenderer(rendererName);
+
+				if (!renderer) {
+					renderer = repository_->getRenderer();
+					renderer->setup();
+					sceneManager_->addRenderer(rendererName, renderer);
+				}
+			}
+		}
+
 
 		nlohmann::json windowsJson = sceneJson["windows"];
 		for (nlohmann::json::iterator it = windowsJson.begin(); it != windowsJson.end(); ++it) {
