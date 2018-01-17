@@ -30,9 +30,9 @@ namespace Division
 		*/
 		void* getDevice() { return direct3DDevice_; }
 
-		void increaseReferenceCount() { referenceCount_++; };
-		void decreaseReferenceCount() { referenceCount_--; };
-		short getReferenceCount() { return referenceCount_; };
+		void increaseReferenceCount();
+		void decreaseReferenceCount();
+		short getReferenceCount();
 
 		void clear();
 		void beginScene();

@@ -95,7 +95,6 @@ namespace Division
 			rendererRelations = rendererToWindow_.find(window->second);
 			if (rendererRelations != rendererToWindow_.end()) {
 				rendererRelations->second->decreaseReferenceCount();
-				//rendererRelations->second.decreaseRefrenceCount(); // TODO: clean up renderer by counter
 				rendererToWindow_.erase(rendererRelations);
 			}
 			delete window->second;
