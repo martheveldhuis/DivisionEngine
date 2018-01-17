@@ -19,20 +19,26 @@ namespace Division
 	public:
 		/**
 			Creates a skybox.
+			@param rm The resource manager to get textures and meshes from.
+			@param side The length of the sides of the cube.
 		*/
-		D3D9SkyBox(ResourceManager*, float side);
+		D3D9SkyBox(ResourceManager* rm, float side);
 		~D3D9SkyBox();
 		void render(Renderer* renderer);
-		void setTexture(std::string);
+		/**
+			Get the texture from the resource manager and set it on the skybox.
+			@param textureName The texture to load.
+		*/
+		void setTexture(std::string textureName);
 	private:
-		Resource* texture_ = NULL; // texture
+		Resource* texture_ = NULL;
 		DivisionVertex* vertices_;
 		int vertexCount_ = 0;
 		int* indices_;
 		DWORD indexCount_ = 0;
-		LPDIRECT3DDEVICE9 direct3Ddevice_ = NULL; // device
-		LPDIRECT3DVERTEXBUFFER9 vertexBuffer_ = NULL; // buffer
-		LPDIRECT3DINDEXBUFFER9 indexBuffer_ = NULL; // Buffer to hold indices
+		LPDIRECT3DDEVICE9 direct3Ddevice_ = NULL;
+		LPDIRECT3DVERTEXBUFFER9 vertexBuffer_ = NULL;
+		LPDIRECT3DINDEXBUFFER9 indexBuffer_ = NULL;
 	};
 }
 

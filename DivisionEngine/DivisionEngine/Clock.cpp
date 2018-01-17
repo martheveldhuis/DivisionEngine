@@ -80,7 +80,10 @@ namespace Division
 
 		return runTime_;
 	}
-	clock_t Clock::isRunning()
+
+
+
+	bool Clock::isRunning()
 	{
 		return running_;
 	}

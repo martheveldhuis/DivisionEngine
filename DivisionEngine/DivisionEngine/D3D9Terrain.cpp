@@ -1,17 +1,63 @@
 #include "D3D9Terrain.h"
-
+#include "FileLoader.h"
 
 #define D3DFVF_CUSTOMVERTEX (D3DFVF_XYZ|D3DFVF_TEX1)
 
 namespace Division 
 {
-	D3D9Terrain::D3D9Terrain(ResourceManager* rm
-		, DivisionVertex vertices[], int vertexWidth, int vertexLength) :
-		vertices_(vertices), vertexCount_(vertexWidth * vertexLength), Entity(rm)
+	D3D9Terrain::D3D9Terrain(ResourceManager* rm, std::string heightmapFile,
+							 std::string textureFile) : Entity(rm)
 	{
 
-		indexCount_ = generateIndices(&indices_, vertexWidth, vertexLength);
+		int currentColumn, currentRow, heightmapIndex;
+
+		FileData heightmapData, textureFileData;
+
+		// Use the file loader to parse the texture and heightmap bmp.
+		textureFileData = FileLoader::parseBmp(textureFile);
+		heightmapData = FileLoader::parseBmp(heightmapFile);
+
+		// Create the vertex array.
+		DivisionVertex* vertices = new DivisionVertex[heightmapData.width *
+													  heightmapData.height];
+
+		unsigned char* heightData = heightmapData.rawData;
+
+		// Single for loop to create all vertices of the terrain.
+		for (int i = 0; i < heightmapData.width * heightmapData.height; i++) {
+			currentColumn = floor(i / heightmapData.height);
+			currentRow = i % heightmapData.height;
+
+			// Convert vertices index to the corresponding heightmap pixel.
+			heightmapIndex = (heightmapData.height - (currentRow + 1)) *
+			heightmapData.rowByteCount + currentColumn * heightmapData.byteCount;
+
+			// Get the elevation from the heightmap pixel color.
+			int y = heightData[heightmapIndex];
+
+			int z = heightmapData.width / -2 + currentColumn;
+			int x = heightmapData.height / -2 + currentRow;
+
+			// Calculate the texture positions.
+			float textureX = currentColumn / (heightmapData.width - 1.0f);
+			float textureY = currentRow / (heightmapData.height - 1.0f);
+
+			// Create a new vertex with the x, y and z position, and texture uv mapping.
+			vertices[i] = { x / 8.0f, y / 30.0f - 6.5f, z / 8.0f,
+				textureX , textureY };
+		}
+
+		vertices_ = vertices;
+
+		if (textureFile != "") {
+			setTexture(textureFile);
+		}
+
+		vertexCount_ = heightmapData.height * heightmapData.width;
+
+		indexCount_ = generateIndices(&indices_, heightmapData.width, heightmapData.height);
 	}
+
 
 
 	D3D9Terrain::~D3D9Terrain()
@@ -23,6 +69,8 @@ namespace Division
 		indexBuffer_->Release();
 		delete indexBuffer_;
 	}
+
+
 
 	void D3D9Terrain::render(Renderer* renderer)
 	{

@@ -74,7 +74,7 @@ namespace Division
 		/**
 			Creates a sky box with a 1x1x1 dimension.
 			@param rm ResourceManager to be passed to the class for texture loading.
-			@return The created sky box.
+			@returns The created sky box.
 		*/
 		virtual Entity* getSkyBox(ResourceManager* rm) = 0;
 	};
