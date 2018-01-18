@@ -11,10 +11,9 @@ namespace Division
 
 		int currentColumn, currentRow, heightmapIndex;
 
-		FileData heightmapData, textureFileData;
+		FileData heightmapData;
 
-		// Use the file loader to parse the texture and heightmap bmp.
-		textureFileData = FileLoader::parseBmp(textureFile);
+		// Use the file loader to parse the  heightmap bmp.
 		heightmapData = FileLoader::parseBmp(heightmapFile);
 
 		// Create the vertex array.
@@ -85,7 +84,6 @@ namespace Division
 			renderer->setTexture(texture_);
 
 		// Render the vertex buffer contents
-		renderDevice->SetFVF(D3DFVF_CUSTOMVERTEX);
 		renderDevice->DrawIndexedPrimitive(D3DPT_TRIANGLESTRIP, 0, 0, vertexCount_, 0,indexCount_ -2);
 
 	}

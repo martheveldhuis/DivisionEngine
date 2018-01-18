@@ -21,6 +21,8 @@ namespace Division
 	{
 	}
 
+
+
 	Scene* SceneLoader::loadScene(std::string filename) {
 
 		// Open the scene file into a json object.
@@ -30,9 +32,9 @@ namespace Division
 		
 		// Read the scene name, or set default.
 		std::string sceneName;
-		bool sceneNotInJson = sceneJson.find("scene") == sceneJson.end();
+		bool sceneInJson = sceneJson.find("scene") != sceneJson.end();
 
-		if (sceneNotInJson ||
+		if (!sceneInJson ||
 			(sceneJson["scene"].find("name") == sceneJson["scene"].end())) {
 			sceneName = "scene1";
 		}
@@ -42,17 +44,23 @@ namespace Division
 
 		Scene* scene1 = sceneManager_->createScene(sceneName);
 
-		// Create the skybox with default.
-		// TODO: implement skybox in scene file.
+		// Create the skybox's texture, or set default.
+		std::string skyboxTexture = "skybox.bmp";
+
+		if (sceneInJson && sceneJson["scene"].find("skybox_texture") !=
+						   sceneJson["scene"].end()) {
+			skyboxTexture = sceneJson["scene"]["skybox_texture"].
+							get<std::string>();
+		}
 		Entity* skyBox = repository_->getSkyBox(resourceManager_);
-		skyBox->setTexture("skybox.png");
+		skyBox->setTexture(skyboxTexture);
 		scene1->setSkyBox(skyBox);
 
 		// Read terrain's heightmap and texture file names, or set defaults.
 		std::string heightmap;
 		std::string heightmapTexture;
 
-		if (!sceneNotInJson &&
+		if (sceneInJson &&
 			sceneJson["scene"].find("terrain") != sceneJson["scene"].end()) {
 
 			if (sceneJson["scene"]["terrain"].find("heightmap") != 
@@ -70,19 +78,16 @@ namespace Division
 							get<std::string>();
 			}
 			else {
-				heightmapTexture = "terraintexture.bmp";
+				heightmapTexture = "terrain.bmp";
 			}
-		}
-		else {
-			heightmap = "terrainhm.bmp";
-			heightmapTexture = "terraintexture.bmp";
+
+			// Create the terrain.
+			Entity* terrain = repository_->getTerrain(heightmap, resourceManager_,
+				heightmapTexture);
+			terrain->setTexture(heightmapTexture);
+			scene1->addEntity("terrain", terrain);
 		}
 		
-		// Create the terrain.
-		Entity* terrain = repository_->getTerrain(heightmap, resourceManager_, 
-												  heightmapTexture);
-		terrain->setTexture(heightmapTexture);
-		scene1->addEntity("terrain", terrain);
 		
 		// Iterate over renderers in scene file.
 		// TODO: put in separate function.
@@ -199,22 +204,8 @@ namespace Division
 		std::string entityName;
 		std::string entityMesh;
 		std::string entityTexture;
-		int xPos;
-		int yPos;
-		int zPos;
-		int xAngle;
-		int yAngle;
-		int zAngle;
 
-		if (sceneJson.find("entities") == sceneJson.end()) {
-			entityName = "entity1";
-			entityMesh = "tiger.x";
-
-			Entity* entity1 = new Entity(resourceManager_);
-			entity1->setMesh(entityMesh);
-			scene1->addEntity(entityName, entity1);
-		}
-		else {
+		if (sceneJson.find("entities") != sceneJson.end()) {
 			nlohmann::json entitiesJson = sceneJson["entities"];
 			nlohmann::json::iterator entityIterator = entitiesJson.begin();
 			nlohmann::json::iterator entitiesEnd = entitiesJson.end();

@@ -48,6 +48,10 @@ namespace Division
 			// Set the camera orientation on the renderer.
 			rendererIt->second->setCameraMatrix(camera->getOrientation());
 
+			// Prepare the renderer for the entities to be rendered 
+			rendererIt->second->clear();
+			rendererIt->second->beginScene();
+
 			// Set the skybox position (the first entity) based on the camera
 			// position.
 			Position skyboxPosition;
@@ -59,9 +63,8 @@ namespace Division
 			skyboxPosition.zPosition = camera->getPosition().zPosition;
 			rendererIt->second->setWorldMatrix(&skyboxPosition);
 
-			// Prepare the renderer for the entities to be rendered 
-			rendererIt->second->clear();
-			rendererIt->second->beginScene();
+			// Render the skybox.
+			skyBox_->render(rendererIt->second);
 
 			std::map<std::string, Entity*>::const_iterator entityIt = entities_.begin();
 			std::map<std::string, Entity*>::const_iterator enititiesEnd = entities_.end();
@@ -133,13 +136,6 @@ namespace Division
 
 
 
-	void Scene::setSkyBox(Entity* skyBox)
-	{
-		skyBox_ = skyBox;
-	}
-
-
-
 	Entity* Scene::getEntity(std::string entityName)
 	{
 		std::map<std::string, Entity*>::iterator it;
@@ -160,5 +156,11 @@ namespace Division
 			delete it->second;
 			entities_.erase(it);
 		}
+	}
+
+
+	void Scene::setSkyBox(Entity* skyBox)
+	{
+		skyBox_ = skyBox;
 	}
 }

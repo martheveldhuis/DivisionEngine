@@ -76,7 +76,7 @@ namespace Division
 			@param sceneFileName The name of the file that will be loaded.
 			@returns The scene that has been added to the scene manager.
 		*/
-		Scene* loadScene(std::string sceneName, std::string sceneFileName);
+		Scene* loadScene(std::string sceneFileName);
 		/**
 			Get a scene from the scene manager.
 			@param sceneName The name the scene that you want to retrieve.

@@ -82,6 +82,11 @@ namespace Division
 			@param entityName The name of the entity in the scene you want to remove.
 		*/
 		void removeEntity(std::string entityName);
+		/**
+		    Sets the skybox of the scene.
+			@param skyBox The sky box entity to use.
+		*/
+		void setSkyBox(Entity* skyBox);
 	private:
 		ResourceManager* resourceManager_;
 		InputManager* inputManager_;
