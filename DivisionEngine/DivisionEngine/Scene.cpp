@@ -47,9 +47,6 @@ namespace Division
 			rendererIt->second->clear();
 			rendererIt->second->beginScene();
 
-			std::map<std::string, Entity*>::const_iterator entityIt = entities_.begin();
-			std::map<std::string, Entity*>::const_iterator enititiesEnd = entities_.end();
-
 			// Set the sky box position based on the camera position.
 			Position skyboxPosition;
 			skyboxPosition.xAngle = 0;
@@ -63,6 +60,9 @@ namespace Division
 			skyBox_->render(rendererIt->second);
 
 			// Render all the entities in the scene.
+			std::map<std::string, Entity*>::const_iterator entityIt = entities_.begin();
+			std::map<std::string, Entity*>::const_iterator enititiesEnd = entities_.end();
+
 			for (; entityIt != enititiesEnd; entityIt++) {
 				entityIt->second->render(rendererIt->second);
 			}
