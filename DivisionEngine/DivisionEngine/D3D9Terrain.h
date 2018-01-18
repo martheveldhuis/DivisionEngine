@@ -2,7 +2,6 @@
 #define DIVISION_TERRAIN_H
 
 #include "D3D9Mesh.h"
-#include "Renderer.h"
 #include "Resource.h"
 #include "Entity.h"
 

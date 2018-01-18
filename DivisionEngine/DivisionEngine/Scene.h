@@ -84,7 +84,7 @@ namespace Division
 		void removeEntity(std::string entityName);
 		/**
 		    Sets the skybox of the scene.
-			@param skyBox The sky box entity to use.
+			@param skyBox The skybox entity to use.
 		*/
 		void setSkyBox(Entity* skyBox);
 	private:

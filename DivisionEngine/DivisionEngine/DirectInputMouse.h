@@ -28,7 +28,7 @@ namespace Division
 		HWND windowHandle_;
 		IDirectInput8* directInput_;
 		IDirectInputDevice8* directInputMouse_;
-		DIDEVICEOBJECTDATA* buttonsAndAxes_; /**< Stores mouse clicks & moves*/
+		DIDEVICEOBJECTDATA* buttonsAndAxes_; /**< Stores mouse clicks & moves. */
 		DWORD bufferItemsToRead_;
 	};
 }

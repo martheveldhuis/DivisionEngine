@@ -72,9 +72,9 @@ namespace Division
 		*/
 		virtual InputManager* getInputManager() = 0;
 		/**
-			Creates a sky box with a 1x1x1 dimension.
+			Creates a skybox with a 1x1x1 dimension.
 			@param rm ResourceManager to be passed to the class for texture loading.
-			@returns The created sky box.
+			@returns The created skybox.
 		*/
 		virtual Entity* getSkyBox(ResourceManager* rm) = 0;
 	};

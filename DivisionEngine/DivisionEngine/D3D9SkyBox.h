@@ -2,7 +2,6 @@
 #define DIVISION_SKYBOX_H
 
 #include "D3D9Mesh.h"
-#include "Renderer.h"
 #include "D3D9Texture.h"
 #include "Entity.h"
 

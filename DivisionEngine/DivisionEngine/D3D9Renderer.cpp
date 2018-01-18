@@ -1,7 +1,5 @@
 #include "D3D9Renderer.h"
 #include "D3D9Texture.h"
-#include <d3dx9.h>
-#include <math.h>
 #include "D3D9Camera.h"
 #include "LoggerPool.h"
 
@@ -34,7 +32,7 @@ namespace Division
 
 	void D3D9Renderer::initializeGraphics()
 	{
-		direct3DDevice_->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE);
+		//direct3DDevice_->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE);
 		direct3DDevice_->SetRenderState(D3DRS_LIGHTING, FALSE);
 		//direct3DDevice_->SetRenderState(D3DRS_FILLMODE, D3DFILL_WIREFRAME);
 	}
@@ -54,6 +52,8 @@ namespace Division
 		D3DXMatrixPerspectiveFovLH(&projectionMatrix, D3DX_PI / 4, 1.0f, 0.4f, 100.0f);
 		direct3DDevice_->SetTransform(D3DTS_PROJECTION, &projectionMatrix);
 	}
+
+
 
 	void D3D9Renderer::setCameraMatrix(void* view)
 	{
@@ -126,20 +126,33 @@ namespace Division
 
 
 
+	void* D3D9Renderer::getDevice()
+	{
+		return direct3DDevice_;
+	}
+
+
+
 	void D3D9Renderer::increaseReferenceCount()
 	{
 		referenceCount_++;
 	}
+
+
 
 	void D3D9Renderer::decreaseReferenceCount()
 	{
 		referenceCount_--;
 	}
 
+
+
 	short D3D9Renderer::getReferenceCount()
 	{
 		return referenceCount_;
 	}
+
+
 
 	void D3D9Renderer::clear()
 	{
