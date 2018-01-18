@@ -26,6 +26,8 @@ namespace Division
 	{
 		initializeGraphics();
 		setupMatrices();
+
+		direct3DDevice_->SetFVF(D3DFVF_CUSTOMVERTEX);
 	}
 
 

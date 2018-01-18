@@ -78,13 +78,13 @@ namespace Division
 
 
 
-	Scene* SceneManager::loadScene(std::string sceneName, std::string sceneFileName)
+	Scene* SceneManager::loadScene(std::string sceneFileName)
 	{
 		// Check if sceneloader exists if not request one from the repository.
 		if (sceneLoader_ == NULL) {
 			sceneLoader_ = new SceneLoader(this, repository_, resourceManager_);
 		}
-		return sceneLoader_->loadScene(sceneName, sceneFileName);
+		return sceneLoader_->loadScene(sceneFileName);
 	}
 
 

@@ -33,7 +33,7 @@ namespace Division
 		/**
 			Proxy function for loading scenes via the simple interface.
 		*/
-		void loadScene(std::string, std::string);
+		void loadScene(std::string);
 		/**
 			Main run cycle handles OS messages and input handle switching.
 		*/

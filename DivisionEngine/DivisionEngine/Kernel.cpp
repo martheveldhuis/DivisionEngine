@@ -13,7 +13,7 @@ namespace Division
 				repository_ = new D3D9Repository();
 				break;
 			case REPOSITORYTYPE_OPENGL:
-				// TODO: implement for OpenGL ;)
+				// TODO: implement for OpenGL.
 				break;
 			default:
 				break;
@@ -36,9 +36,9 @@ namespace Division
 
 
 
-	void Kernel::loadScene(std::string scene, std::string fileName)
+	void Kernel::loadScene(std::string fileName)
 	{
-		sceneManager_->loadScene(scene, fileName);
+		sceneManager_->loadScene(fileName);
 	}
 
 
