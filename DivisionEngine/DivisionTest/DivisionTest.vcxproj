@@ -23,8 +23,8 @@
     <ProjectGuid>{210AF0D2-7A71-43CD-A318-932A0B2BBA61}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
     <RootNamespace>DivisionTest</RootNamespace>
-    <WindowsTargetPlatformVersion>8.1</WindowsTargetPlatformVersion>
     <ProjectSubType>NativeUnitTestProject</ProjectSubType>
+    <WindowsTargetPlatformVersion>10.0.16299.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
@@ -160,6 +160,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="ClockTest.cpp" />
     <ClCompile Include="ResourceManagerTest.cpp" />
   </ItemGroup>
   <ItemGroup>

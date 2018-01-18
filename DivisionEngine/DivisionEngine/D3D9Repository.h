@@ -4,13 +4,13 @@
 #include <string>
 
 #include "ResourceLoader.h"
-#include "Terrain.h"
 #include "Repository.h"
 #include "D3D9TextureLoader.h"
 #include "D3D9MeshLoader.h"
 #include "D3D9Renderer.h"
+#include "D3D9Terrain.h"
+#include "D3D9SkyBox.h"
 #include "Win32Window.h"
-#include "Terrain.h"
 #include "DirectInputManager.h"
 
 namespace Division

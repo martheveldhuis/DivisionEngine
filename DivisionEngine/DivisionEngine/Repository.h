@@ -8,13 +8,12 @@
 #include "Entity.h"
 #include "Window.h"
 #include "InputManager.h"
-#include "SkyBox.h"
 
 namespace Division
 {
 	/**
-		Generates framework specific objects. On instianciation one framework
-		interface class will be created to build
+		Generates framework specific objects. On instanciation one framework
+		interface class will be created to build each framework-specific asset.
 	*/
 	class Repository
 	{
@@ -75,7 +74,7 @@ namespace Division
 		/**
 			Creates a sky box with a 1x1x1 dimension.
 			@param rm ResourceManager to be passed to the class for texture loading.
-			@return The created sky box.
+			@returns The created sky box.
 		*/
 		virtual Entity* getSkyBox(ResourceManager* rm) = 0;
 	};

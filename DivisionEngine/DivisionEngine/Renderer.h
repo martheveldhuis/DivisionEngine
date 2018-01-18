@@ -4,14 +4,14 @@
 namespace Division
 {
 	class D3D9Camera;
+
 	struct DivisionVertex
 	{
-		float x; /** The x position of a vertex */
-		float y; /** The y position of a vertex */
-		float z; /** The z position of a vertex */
-		//unsigned int color;
-		float u; /** The u mapping position of the texture */
-		float v; /** The v mapping position of the texture */
+		float x; /**< The x position of a vertex */
+		float y; /**< The y position of a vertex */
+		float z; /**< The z position of a vertex */
+		float u; /**< The u mapping position of the texture */
+		float v; /**< The v mapping position of the texture */
 	};
 
 	struct Position
