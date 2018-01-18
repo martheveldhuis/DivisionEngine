@@ -3,8 +3,6 @@
 #include "FileLoader.h"
 #include "D3D9Mesh.h"
 #include "D3D9Camera.h"
-#include "D3D9SkyBox.h"
-#include "D3D9Terrain.h"
 
 namespace Division
 {

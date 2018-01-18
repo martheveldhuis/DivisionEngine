@@ -28,7 +28,7 @@ namespace Division
 		HWND windowHandle_;
 		IDirectInput8* directInput_;
 		IDirectInputDevice8* directInputKeyboard_;
-		BYTE keys_[256]; /**< Container for storing the state of each key */
+		BYTE keys_[256]; /**< Container for storing the state of each key. */
 	};
 }
 

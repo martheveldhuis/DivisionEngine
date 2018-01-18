@@ -33,6 +33,7 @@ namespace Division
 			@param scene The name of the scene as it will be stored in the scene manager.
 			@param filename The file to load the configuration from.
 			@returns The filled scene file.
+			@todo Refactor.
 		*/
 		Scene* loadScene(std::string filename);
 	private:

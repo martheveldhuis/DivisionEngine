@@ -76,11 +76,13 @@ namespace Division
 			information about how the entity is rotated, translated and
 			scaled within the world.
 			@returns The entity world matrix.
+			@todo Implement for general entity.
 		*/
 		virtual void* getOrientation();
 		/**
 			Gets the current entity position, with rotation.
 			@returns The entity position.
+			@todo Implement for general entity.
 		*/
 		virtual Position getPosition() { return position_; }
 	protected:

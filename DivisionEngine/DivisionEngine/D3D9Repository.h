@@ -3,7 +3,6 @@
 
 #include <string>
 
-#include "ResourceLoader.h"
 #include "Repository.h"
 #include "D3D9TextureLoader.h"
 #include "D3D9MeshLoader.h"

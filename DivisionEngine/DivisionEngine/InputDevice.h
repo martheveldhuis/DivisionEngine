@@ -8,16 +8,16 @@ namespace Division
 	*/
 	struct InputStates
 	{
-		bool moveForward;	/**< W key */
-		bool moveBackward;	/**< S key */
-		bool moveLeft;		/**< A key */
-		bool moveRight;		/**< D key */
-		bool moveUp;		/**< Left mouse button */
-		bool moveDown;		/**< Right mouse button */
-		long turnLeft;		/**< Moving the mouse to the left */
-		long turnRight;		/**< Moving the mouse to the left */
-		long turnUp;		/**< Moving the mouse up */
-		long turnDown;		/**< Moving the mouse down */
+		bool moveForward;	/**< W key. */
+		bool moveBackward;	/**< S key. */
+		bool moveLeft;		/**< A key. */
+		bool moveRight;		/**< D key. */
+		bool moveUp;		/**< Space bar. */
+		bool moveDown;		/**< X key. */
+		long turnLeft;		/**< Moving the mouse to the left. */
+		long turnRight;		/**< Moving the mouse to the right. */
+		long turnUp;		/**< Moving the mouse up. */
+		long turnDown;		/**< Moving the mouse down. */
 	};
 
 	/**

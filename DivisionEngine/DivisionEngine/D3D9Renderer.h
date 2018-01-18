@@ -16,34 +16,27 @@ namespace Division
 	public:
 		/**
 			Create a new renderer with an existing DirectX device.
+			@param device The DirectX device.
 		*/
-		D3D9Renderer(LPDIRECT3DDEVICE9);
+		D3D9Renderer(LPDIRECT3DDEVICE9 device);
 		~D3D9Renderer();
 		void setup();
 		void initializeGraphics();
 		void setupMatrices();
 		void setVertexBuffer(struct DivisionVertex* vertices, int verts);
 		void setIndexBuffer(void* vertices, int indexes);
-		/**
-			Gets the directx9 device.
-			@returns Pointer to the direct3D device.
-		*/
-		void* getDevice() { return direct3DDevice_; }
-
+		void setWorldMatrix(Position*);
+		void setTexture(void*);
+		void setHandle(void*);
+		void setCameraMatrix(void*);
+		void* getDevice();
 		void increaseReferenceCount();
 		void decreaseReferenceCount();
 		short getReferenceCount();
-
 		void clear();
 		void beginScene();
 		void endScene();
 		void present(void*);
-
-		void setWorldMatrix(Position*);
-		void setTexture(void*);
-		void setHandle(void*);
-
-		virtual void setCameraMatrix(void*);
 	private:
 		LPDIRECT3DDEVICE9 direct3DDevice_;
 		LPDIRECT3DVERTEXBUFFER9 vertexBuffer_ = NULL;

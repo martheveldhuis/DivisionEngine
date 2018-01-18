@@ -8,6 +8,9 @@ namespace Division
 	{
 		clock_ = new Clock();
 		clock_->start();
+		pos_.x = x;
+		pos_.y = y;
+		pos_.z = z;
 	}
 
 

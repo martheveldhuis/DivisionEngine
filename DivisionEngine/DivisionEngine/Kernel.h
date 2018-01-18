@@ -7,6 +7,9 @@
 #include "Repository.h"
 #include "SceneManager.h"
 
+/**
+	The Division Engine namespace.
+*/
 namespace Division
 {
 	/**

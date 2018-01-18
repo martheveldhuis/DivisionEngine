@@ -22,6 +22,7 @@ namespace Division
 		~D3D9Camera();
 		void updateOrientation(InputStates* inputStates);
 		void* getOrientation();
+		// @todo Render the camera entity differently from a normal entity.
 		void render(Renderer* renderer);
 	private:
 		/**
@@ -50,13 +51,13 @@ namespace Division
 		*/
 		void fly(float units);
 		D3DXVECTOR3 look_ = D3DXVECTOR3(1.0f, 0.0f, 
-										0.0f);	/**< Axis we look at */
+										0.0f);	/**< Axis we look at. */
 		D3DXVECTOR3 up_ = D3DXVECTOR3(0.0f, 1.0f, 
-									  0.0f);	/**< Axis going up/down */
+									  0.0f);	/**< Axis going up/down. */
 		D3DXVECTOR3 right_ = D3DXVECTOR3(0.0f, 0.0f, 
-										 1.0f);	/**< Axis going right/left */
-		D3DXVECTOR3 pos_;	/**< Position of the camera */
-		D3DXMATRIX world_;	/**< Orientation of the camera in world space */
+										 1.0f);	/**< Axis going right/left. */
+		D3DXVECTOR3 pos_;	/**< Position of the camera. */
+		D3DXMATRIX world_;	/**< Orientation of the camera in world space. */
 		Clock* clock_;
 	};
 }
