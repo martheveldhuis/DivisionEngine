@@ -38,7 +38,7 @@ namespace DivisionTest
 			// Check if the time is between a certain timespan.
 			// Usually the past time will be 1001 ms. For cpu-threading
 			// priority delay occasions we will allow for a 5ms delay.
-			int isBetween = 1000 <= timePast && timePast < 1005;
+			int isBetween = 1000 <= timePast && timePast < 1050;
 
 			Assert::IsTrue(isBetween);
 		}
@@ -79,7 +79,7 @@ namespace DivisionTest
 
 			int timePast = clock.getRuntime();
 
-			int isBetween = 1000 <= timePast && timePast < 1005;
+			int isBetween = 1000 <= timePast && timePast < 1050;
 
 			Assert::IsTrue(isBetween);
 		}
