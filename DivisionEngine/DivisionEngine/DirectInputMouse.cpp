@@ -30,6 +30,8 @@ namespace Division
 			return;
 		}
 
+		// Set global mouse structure variable that describes the format of
+		// the data that the DirectInputDevice should return.
 		result = directInputMouse_->SetDataFormat(&c_dfDIMouse);
 		if FAILED(result) {
 			LoggerPool::getInstance()->getLogger("mouse")
@@ -37,6 +39,8 @@ namespace Division
 			return;
 		}
 
+		// Only this window handle can take input from this input device.
+		// Only take input when the window handle is active.
 		result = directInputMouse_->SetCooperativeLevel(windowHandle_, 
 														DISCL_EXCLUSIVE | 
 														DISCL_FOREGROUND);
@@ -46,12 +50,15 @@ namespace Division
 			return;
 		}
 
+		// Set propertiy header.
 		DIPROPDWORD properties;
 		properties.diph.dwSize = sizeof(DIPROPDWORD);
 		properties.diph.dwHeaderSize = sizeof(DIPROPHEADER);
 		properties.diph.dwObj = 0;
 		properties.diph.dwHow = DIPH_DEVICE;
 
+		// Set the input buffer size on the device (the amount of data the 
+		// buffer can hold between GetDeviceData calls).
 		result = directInputMouse_->SetProperty(DIPROP_BUFFERSIZE,
 												&properties.diph);
 		if (FAILED(result)) {

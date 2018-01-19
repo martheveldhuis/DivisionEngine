@@ -7,21 +7,55 @@
 #include "Repository.h"
 #include "SceneManager.h"
 
+/**
+	The Division Engine namespace.
+*/
 namespace Division
 {
-	enum repositoryType{D3D9,OPENGL};
-
+	/**
+		Enumeration for selection the repository type .
+	*/
+	enum RepositoryType { 
+		REPOSITORYTYPE_D3D9, REPOSITORYTYPE_OPENGL
+	};
+	/**
+		Entry point for the engine.
+	*/
 	class Kernel
 	{
 	public:
-		Kernel(repositoryType);
+		/**
+			Create the kernel.
+			@param repoType The type of repository too be selected by the kernel.
+		*/
+		Kernel(RepositoryType repoType = REPOSITORYTYPE_D3D9);
+		/**
+			Clean up the kernel.
+		*/
 		~Kernel();
-		void loadScene(std::string, std::string);
+		/**
+			Proxy function for loading scenes via the simple interface.
+		*/
+		void loadScene(std::string);
+		/**
+			Main run cycle handles OS messages and input handle switching.
+		*/
 		void run();
+		/**
+			Get scene manager.
+			@return The scene manager.
+		*/
 		SceneManager* getSceneManager();
+		/**
+			Get ResourceManager.
+			@return The ResourceManager.
+		*/
 		ResourceManager* getResourceManager();
-		
-
+		/**
+			Get repository.
+			@return The repository.
+		*/
+		Repository* getRepository();
 	private:
 		Repository* repository_;
 		ResourceManager* resourceManager_;

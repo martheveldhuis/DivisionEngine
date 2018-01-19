@@ -76,6 +76,7 @@ namespace Division
 
 	BOOL DirectInputManager::enumDevices(LPCDIDEVICEINSTANCE device)
 	{
+		// Decide which type of device needs to be created.
 		switch (device->dwDevType & 0x000000ff) {
 			case DI8DEVTYPE_KEYBOARD:
 				if (!keyboard_)
@@ -98,6 +99,8 @@ namespace Division
 
 	void DirectInputManager::initializeInputDevices()
 	{
+		// Enumerates the available, attached devices and trigger a callback
+		// each time a device is found.
 		HRESULT result = directInput_->EnumDevices(DI8DEVCLASS_ALL,
 												   enumDevicesCallback, 
 												   this, DIEDFL_ATTACHEDONLY);

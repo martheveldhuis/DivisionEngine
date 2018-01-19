@@ -1,11 +1,9 @@
 #include "Scene.h"
-
-#include "D3D9Camera.h"
 #include "LoggerPool.h"
 
 namespace Division
 {
-	Scene::Scene(ResourceManager* rm, InputManager* im) : resourceManager_(rm), inputManager_(im)
+	Scene::Scene(ResourceManager* resourcemanager, InputManager* inputmanager) : resourceManager_(resourcemanager), inputManager_(inputmanager)
 	{
 	}
 
@@ -13,6 +11,7 @@ namespace Division
 
 	Scene::~Scene()
 	{
+		//TODO :
 	}
 
 
@@ -21,53 +20,72 @@ namespace Division
 	{
 		std::map<std::string, Window*>::const_iterator windowIt = windows_.begin();
 		std::map<std::string, Window*>::const_iterator windowsEnd = windows_.end();
-
+		// Loop through the windows in the scene
 		for (; windowIt != windowsEnd; ++windowIt) {
 
 			Entity* camera = cameraToWindow_[windowIt->second];
 
+			// Only update the camera based on input on the active window.
 			if (windowIt->second->getWindowHandle() == inputManager_->getWindowHandle()) {
 				InputStates i = inputManager_->getInput();
 				camera->updateOrientation(&i);
 			}
-		
+			else {
+				// Else update with empty input to still render this window.
+				InputStates i;
+				camera->updateOrientation(&i);
+			}
+
 			std::map<Window*, Renderer*>::const_iterator rendererIt;
 			rendererIt = rendererToWindow_.find(windowIt->second);
-
+			// Retrieve the renderer binded to this window
 			if (rendererIt == rendererToWindow_.end()) {
 				LoggerPool::getInstance()->getLogger("scene")
 					->logError("No renderers found while trying to render");
 				return;
 			}
 
+			// Set the camera orientation on the renderer.
 			rendererIt->second->setCameraMatrix(camera->getOrientation());
 
-			Position pos;
-			pos.xAngle = pos.zAngle = pos.yAngle = 0;
-			pos.xPosition = camera->getPosition().xPosition;
-			pos.yPosition = camera->getPosition().yPosition;
-			pos.zPosition = camera->getPosition().zPosition;
-			rendererIt->second->setWorldMatrix(&pos);
+			// Prepare the renderer for the entities to be rendered 
 			rendererIt->second->clear();
 			rendererIt->second->beginScene();
 
-			std::map<std::string, Entity*>::const_iterator enitityIt = entities_.begin();
+			// Set the skybox position (the first entity) based on the camera
+			// position.
+			Position skyboxPosition;
+			skyboxPosition.xAngle = 0;
+			skyboxPosition.zAngle = 0;
+			skyboxPosition.yAngle = 0;
+			skyboxPosition.xPosition = camera->getPosition().xPosition;
+			skyboxPosition.yPosition = camera->getPosition().yPosition;
+			skyboxPosition.zPosition = camera->getPosition().zPosition;
+			rendererIt->second->setWorldMatrix(&skyboxPosition);
+
+			// Render the skybox.
+			skyBox_->render(rendererIt->second);
+
+			std::map<std::string, Entity*>::const_iterator entityIt = entities_.begin();
 			std::map<std::string, Entity*>::const_iterator enititiesEnd = entities_.end();
 
-			for (; enitityIt != enititiesEnd; enitityIt++) {
-				enitityIt->second->render(rendererIt->second);
+			// Render all the entities in the scene.
+			for (; entityIt != enititiesEnd; entityIt++) {
+				entityIt->second->render(rendererIt->second);
 			}
-
+			// Present the rendered entities to window
 			rendererIt->second->endScene();
 			rendererIt->second->present(windowIt->second->getWindowHandle());
 		}
 	}
 
+
+
 	void Scene::addWindow(std::string windowName, Window* window, Renderer* renderer, Entity* camera)
 	{
 		windows_[windowName] = window;
 		rendererToWindow_[window] = renderer;
-		renderer->increaseReferenceCount();
+		renderer->increaseReferenceCount(); 
 		cameraToWindow_[window] = camera;
 	}
 
@@ -95,12 +113,18 @@ namespace Division
 			rendererRelations = rendererToWindow_.find(window->second);
 			if (rendererRelations != rendererToWindow_.end()) {
 				rendererRelations->second->decreaseReferenceCount();
-				//rendererRelations->second.decreaseRefrenceCount(); // TODO: clean up renderer by counter
 				rendererToWindow_.erase(rendererRelations);
 			}
 			delete window->second;
 			windows_.erase(window);
 		}
+	}
+
+	Entity * Scene::createEntity(std::string entityName, 
+		float x, float y, float z,float xAngle, float yAngle, float zAngle)
+	{
+		entities_[entityName] = new Entity(resourceManager_,x,y,z,xAngle,yAngle,zAngle);
+		return entities_[entityName];
 	}
 
 
@@ -132,5 +156,11 @@ namespace Division
 			delete it->second;
 			entities_.erase(it);
 		}
+	}
+
+
+	void Scene::setSkyBox(Entity* skyBox)
+	{
+		skyBox_ = skyBox;
 	}
 }

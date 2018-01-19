@@ -32,6 +32,8 @@ namespace Division
 			@returns Struct with the data and meta-data of the parsed image.
 		*/
 		static FileData parseBmp(std::string);
+	private:
+		FileLoader();
 	};
 }
 #endif // ! DIVISION_FILELOADER_H

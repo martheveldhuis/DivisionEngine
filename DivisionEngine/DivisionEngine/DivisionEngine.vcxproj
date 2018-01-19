@@ -22,7 +22,7 @@
     <VCProjectVersion>15.0</VCProjectVersion>
     <ProjectGuid>{106B8291-356B-4ADE-9BB2-A732E7703F9C}</ProjectGuid>
     <RootNamespace>DivisionEngine</RootNamespace>
-    <WindowsTargetPlatformVersion>10.0.16299.0</WindowsTargetPlatformVersion>
+    <WindowsTargetPlatformVersion>8.1</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
@@ -147,8 +147,8 @@
     <ClCompile Include="Scene.cpp" />
     <ClCompile Include="SceneLoader.cpp" />
     <ClCompile Include="SceneManager.cpp" />
-    <ClCompile Include="SkyBox.cpp" />
-    <ClCompile Include="Terrain.cpp" />
+    <ClCompile Include="D3D9SkyBox.cpp" />
+    <ClCompile Include="D3D9Terrain.cpp" />
     <ClCompile Include="D3D9Texture.cpp" />
     <ClCompile Include="D3D9TextureLoader.cpp" />
     <ClCompile Include="Win32Window.cpp" />
@@ -179,13 +179,12 @@
     <ClInclude Include="Resource.h" />
     <ClInclude Include="ResourceLoader.h" />
     <ClInclude Include="ResourceManager.h" />
-    <ClInclude Include="Resources.h" />
     <ClInclude Include="Scene.h" />
     <ClInclude Include="SceneLoader.h" />
     <ClInclude Include="SceneManager.h" />
     <ClInclude Include="D3D9TextureLoader.h" />
-    <ClInclude Include="SkyBox.h" />
-    <ClInclude Include="Terrain.h" />
+    <ClInclude Include="D3D9SkyBox.h" />
+    <ClInclude Include="D3D9Terrain.h" />
     <ClInclude Include="D3D9Texture.h" />
     <ClInclude Include="Window.h" />
     <ClInclude Include="Win32Window.h" />

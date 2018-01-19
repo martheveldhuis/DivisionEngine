@@ -1,7 +1,5 @@
 #include "D3D9Renderer.h"
 #include "D3D9Texture.h"
-#include <d3dx9.h>
-#include <math.h>
 #include "D3D9Camera.h"
 #include "LoggerPool.h"
 
@@ -26,6 +24,8 @@ namespace Division
 	{
 		initializeGraphics();
 		setupMatrices();
+
+		direct3DDevice_->SetFVF(D3DFVF_CUSTOMVERTEX);
 	}
 
 
@@ -49,14 +49,18 @@ namespace Division
 		direct3DDevice_->SetTransform(D3DTS_VIEW, &viewMatrix);
 
 		D3DXMATRIXA16 projectionMatrix;
-		D3DXMatrixPerspectiveFovLH(&projectionMatrix, D3DX_PI / 4, 1.0f, .4f, 100.0f);
+		D3DXMatrixPerspectiveFovLH(&projectionMatrix, D3DX_PI / 4, 1.0f, 0.4f, 100.0f);
 		direct3DDevice_->SetTransform(D3DTS_PROJECTION, &projectionMatrix);
 	}
+
+
 
 	void D3D9Renderer::setCameraMatrix(void* view)
 	{
 		cameraView_ = static_cast<D3DXMATRIX*>(view);
 	}
+
+
 
 	void D3D9Renderer::setWorldMatrix(Position* position)
 	{
@@ -118,6 +122,34 @@ namespace Division
 		indexBuffer_->Unlock();
 		direct3DDevice_->SetIndices(indexBuffer_);
 		indexBuffer_->Release();
+	}
+
+
+
+	void* D3D9Renderer::getDevice()
+	{
+		return direct3DDevice_;
+	}
+
+
+
+	void D3D9Renderer::increaseReferenceCount()
+	{
+		referenceCount_++;
+	}
+
+
+
+	void D3D9Renderer::decreaseReferenceCount()
+	{
+		referenceCount_--;
+	}
+
+
+
+	short D3D9Renderer::getReferenceCount()
+	{
+		return referenceCount_;
 	}
 
 

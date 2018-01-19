@@ -3,15 +3,13 @@
 
 namespace Division
 {
-	class D3D9Camera;
 	struct DivisionVertex
 	{
-		float x; /** The x position of a vertex */
-		float y; /** The y position of a vertex */
-		float z; /** The z position of a vertex */
-		//unsigned int color;
-		float u; /** The u mapping position of the texture */
-		float v; /** The v mapping position of the texture */
+		float x; /**< The x position of a vertex. */
+		float y; /**< The y position of a vertex. */
+		float z; /**< The z position of a vertex. */
+		float u; /**< The u mapping position of the texture. */
+		float v; /**< The v mapping position of the texture. */
 	};
 
 	struct Position
@@ -71,21 +69,52 @@ namespace Division
 		*/
 		virtual void setWorldMatrix(Position* position) = 0;
 		/**
-			Retrieve the framework specific render device.
+			Sets the world matrix of the camera onto the renderer for 
+			multiplying with entities when they are rendererd.
+			@param matrix The matrix of the camera.
+		*/
+		virtual void setCameraMatrix(void* matrix) = 0;
+		
+		/**
+			Retrieves the framework specific render device.
 			@returns void* Pointer to the device.
 		*/
 		virtual void* getDevice() = 0;
-
-		virtual void setCameraMatrix(void*) = 0;
-
+		/**
+			Increases the reference count of this renderer object which relates
+			to how many references to this object exist. This count is used by 
+			the scene manager to delete when this reaches 0.
+		*/
 		virtual void increaseReferenceCount() = 0;
+		/**
+			Decreases the reference count of this renderer object which relates
+			to how many references to this object exist. This count is used by 
+			the scene manager to delete when this reaches 0.
+		*/
 		virtual void decreaseReferenceCount() = 0;
+		/**
+			Gets the reference count of this renderer object which relates
+			to how many references to this object exist. This count is used by 
+			the scene manager to delete when this reaches 0.
+		*/
 		virtual short getReferenceCount() = 0;
-
+		/**
+			Proxy funtion for clearing the render target.
+		*/
 		virtual void clear() = 0;
+		/**
+			Proxy funtion for beginning the scene.
+		*/
 		virtual void beginScene() = 0;
+		/**
+			Proxy funtion for ending the scene.
+		*/
 		virtual void endScene() = 0;
-		virtual void present(void*) = 0;
+		/**
+			Proxy funtion for presenting the scene onto a window.
+			@param window The window handle on which to render.
+		*/
+		virtual void present(void* window) = 0;
 	};
 }
 #endif

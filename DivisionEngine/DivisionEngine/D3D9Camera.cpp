@@ -2,10 +2,15 @@
 
 namespace Division
 {
-	D3D9Camera::D3D9Camera(ResourceManager* resourceManager) : Entity(resourceManager)
+	D3D9Camera::D3D9Camera(ResourceManager* resourceManager, float x, float y, 
+						   float z, float xAngle, float yAngle, float zAngle) 
+		: Entity(resourceManager, x, y, z, xAngle, yAngle, zAngle)
 	{
 		clock_ = new Clock();
 		clock_->start();
+		pos_.x = x;
+		pos_.y = y;
+		pos_.z = z;
 	}
 
 
@@ -34,36 +39,35 @@ namespace Division
 		clock_t deltaTime = clock_->poll();
 
 		// Scale the movement in the game, based on the time per frame.
-		float yawScaling = 20.0 * deltaTime;
-		float pitchScaling = 20.0 * deltaTime;
+		float yawScaling = 5.0 * deltaTime;
+		float pitchScaling = 5.0 * deltaTime;
 		float velocity = 0.015 * deltaTime;
+		float maxViewAngle = 1.55;
 
 		// Call the correct methods to alter the camera's vectors and world 
 		// matrix based on which input is set. Scale the input values.
 		if (inputStates->turnRight) {
-			position_.yAngle += (inputStates->turnRight) / yawScaling;
 			yaw((inputStates->turnRight) / yawScaling);
 		}
 		if (inputStates->turnLeft) {
-			position_.yAngle -= (inputStates->turnLeft) / yawScaling;
 			yaw(-(inputStates->turnLeft) / yawScaling);
 		}
 		if (inputStates->turnUp) {
-			position_.xAngle += (inputStates->turnUp) / pitchScaling;
+			position_.xAngle += inputStates->turnUp / pitchScaling;
 			// Prevent gimbal lock.
-			if (position_.xAngle > 1.55)
-				position_.xAngle = 1.55;
+			if (position_.xAngle > maxViewAngle)
+				position_.xAngle = maxViewAngle;
 			else {
 				pitch((inputStates->turnUp) / pitchScaling);
 			}
 		}
 		if (inputStates->turnDown) {
-			position_.xAngle -= (inputStates->turnDown) / pitchScaling;
+			position_.xAngle -= inputStates->turnDown / pitchScaling;
 			// Prevent gimbal lock.
-			if (position_.xAngle < -1.55)
-				position_.xAngle = -1.55;
+			if (position_.xAngle < -maxViewAngle)
+				position_.xAngle = -maxViewAngle;
 			else {
-				pitch(-(inputStates->turnDown) / pitchScaling);
+				pitch(-(inputStates->turnDown / pitchScaling));
 			}
 		}
 		if (inputStates->moveForward) {
@@ -94,10 +98,10 @@ namespace Division
 
 		// Matrix lay-out (row-major):
 		//
-		// rotateLookX		rotateUpX		rotateRightX		0
-		// rotateLookY		rotateUpY		rotateRightY		0
-		// rotateLookZ		rotateUpZ		rotateRightZ		0
-		// translateX		translateY		translateZ			1
+		// locationLookHeadX	locationUpHeadX		locationRightHeadX		0
+		// locationLookHeadY	locationUpHeadY		locationRightHeadY		0
+		// locationLookHeadZ	locationUpHeadZ		locationRightHeadZ		0
+		// translateX			translateY			translateZ				1
 
 		// Build the world matrix.
 		world_(0, 0) = look_.x;
@@ -120,6 +124,7 @@ namespace Division
 		world_(3, 1) = y;
 		world_(3, 2) = z;
 		world_(3, 3) = 1.0f;
+
 	}
 
 
@@ -176,8 +181,16 @@ namespace Division
 
 
 
+	void D3D9Camera::render(Renderer* renderer)
+	{
+		// TODO: render the camera entity differently from a normal entity.
+	}
+
+
+
 	void* D3D9Camera::getOrientation()
 	{
 		return world_;
 	}
+
 }

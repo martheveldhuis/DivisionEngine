@@ -11,7 +11,7 @@
 namespace Division
 {
 	/**
-		DirectX9 implementatiion of the resource loader interface. Creates
+		DirectX9 implementation of the resource loader interface. Creates
 		d3d9 mesh objects as resources. Should be created by the d3d9
 		repository.
 	*/

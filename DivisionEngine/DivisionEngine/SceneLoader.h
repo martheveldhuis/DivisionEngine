@@ -28,12 +28,14 @@ namespace Division
 		SceneLoader(SceneManager*, Repository*, ResourceManager*);
 		~SceneLoader();
 		/**
-			Loads a scene from a JSON scene file.
+			Loads a scene from a JSON scene file. Will always create a scene
+			with the default window, renderer, camera and skybox.
 			@param scene The name of the scene as it will be stored in the scene manager.
 			@param filename The file to load the configuration from.
 			@returns The filled scene file.
+			@todo Refactor.
 		*/
-		Scene* loadScene(std::string scene, std::string filename);
+		Scene* loadScene(std::string filename);
 	private:
 		Repository* repository_;
 		ResourceManager* resourceManager_;
